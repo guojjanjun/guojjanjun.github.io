@@ -283,6 +283,146 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/30/红黑树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/30/红黑树/" itemprop="url">
+                  红黑树
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-30 11:36:42 / 修改时间：11:38:59" itemprop="dateCreated datePublished" datetime="2018-09-30T11:36:42+08:00">2018-09-30</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这个博客讲得很详细：<a href="https://blog.csdn.net/johnny901114/article/details/81046088" target="_blank" rel="noopener">https://blog.csdn.net/johnny901114/article/details/81046088</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/26/Java线程栈中的锁信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -402,145 +542,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-2" #11 prio=5os_prio=0 tid=0x0000000018871000 nid=0x2588 waiting on condition [0x00000000198ef000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span> &lt;<span class="number">0x00000000d7ac7388</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">  Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac73b8</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x0000000018870000 nid=0x2fb0 waiting on condition [0x00000000184ae000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span> &lt;<span class="number">0x00000000d7ac73b8</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"> Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac7388</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">Found one Java-level deadlock:</span><br><span class="line">=============================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line"> waiting <span class="keyword">for</span> ownable synchronizer <span class="number">0x00000000d7ac71a0</span>,(a java.util.concurrent.locks.ReentrantLock$NonfairSync),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-1"</span></span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line"> waiting <span class="keyword">for</span> ownable synchronizer <span class="number">0x00000000d7ac71d0</span>, (a java.util.concurrent.locks.ReentrantLock$NonfairSync),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-2"</span></span><br><span class="line">.</span><br><span class="line">Java stack information <span class="keyword">for</span> the threadslisted above:</span><br><span class="line">===================================================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac71a0</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">41</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac71d0</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">41</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">Found <span class="number">1</span> deadlock.</span><br></pre></td></tr></table></figure>
 <p>借助Locked ownable synchronizers，确认哪些线程位于死锁的环形竞争中，还是比较容易。先到这吧。。</p>
 
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/26/JUC之AQS源码解析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="路人甲">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="路人甲's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/26/JUC之AQS源码解析/" itemprop="url">
-                  JUC之AQS源码解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-26 20:06:22 / 修改时间：20:07:32" itemprop="dateCreated datePublished" datetime="2018-09-26T20:06:22+08:00">2018-09-26</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
           
         
       
