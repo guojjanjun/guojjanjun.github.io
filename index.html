@@ -329,7 +329,7 @@
                 
               
 
-              <time title="创建时间：2018-10-17 17:17:39 / 修改时间：18:20:44" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
+              <time title="创建时间：2018-10-17 17:17:39 / 修改时间：18:21:28" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
             
 
             
@@ -374,7 +374,7 @@
 <p>在操作系统概念到提到用户线线程与内核级线程存在三种对应关系：</p>
 <h3 id="1-多对一"><a href="#1-多对一" class="headerlink" title="1. 多对一"></a>1. 多对一</h3><p>多个用户线程对应一个内核线程。这其实就是纯用户级多线程的实现方式。如果一个线程执行阻塞的系统调用，<br>会导致当前进程被内核调度出去，其他线程也无法执行。任意时刻只能有一个线程访问内核，且多个线程无法<br>调度在多个CPU上,因为他们在内核中的调度单元是进程。腾讯libco框架单个线程上实现多个协程的并发运行。<br><a href="https://blog.csdn.net/chdhust/article/details/53271478" target="_blank" rel="noopener">https://blog.csdn.net/chdhust/article/details/53271478</a></p>
 <h3 id="2-一对一"><a href="#2-一对一" class="headerlink" title="2. 一对一"></a>2. 一对一</h3><p>一个用户线程对应一个内核线程。线程的调度由内核线程的调度来完成。如果一个线程执行阻塞的系统调用，<br>另一个线程会被切换执行,且多个线程可以运行在多个CPU上。比如Java在Linux、windows上的实现,一个<br>java线程通过LWP与一个系统内核线程绑定。缺点，内核线程的数量限制限制了用户线程的数量。</p>
-<h3 id="3-多对一"><a href="#3-多对一" class="headerlink" title="3. 多对一"></a>3. 多对一</h3><p>多个用户线程对应多个内核线程，一般用户线程数大于内核线程数.这种模式不但有一对一的并发性能，而且<br>解决了用户线程数量的限制问题。这种模型又称为二级模型，HP-UX等支持。Solaris9之后采有一对一模型.</p>
+<h3 id="3-多对多"><a href="#3-多对多" class="headerlink" title="3. 多对多"></a>3. 多对多</h3><p>多个用户线程对应多个内核线程，一般用户线程数大于内核线程数.这种模式不但有一对一的并发性能，而且<br>解决了用户线程数量的限制问题。这种模型又称为二级模型，HP-UX等支持。Solaris9之后采有一对一模型.</p>
 
           
         
