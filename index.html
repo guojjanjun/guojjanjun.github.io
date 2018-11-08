@@ -283,6 +283,147 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/08/VMWare网络不通一个可能原因分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/08/VMWare网络不通一个可能原因分析/" itemprop="url">
+                  VMWare网络不通一个可能原因分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-08 18:00:59 / 修改时间：18:56:55" itemprop="dateCreated datePublished" datetime="2018-11-08T18:00:59+08:00">2018-11-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天配置VMWare网络，感觉一切都OK,但就是Ping不通主机。发现问题的原因在于在虚拟网络编辑器<br>(Edit &gt; Virtual Network Settings）里桥接网络绑定是VMnet8。<br>改成VMNet0，立马可以Ping通。难道桥接模式只能绑定到VMNet0? 难道VMNet(0-N)与网络<br>模式一一对应，这不现实呀，3种网格模式不可能对应0-N个虚拟设备。不扯了，直接上结论吧。<br>吧。</p>
+<p>其实VMNet0,VMNet1,VMNet8默认分别对应桥接模式，主机模式和Nat模式。而且可以更改对应关系。<br>更改的位置就是上面提到虚拟网络编辑器(Virtual Network Settings)。但不通原因并不在这，而<br>在于虚拟机设置页面:<br><img src="/2018/11/08/VMWare网络不通一个可能原因分析/Vmset.png" alt="logo"><br>我们看到Bridged,Nat,Host-only,和custom四种模式，选择custom时，需要指定绑定的虚拟设备，而<br>选择其他模式时，不用选择虚拟设备，但是(重点来了)选择Bridged,Nat,Host-only这三种模式时，<br>却默认分别绑定到VMNet0,VMNet1,VMNet8三种设备上，也就是说这种选择VM workstation已经内定了。<br>你可以选择custom方式，使得网卡桥接到其他设备上，否则他就是桥接到VMNet0。如果你的虚拟网络编辑<br>器里只配了VMNet8为桥接模式（本人当时的环境即如些），则当然无法Ping通了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/10/17/线程模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -329,7 +470,7 @@
                 
               
 
-              <time title="创建时间：2018-10-17 17:17:39 / 修改时间：18:21:28" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
+              <time title="创建时间：2018-10-17 17:17:39 / 修改时间：20:04:34" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
             
 
             
@@ -375,6 +516,7 @@
 <h3 id="1-多对一"><a href="#1-多对一" class="headerlink" title="1. 多对一"></a>1. 多对一</h3><p>多个用户线程对应一个内核线程。这其实就是纯用户级多线程的实现方式。如果一个线程执行阻塞的系统调用，<br>会导致当前进程被内核调度出去，其他线程也无法执行。任意时刻只能有一个线程访问内核，且多个线程无法<br>调度在多个CPU上,因为他们在内核中的调度单元是进程。腾讯libco框架单个线程上实现多个协程的并发运行。<br><a href="https://blog.csdn.net/chdhust/article/details/53271478" target="_blank" rel="noopener">https://blog.csdn.net/chdhust/article/details/53271478</a></p>
 <h3 id="2-一对一"><a href="#2-一对一" class="headerlink" title="2. 一对一"></a>2. 一对一</h3><p>一个用户线程对应一个内核线程。线程的调度由内核线程的调度来完成。如果一个线程执行阻塞的系统调用，<br>另一个线程会被切换执行,且多个线程可以运行在多个CPU上。比如Java在Linux、windows上的实现,一个<br>java线程通过LWP与一个系统内核线程绑定。缺点，内核线程的数量限制限制了用户线程的数量。</p>
 <h3 id="3-多对多"><a href="#3-多对多" class="headerlink" title="3. 多对多"></a>3. 多对多</h3><p>多个用户线程对应多个内核线程，一般用户线程数大于内核线程数.这种模式不但有一对一的并发性能，而且<br>解决了用户线程数量的限制问题。这种模型又称为二级模型，HP-UX等支持。Solaris9之后采有一对一模型.</p>
+<p>参考：<br><a href="https://www.cnblogs.com/zengkefu/p/5589876.html" target="_blank" rel="noopener">https://www.cnblogs.com/zengkefu/p/5589876.html</a></p>
 
           
         
@@ -767,7 +909,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
