@@ -329,7 +329,7 @@
                 
               
 
-              <time title="创建时间：2018-11-08 18:00:59 / 修改时间：19:08:01" itemprop="dateCreated datePublished" datetime="2018-11-08T18:00:59+08:00">2018-11-08</time>
+              <time title="创建时间：2018-11-08 18:00:59 / 修改时间：19:55:16" itemprop="dateCreated datePublished" datetime="2018-11-08T18:00:59+08:00">2018-11-08</time>
             
 
             
@@ -370,8 +370,8 @@
         
           
             <p>今天配置VMWare网络，感觉一切都OK, 但就是Ping不通主机。发现问题的原因在于在虚拟网络编辑器<br>(Edit &gt; Virtual Network Settings）里桥接网络绑定是VMnet8:<br><img src="/2018/11/08/VMWare网络不通一个可能原因分析/NetSet.png" alt="logo"><br>改成VMNet0，立马可以Ping通。难道桥接模式只能绑定到VMNet0? 难道VMNet(0-N)与网络<br>模式一一对应，这不现实呀，3种网格模式不可能对应0-N个虚拟设备。不扯了，直接上结论吧。<br>吧。</p>
-<p>其实VMNet0,VMNet1,VMNet8默认分别对应桥接模式，主机模式和Nat模式。而且可以更改对应关系。<br>更改的位置就是上面提到虚拟网络编辑器(Virtual Network Settings)。但不通原因并不在这，而<br>在于虚拟机设置页面:<br><img src="/2018/11/08/VMWare网络不通一个可能原因分析/Vmset.png" alt="logo"><br>我们看到Bridged,Nat,Host-only,和custom四种模式，选择custom时，需要指定绑定的虚拟设备，而<br>选择其他模式时，不用选择虚拟设备，但是(重点来了)选择Bridged,Nat,Host-only这三种模式时，<br>却默认分别绑定到VMNet0,VMNet1,VMNet8三种设备上，也就是说这种选择VM workstation已经内定了。<br>你可以选择custom方式，使得网卡桥接到其他设备上，否则他就是桥接到VMNet0。如果你的虚拟网络编辑<br>器里只配了VMNet8为桥接模式（本人当时的环境即如些），则当然无法Ping通了。</p>
-<p>所以真正决定的网卡的网络模型的，是虚拟网络编辑器里的对于虚拟设备的设置，而虚拟机设置页面对虚机网<br>卡的设置只起绑定作用, 不要被文定蒙蔽了。</p>
+<p>其实VMNet0,VMNet1,VMNet8默认分别对应桥接模式，主机模式和Nat模式。而且可以更改对应关系。<br>更改的位置就是上面提到虚拟网络编辑器(Virtual Network Settings)。但不通原因并不在这，而<br>在于虚拟机设置页面:<br><img src="/2018/11/08/VMWare网络不通一个可能原因分析/Vmset.png" alt="logo"><br>我们看到Bridged,Nat,Host-only,和custom四种模式，选择custom时，需要指定绑定的虚拟设备，而<br>选择其他模式时，不用选择虚拟设备，但是(重点来了)选择Bridged,Nat,Host-only这三种模式时，<br>却默认分别绑定到VMNet0,VMNet1,VMNet8三种设备上，也就是说这种选择VM workstation已经内定了。<br>你可以选择custom方式，使得网卡桥接到其他设备上，否则他就是桥接到VMNet0。如果你的虚拟网络编辑<br>器里只配了VMNet8为桥接模式（本人当时的环境即如此），则当然无法Ping通了。</p>
+<p>所以真正决定的网卡的网络模型的，是虚拟网络编辑器里的对于虚拟设备的设置，而虚拟机设置页面对虚机网<br>卡的设置只起绑定作用, 不要被文字蒙蔽了。</p>
 
           
         
