@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://guojjanjun.github.io/"/>
-  <updated>2018-11-08T11:55:16.909Z</updated>
+  <updated>2018-11-09T09:33:32.912Z</updated>
   <id>https://guojjanjun.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://guojjanjun.github.io/2018/11/09/Consul%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>https://guojjanjun.github.io/2018/11/09/Consul基本使用/</id>
+    <published>2018-11-09T02:06:37.150Z</published>
+    <updated>2018-11-09T09:33:32.912Z</updated>
+    
+    <content type="html"><![CDATA[<p>wget  <a href="https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip" target="_blank" rel="noopener">https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip</a></p><p>./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n1 -bind=192.168.1.161<br>./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n2 -bind=192.168.1.162 -ui</p><p>Not route to host异常，需要关闭防火墙</p><p>consul通过Config-dir注册服务</p><p>yum install -y epel-release</p><p>version: ‘2’<br>services:<br>  etcd:<br>    image: quay.io/coreos/etcd:latest<br>    networks:<br>      istiomesh:<br>        aliases:</p><pre><code>      - etcdports:  - &quot;4001:4001&quot;  - &quot;2380:2380&quot;  - &quot;2379:2379&quot;environment:  - SERVICE_IGNORE=1command: [          &quot;/usr/local/bin/etcd&quot;,          &quot;-advertise-client-urls=http://0.0.0.0:2379&quot;,          &quot;-listen-client-urls=http://0.0.0.0:2379&quot;         ]</code></pre><p>  istio-apiserver:<br>    image: gcr.io/google_containers/kube-apiserver-amd64:v1.11.0<br>    networks:<br>      istiomesh:<br>        ipv4_address: 172.28.0.13<br>        aliases:</p><pre><code>      - apiserverports:  - &quot;8080:8080&quot;privileged: trueenvironment:  - SERVICE_IGNORE=1command: [           &quot;kube-apiserver&quot;, &quot;--etcd-servers&quot;, &quot;http://etcd:2379&quot;,           &quot;--service-cluster-ip-range&quot;, &quot;10.99.0.0/16&quot;,           &quot;--insecure-port&quot;, &quot;8080&quot;,           &quot;-v&quot;, &quot;2&quot;,           &quot;--insecure-bind-address&quot;, &quot;0.0.0.0&quot;         ]</code></pre><p>networks:<br>  istiomesh:<br>    ipam:<br>      driver: default<br>      config:</p><pre><code>- subnet: 172.28.0.0/16  gateway: 172.28.0.1</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;wget  &lt;a href=&quot;https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://releases.
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>VMWare网络不通一个可能原因分析</title>

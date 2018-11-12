@@ -283,6 +283,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/09/Consul基本使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/09/Consul基本使用/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-09 10:06:37 / 修改时间：17:33:32" itemprop="dateCreated datePublished" datetime="2018-11-09T10:06:37+08:00">2018-11-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>wget  <a href="https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip" target="_blank" rel="noopener">https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip</a></p>
+<p>./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n1 -bind=192.168.1.161<br>./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n2 -bind=192.168.1.162 -ui</p>
+<p>Not route to host异常，需要关闭防火墙</p>
+<p>consul通过Config-dir注册服务</p>
+<p>yum install -y epel-release</p>
+<p>version: ‘2’<br>services:<br>  etcd:<br>    image: quay.io/coreos/etcd:latest<br>    networks:<br>      istiomesh:<br>        aliases:</p>
+<pre><code>      - etcd
+ports:
+  - &quot;4001:4001&quot;
+  - &quot;2380:2380&quot;
+  - &quot;2379:2379&quot;
+environment:
+  - SERVICE_IGNORE=1
+command: [
+          &quot;/usr/local/bin/etcd&quot;,
+          &quot;-advertise-client-urls=http://0.0.0.0:2379&quot;,
+          &quot;-listen-client-urls=http://0.0.0.0:2379&quot;
+         ]
+</code></pre><p>  istio-apiserver:<br>    image: gcr.io/google_containers/kube-apiserver-amd64:v1.11.0<br>    networks:<br>      istiomesh:<br>        ipv4_address: 172.28.0.13<br>        aliases:</p>
+<pre><code>      - apiserver
+ports:
+  - &quot;8080:8080&quot;
+privileged: true
+environment:
+  - SERVICE_IGNORE=1
+command: [
+           &quot;kube-apiserver&quot;, &quot;--etcd-servers&quot;, &quot;http://etcd:2379&quot;,
+           &quot;--service-cluster-ip-range&quot;, &quot;10.99.0.0/16&quot;,
+           &quot;--insecure-port&quot;, &quot;8080&quot;,
+           &quot;-v&quot;, &quot;2&quot;,
+           &quot;--insecure-bind-address&quot;, &quot;0.0.0.0&quot;
+         ]
+</code></pre><p>networks:<br>  istiomesh:<br>    ipam:<br>      driver: default<br>      config:</p>
+<pre><code>- subnet: 172.28.0.0/16
+  gateway: 172.28.0.1
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/08/VMWare网络不通一个可能原因分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -910,7 +1084,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

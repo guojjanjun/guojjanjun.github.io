@@ -108,18 +108,20 @@
 
 
 
-  <meta name="description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
+  <meta name="description" content="wget  https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip ./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n1 -bind=192.168.1.161./consul agent -server -boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="红黑树">
-<meta property="og:url" content="https://guojjanjun.github.io/2018/09/30/红黑树/index.html">
+<meta property="og:title" content="路人甲&#39;s Notes">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/11/09/Consul基本使用/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
+<meta property="og:description" content="wget  https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip ./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n1 -bind=192.168.1.161./consul agent -server -boot">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-30T03:38:59.803Z">
+<meta property="og:updated_time" content="2018-11-09T09:33:32.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="红黑树">
-<meta name="twitter:description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
+<meta name="twitter:title" content="路人甲&#39;s Notes">
+<meta name="twitter:description" content="wget  https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip ./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n1 -bind=192.168.1.161./consul agent -server -boot">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -127,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2018/09/30/红黑树/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/11/09/Consul基本使用/"/>
 
 
 
@@ -137,7 +139,7 @@
   };
 </script>
 
-  <title>红黑树 | 路人甲's Notes</title>
+  <title> | 路人甲's Notes</title>
   
 
 
@@ -286,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/30/红黑树/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/09/Consul基本使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -303,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">红黑树
+          <h1 class="post-title" itemprop="name headline">
               
             
           </h1>
@@ -328,7 +330,7 @@
                 
               
 
-              <time title="创建时间：2018-09-30 11:36:42 / 修改时间：11:38:59" itemprop="dateCreated datePublished" datetime="2018-09-30T11:36:42+08:00">2018-09-30</time>
+              <time title="创建时间：2018-11-09 10:06:37 / 修改时间：17:33:32" itemprop="dateCreated datePublished" datetime="2018-11-09T10:06:37+08:00">2018-11-09</time>
             
 
             
@@ -366,8 +368,42 @@
       
 
       
-        <p>这个博客讲得很详细：<a href="https://blog.csdn.net/johnny901114/article/details/81046088" target="_blank" rel="noopener">https://blog.csdn.net/johnny901114/article/details/81046088</a></p>
-
+        <p>wget  <a href="https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip" target="_blank" rel="noopener">https://releases.hashicorp.com/consul/1.3.0/consul_1.3.0_linux_amd64.zip</a></p>
+<p>./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n1 -bind=192.168.1.161<br>./consul agent -server -bootstrap-expect 2 -data-dir /tmp/consul -node=n2 -bind=192.168.1.162 -ui</p>
+<p>Not route to host异常，需要关闭防火墙</p>
+<p>consul通过Config-dir注册服务</p>
+<p>yum install -y epel-release</p>
+<p>version: ‘2’<br>services:<br>  etcd:<br>    image: quay.io/coreos/etcd:latest<br>    networks:<br>      istiomesh:<br>        aliases:</p>
+<pre><code>      - etcd
+ports:
+  - &quot;4001:4001&quot;
+  - &quot;2380:2380&quot;
+  - &quot;2379:2379&quot;
+environment:
+  - SERVICE_IGNORE=1
+command: [
+          &quot;/usr/local/bin/etcd&quot;,
+          &quot;-advertise-client-urls=http://0.0.0.0:2379&quot;,
+          &quot;-listen-client-urls=http://0.0.0.0:2379&quot;
+         ]
+</code></pre><p>  istio-apiserver:<br>    image: gcr.io/google_containers/kube-apiserver-amd64:v1.11.0<br>    networks:<br>      istiomesh:<br>        ipv4_address: 172.28.0.13<br>        aliases:</p>
+<pre><code>      - apiserver
+ports:
+  - &quot;8080:8080&quot;
+privileged: true
+environment:
+  - SERVICE_IGNORE=1
+command: [
+           &quot;kube-apiserver&quot;, &quot;--etcd-servers&quot;, &quot;http://etcd:2379&quot;,
+           &quot;--service-cluster-ip-range&quot;, &quot;10.99.0.0/16&quot;,
+           &quot;--insecure-port&quot;, &quot;8080&quot;,
+           &quot;-v&quot;, &quot;2&quot;,
+           &quot;--insecure-bind-address&quot;, &quot;0.0.0.0&quot;
+         ]
+</code></pre><p>networks:<br>  istiomesh:<br>    ipam:<br>      driver: default<br>      config:</p>
+<pre><code>- subnet: 172.28.0.0/16
+  gateway: 172.28.0.1
+</code></pre>
       
     </div>
 
@@ -394,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/26/Java线程栈中的锁信息/" rel="next" title="Java线程栈中的锁信息">
-                <i class="fa fa-chevron-left"></i> Java线程栈中的锁信息
+              <a href="/2018/11/08/VMWare网络不通一个可能原因分析/" rel="next" title="VMWare网络不通一个可能原因分析">
+                <i class="fa fa-chevron-left"></i> VMWare网络不通一个可能原因分析
               </a>
             
           </div>
@@ -403,10 +439,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/17/线程模型/" rel="prev" title="线程模型">
-                线程模型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
