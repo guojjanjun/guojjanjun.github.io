@@ -108,25 +108,30 @@
 
 
 
-  <meta name="description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务两台服务器的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前三个包为">
+  <meta name="description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次现场问题的网络分析">
 <meta property="og:url" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务两台服务器的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前三个包为">
+<meta property="og:description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/0.png">
 <meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/1.png">
 <meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/2.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/t1.png">
 <meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/23.png">
 <meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/24.png">
 <meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/26.png">
 <meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/27.png">
-<meta property="og:updated_time" content="2018-11-16T10:31:38.831Z">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/t2.png">
+<meta property="og:updated_time" content="2018-11-16T11:40:06.987Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次现场问题的网络分析">
-<meta name="twitter:description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务两台服务器的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前三个包为">
-<meta name="twitter:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/1.png">
+<meta name="twitter:description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前">
+<meta name="twitter:image" content="https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/0.png">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -335,7 +340,7 @@
                 
               
 
-              <time title="创建时间：2018-11-16 17:06:04 / 修改时间：18:31:38" itemprop="dateCreated datePublished" datetime="2018-11-16T17:06:04+08:00">2018-11-16</time>
+              <time title="创建时间：2018-11-16 17:06:04 / 修改时间：19:40:06" itemprop="dateCreated datePublished" datetime="2018-11-16T17:06:04+08:00">2018-11-16</time>
             
 
             
@@ -373,8 +378,7 @@
       
 
       
-        <p>现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，<br>端口1521。服务两台服务器的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。<br>从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：<br><img src="/2018/11/16/一次现场问题的网络分析/1.png" alt="logo"><br>前三个包为三次握手，接着Oracle drive发了一个Request,Connect包。我们先看1号包，客户端将报文发送给Mac为<br>00:0c:bd:08:46:15的服务器。看不出什么问题。再看2号包：<br><img src="/2018/11/16/一次现场问题的网络分析/2.png" alt="logo"><br>2号包却是一个MAC地址为e4:a8:b6:f6:95:12(Wireshark识别出为HuaweiTe)的设备发出来的。不知道MAC地址为<br>e4:a8:b6:f6:95:12的是个什么设备。但这里1号包与2号包走的不是一条线程。客户端到208的拓扑应该是这样：</p>
-<p>发现通信正常的是发送到209的报文(第一个连接不成功，RAC切换到了第二个服务器)。<br>23，24，25号包是与209进行三次握手。<br><img src="/2018/11/16/一次现场问题的网络分析/23.png" alt="logo"><br>发现22号也是发送到MAC为00:0c:bd:08:46:15的设备上，这里猜测<br>00:0c:bd:08:46:15是客户端的网关路由器。服务器208，209都在路由器后面。<br><img src="/2018/11/16/一次现场问题的网络分析/24.png" alt="logo"><br>24号包也是由设备e4:a8:b6:f6:95:12发出。再看正常通信的26,27号包，<br><img src="/2018/11/16/一次现场问题的网络分析/26.png" alt="logo"><br><img src="/2018/11/16/一次现场问题的网络分析/27.png" alt="logo"><br>都是：<br>32:09:be:88:d8:67 -&gt; 00:0c:bd:08:46:15,e4:a8:b6:f6:95:12-&gt;32:09:be:88:d8:67。<br>说明服务器返回到客户端的报文最终都由e4:a8:b6:f6:95:12设备转发一次。</p>
+        <p>现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在<br>ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,<br>2409:8018:5c00:201::209。<br>从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：<br><img src="/2018/11/16/一次现场问题的网络分析/0.png" alt="logo"><br>前三个包为连接x208的三次握手，接着Oracle drive发了一个Request,Connect包。我们先看1号包:<br><img src="/2018/11/16/一次现场问题的网络分析/1.png" alt="logo"><br>目的地址为x208,客户端将报文发送给Mac为00:0c:bd:08:46:15的服务器, 看不出异常。再看2号包：<br><img src="/2018/11/16/一次现场问题的网络分析/2.png" alt="logo"><br>信息来了，2号包却是一个MAC地址为e4:a8:b6:f6:95:12(Wireshark识别出为HuaweiTe) 的设备发出来的。<br>而且Hop limit应该对64呀，这里却为61. 因为远程协助，对方对环境等各方面不太清楚，不知道MAC地址为<br>e4:a8:b6:f6:95:12的是个什么设备。但这里1号包与2号包走的不是一条线。而且208到客户端(也有可能根<br>本没到x208)的应该经过了三(64-61)次路由转发。猜测客户端到208的拓扑应该是这样：<br><img src="/2018/11/16/一次现场问题的网络分析/t1.png" alt="logo"><br>继续向下看，发现能够正常通信的是发送到209的报文(第一个连接不成功，RAC切换到了第二个服务器)。<br>23，24，25号包是与x209进行三次握手。<br><img src="/2018/11/16/一次现场问题的网络分析/23.png" alt="logo"><br>发现23号也是发送到MAC为00:0c:bd:08:46:15的设备上，那00:0c:bd:08:46:15肯定不是208或209的MAC,<br>这里猜测00:0c:bd:08:46:15是客户端的网关路由器。服务器208，209都在路由器后面。再看24号包,<br><img src="/2018/11/16/一次现场问题的网络分析/24.png" alt="logo"><br>24号包也是由设备e4:a8:b6:f6:95:12发出。以及正常通信的26,27号包，<br><img src="/2018/11/16/一次现场问题的网络分析/26.png" alt="logo"><br><img src="/2018/11/16/一次现场问题的网络分析/27.png" alt="logo"><br>都是：32:09:be:88:d8:67 -&gt; 00:0c:bd:08:46:15,e4:a8:b6:f6:95:12-&gt;32:09:be:88:d8:67。<br>说明服务器返回到客户端的报文最终都由e4:a8:b6:f6:95:12设备转发一次。猜测e4:a8:b6:f6:95:12<br>很可能是一个firewall设备，拓拆接近下图：<br><img src="/2018/11/16/一次现场问题的网络分析/t2.png" alt="logo"><br>本人对网络拓扑接触的比较少，还望大家给予指正。</p>
 
       
     </div>
