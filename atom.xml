@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://guojjanjun.github.io/"/>
-  <updated>2018-11-08T11:55:16.909Z</updated>
+  <updated>2018-11-16T10:31:38.831Z</updated>
   <id>https://guojjanjun.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一次现场问题的网络分析</title>
+    <link href="https://guojjanjun.github.io/2018/11/16/%E4%B8%80%E6%AC%A1%E7%8E%B0%E5%9C%BA%E9%97%AE%E9%A2%98%E7%9A%84%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90/"/>
+    <id>https://guojjanjun.github.io/2018/11/16/一次现场问题的网络分析/</id>
+    <published>2018-11-16T09:06:04.000Z</published>
+    <updated>2018-11-16T10:31:38.831Z</updated>
+    
+    <content type="html"><![CDATA[<p>现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，<br>端口1521。服务两台服务器的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。<br>从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：<br><img src="/2018/11/16/一次现场问题的网络分析/1.png" alt="logo"><br>前三个包为三次握手，接着Oracle drive发了一个Request,Connect包。我们先看1号包，客户端将报文发送给Mac为<br>00:0c:bd:08:46:15的服务器。看不出什么问题。再看2号包：<br><img src="/2018/11/16/一次现场问题的网络分析/2.png" alt="logo"><br>2号包却是一个MAC地址为e4:a8:b6:f6:95:12(Wireshark识别出为HuaweiTe)的设备发出来的。不知道MAC地址为<br>e4:a8:b6:f6:95:12的是个什么设备。但这里1号包与2号包走的不是一条线程。客户端到208的拓扑应该是这样：</p><p>发现通信正常的是发送到209的报文(第一个连接不成功，RAC切换到了第二个服务器)。<br>23，24，25号包是与209进行三次握手。<br><img src="/2018/11/16/一次现场问题的网络分析/23.png" alt="logo"><br>发现22号也是发送到MAC为00:0c:bd:08:46:15的设备上，这里猜测<br>00:0c:bd:08:46:15是客户端的网关路由器。服务器208，209都在路由器后面。<br><img src="/2018/11/16/一次现场问题的网络分析/24.png" alt="logo"><br>24号包也是由设备e4:a8:b6:f6:95:12发出。再看正常通信的26,27号包，<br><img src="/2018/11/16/一次现场问题的网络分析/26.png" alt="logo"><br><img src="/2018/11/16/一次现场问题的网络分析/27.png" alt="logo"><br>都是：<br>32:09:be:88:d8:67 -&gt; 00:0c:bd:08:46:15,e4:a8:b6:f6:95:12-&gt;32:09:be:88:d8:67。<br>说明服务器返回到客户端的报文最终都由e4:a8:b6:f6:95:12设备转发一次。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，&lt;br&gt;端口1521。服务两台服务器的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:2
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>VMWare网络不通一个可能原因分析</title>
