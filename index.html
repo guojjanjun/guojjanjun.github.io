@@ -329,7 +329,7 @@
                 
               
 
-              <time title="创建时间：2018-11-22 19:35:36 / 修改时间：20:22:13" itemprop="dateCreated datePublished" datetime="2018-11-22T19:35:36+08:00">2018-11-22</time>
+              <time title="创建时间：2018-11-22 19:35:36 / 修改时间：20:31:24" itemprop="dateCreated datePublished" datetime="2018-11-22T19:35:36+08:00">2018-11-22</time>
             
 
             
@@ -369,24 +369,24 @@
       
         
           
-            <p>编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，情呼”哦,面象对象还可以这样玩”。比较容易理解的<br>是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定<br>义。(当然区分并不止这么点)。</p>
+            <p>编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理<br>解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类<br>外定义。(当然区分并不止这么点)。</p>
 <p>后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。</p>
 <h3 id="定义数据类型："><a href="#定义数据类型：" class="headerlink" title="定义数据类型："></a>定义数据类型：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Dog struct&#123;</span><br><span class="line">   name string</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="绑定函数："><a href="#绑定函数：" class="headerlink" title="绑定函数："></a>绑定函数：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func (dog Dog) move() &#123;</span><br><span class="line">   fmt.Println(dog.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="调用函数："><a href="#调用函数：" class="headerlink" title="调用函数："></a>调用函数：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">func <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   var aDog Dog</span><br><span class="line">   aDog.move();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只需要为函数指定接收者,即完成了数据与函数的绑定,而且接收者可以是基础类型,比如int等.可以做到一切皆对象。且说随时绑定<br>成员函数，项目功能扩展极其方便。</p>
-<p>起初笔者并不认为Javascript是很好的面向对象语言，go的出现再次重申了Javascript面向对象的终极地位。且看Javascript实现面向对象的神奇方法:</p>
+<p>只需要为函数指定接收者,即完成了数据与函数的绑定,而且接收者可以是基础类型,比如int等。可以做到一切皆对象。且说随时绑定<br>成员函数，项目功能扩展极其方便。</p>
+<p>起初笔者并不喜欢Javascript面向对象的方法，go的出现再次重申了Javascript面向对象的终极地位。且看Javascript几种创建对象的神技:</p>
 <h3 id="方法一：通过Object对象"><a href="#方法一：通过Object对象" class="headerlink" title="方法一：通过Object对象"></a>方法一：通过Object对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var box = <span class="keyword">new</span> Object();</span><br><span class="line">box.name = <span class="string">'Lee'</span>;</span><br><span class="line">box.getName = function () &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这种方式与go倒有几分相似，不过Javascript不但能绑定函数，还可以增加数据成员。go并无出其右.</p>
+<p>这种方式与go倒有几分相似，不过Javascript不但能绑定函数，还可以增加数据成员。go语言并无出其右。</p>
 <h3 id="方法二-构造函数式："><a href="#方法二-构造函数式：" class="headerlink" title="方法二: 构造函数式："></a>方法二: 构造函数式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">Box</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">   <span class="keyword">this</span>.name = name;</span><br><span class="line">   <span class="keyword">this</span>.getName = function () &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">var box1 = <span class="keyword">new</span> Box(<span class="string">'Lee'</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="方法三：原型模式"><a href="#方法三：原型模式" class="headerlink" title="方法三：原型模式"></a>方法三：原型模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">Box</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">Box.prototype.name = <span class="string">'Lee'</span>;</span><br><span class="line">Box.prototype.getName = function () &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>方法四,五…, 招式只局限于你的想象力。为什么Javascript要搞这么复杂, 搞这么复杂…?</p>
 <p>其实是Javascript玩了个七十二变的戏法, 让我们产生了错觉。下面来拆解Javascript这种怪异的OOP玩法？ </p>
-<p>对于方法一, Object也是一个函数(typeof Object == function), 这个函数是Javascript内置的，不需要程序员再重新定义。<br>那它和方法二之间的相似基因就不难理解了。</p>
-<p>方法一中Javascript可以为对象本身增加属性和绑定方法。方法二也是一样, 而this就是这个对象, 在this上增加属性和绑定方法。<br>再说方法三的模式, 同方法一、二并无不同, 只不过Box.prototype才是这个对象。</p>
-<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个对象看成是具有<br>变化能力的齐天大圣, 新对象都是大圣变化而来。这个对象在函数内部花名this, 外部人送外号 funcation_name.prototype。</p>
-<p>而函数就是这么本尊的变身大法，也就是克隆出新对象的构造器, 启动变身大法（调用函数)本尊就会变成想要的模样。这样方法<br>二就容易理解了。</p>
-<p>对于方法三, Box.prototype就是Box函数的本尊，我们改变了Box.prototype：Box.prototype.name = ‘Lee’。相当于改变<br>了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然是在这个新本尊的基础上构建新对象。<br>网上有很多Javascript面向对象的方法变体，用此方法，即可解疑惑。</p>
+<p>对于方法一, Object也是一个函数(typeof Object == function), 这个函数是Javascript内置的，不需要程序员再重新定义。<br>那它和方法二之间的相同基因就不难理解了。</p>
+<p>方法一中Javascript可以为对象本身增加属性和绑定方法。方法二也是一样, 而this就是这个对象, 函数为this对象增加属性和<br>绑定方法。再看方法三的模式, 同方法一、二并无不同, 只不过Box.prototype才是这个对象。</p>
+<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个对象看成是具<br>有变化能力的齐天大圣, 新对象都是大圣变化而来。这个对象在函数内部花名this, 外部人送外号funcation_name.prototype。</p>
+<p>而函数就是这位本尊的变身大法，也就是克隆出新对象的构造器, 发动变身大法（new 函数)本尊就会变成想要的模样。这样方法<br>二就容易理解了。</p>
+<p>对于方法三, Box.prototype就是Box函数的本尊，我们改变了Box.prototype：Box.prototype.name = ‘Lee’。相当于改变<br>了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然就是在这个新本尊的基础上构建新对象。<br>网上有很多Javascript面向对象的方法变体，用此方法，即可解疑惑。</p>
 
           
         
