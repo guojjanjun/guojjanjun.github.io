@@ -115,11 +115,13 @@
 <meta property="og:site_name" content="路人甲&#39;s Notes">
 <meta property="og:description" content="编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。 后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。 定义数据类型：123type">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-23T01:30:16.552Z">
+<meta property="og:updated_time" content="2018-11-23T02:05:53.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面向对象众生态">
 <meta name="twitter:description" content="编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。 后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。 定义数据类型：123type">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -345,7 +347,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-11-23 09:30:16" itemprop="dateModified" datetime="2018-11-23T09:30:16+08:00">2018-11-23</time>
+                <time title="修改时间：2018-11-23 10:05:53" itemprop="dateModified" datetime="2018-11-23T10:05:53+08:00">2018-11-23</time>
               
             
           </span>
@@ -393,9 +395,11 @@
 <p>其实是Javascript玩了个七十二变的戏法, 让我们产生了错觉。下面来拆解Javascript这种怪异的OOP玩法？ </p>
 <p>对于方法一, Object也是一个函数(typeof Object == function), 这个函数是Javascript内置的，不需要程序员重新定义。<br>那它和方法二之间的相同基因就不难理解了。</p>
 <p>方法一中Javascript可以为对象本身增加属性和绑定方法。方法二也是一样, 而this就是这个对象, 函数为this对象增加属性和<br>绑定方法。再看方法三的模式, 同方法一、二并无不同, 只不过Box.prototype才是这个对象。</p>
-<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个对象看成是具<br>有变化能力的齐天大圣, 新对象都是大圣变化而来。这个对象在函数内部花名this, 外部人送外号funcation_name.prototype。</p>
+<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个对象看成是具<br>有变化能力的齐天大圣, 新对象都是大圣变化而来。这个本尊对象就是funcation_name.prototype。</p>
 <p>而函数就是这位本尊的变身大法，也就是克隆出新对象的构造器, 启动变身大法（new 函数)本尊就会变成想要的模样。这样方法<br>二就容易理解了。</p>
-<p>对于方法三, Box.prototype就是Box函数的本尊，我们改变了Box.prototype：Box.prototype.name = ‘Lee’。相当于改变<br>了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然就是在这个新本尊的基础上构建新对象。<br>网上有很多Javascript面向对象的方法变体，用此方法，即可解疑惑。</p>
+<p>对于方法三, Box.prototype就是Box函数的本尊，我们改变了Box.prototype：Box.prototype.name = ‘Lee’。相当于改变<br>了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然就是在这个新本尊的基础上构建新对象。</p>
+<p>更有意思的，方法二可以直接作为普通函数调用: Box(‘Lee’)，也可以作为构造函数调用 var box1 = new Box(‘Lee’)。函数<br>里的this代表的对象什么不同呢？作为构造函数时，前面已经说过，这里不再重述。但作为普通函数，this却是当前Window对<br>象，这里相当于window.Box(“Lee”)，即它是作为Window的成员函数而存在的。Javascript中所有的全局函数和对象都属于<br>Window对象的属性和方法。</p>
+<p>网上有很多Javascript面向对象的方法变体，用此方法，即可解疑惑。</p>
 
       
     </div>
