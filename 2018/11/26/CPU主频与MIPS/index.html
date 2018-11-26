@@ -108,13 +108,17 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="路人甲&#39;s Notes">
-<meta property="og:url" content="https://guojjanjun.github.io/archives/2018/10/index.html">
+  <meta name="description" content="今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:BogoMIPS: 1593.34cpu MHZ :  799.58查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频才7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPU主频与MIPS">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/11/26/CPU主频与MIPS/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
+<meta property="og:description" content="今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:BogoMIPS: 1593.34cpu MHZ :  799.58查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频才7">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-26T09:45:40.720Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="路人甲&#39;s Notes">
+<meta name="twitter:title" content="CPU主频与MIPS">
+<meta name="twitter:description" content="今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:BogoMIPS: 1593.34cpu MHZ :  799.58查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频才7">
 
 
 
@@ -123,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/archives/2018/10/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/11/26/CPU主频与MIPS/"/>
 
 
 
@@ -133,7 +137,7 @@
   };
 </script>
 
-  <title>归档 | 路人甲's Notes</title>
+  <title>CPU主频与MIPS | 路人甲's Notes</title>
   
 
 
@@ -180,7 +184,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -229,7 +233,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
@@ -241,19 +245,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -279,71 +270,170 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
-
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/26/CPU主频与MIPS/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/10/17/线程模型/" itemprop="url">
-              
-                <span itemprop="name">线程模型</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">CPU主频与MIPS
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-10-17T17:17:39+08:00"
-              content="2018-10-17" >
-          10-17
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
+              
+                
+              
+
+              <time title="创建时间：2018-11-26 16:52:47 / 修改时间：17:45:40" itemprop="dateCreated datePublished" datetime="2018-11-26T16:52:47+08:00">2018-11-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <p>今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:<br>BogoMIPS: 1593.34<br>cpu MHZ :  799.58<br>查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。<br>MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频<br>才799.58MHZ，却可以每秒执行1593.34M个指令。相当每个时钟周期执行两个指令。</p>
+<p>时钟周期是CPU主频的倒数，799.58MHZ表示每秒运行799.58个时钟周期. 而每执一个计算机指令都需要1至几十个时钟周期。<br>一个指令的执行包括以下步骤：<br>1）指令预取<br>2）指令解码<br>3）执行<br>4）内存访问<br>5) 寄存器写回<br>最后两步是可选的，取决于指令本身。这里每一步都需要至少一个时钟周期来完成。那么一个指令至少需要3个时钟周期来<br>完成。<br>CPU通过流水线技术通过同时执行不同指令的不同部分，提供CPU的吞吐量。上面的每一步都由CPU的一个功能组件来完成,<br>当指令解码组件执行指令A的执令解码时，指令预取组件可以执行指令B的执令预取。最理想情况下，一个指令只需要一个<br>时间周期。仍然不能2倍主频？</p>
+<p>有资料提到指令宽度的概念，即上面所说的每一个功能单元组件有3-4个。他们可以同时执行。这样最理想情况，一个指令<br>只需要一个1/3或1/4个时间周期了。如果是这样的话，上面的情况就可以解释了。另外经常提到的IPC(或CPI)<br>，即每指令周期数，在这里应该就是: CPI = MHZ/MIPS。从上面分析来看，CPI是可以小于1的。这里只是一个合理解释，<br>不一定正确，期待指正。</p>
+
+      
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/22/面向对象众生态/" rel="next" title="面向对象众生相">
+                <i class="fa fa-chevron-left"></i> 面向对象众生相
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDk0Mi8xNzQ2Nw=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -547,6 +637,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 
@@ -559,6 +653,20 @@
 
 
 
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2018/11/26/CPU主频与MIPS/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
