@@ -115,13 +115,11 @@
 <meta property="og:site_name" content="路人甲&#39;s Notes">
 <meta property="og:description" content="今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:BogoMIPS: 1593.34cpu MHZ :  799.58查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频才7">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-26T09:51:32.261Z">
+<meta property="og:updated_time" content="2018-11-28T09:52:29.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU主频与MIPS">
 <meta name="twitter:description" content="今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:BogoMIPS: 1593.34cpu MHZ :  799.58查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频才7">
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -330,12 +328,24 @@
                 
               
 
-              <time title="创建时间：2018-11-26 16:52:47 / 修改时间：17:51:32" itemprop="dateCreated datePublished" datetime="2018-11-26T16:52:47+08:00">2018-11-26</time>
+              <time title="创建时间：2018-11-26 16:52:47" itemprop="dateCreated datePublished" datetime="2018-11-26T16:52:47+08:00">2018-11-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-11-28 17:52:29" itemprop="dateModified" datetime="2018-11-28T17:52:29+08:00">2018-11-28</time>
               
             
           </span>
@@ -369,8 +379,8 @@
 
       
         <p>今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:<br>BogoMIPS: 1593.34<br>cpu MHZ :  799.58<br>查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。<br>MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频<br>才799.58MHZ，却可以每秒执行1593.34M个指令。相当每个时钟周期执行两个指令。</p>
-<p>时钟周期是CPU主频的倒数，799.58MHZ表示每秒运行799.58百万个时钟周期. 而每执一个计算机指令都需要1至几十个<br>时钟周期。一个指令的执行包括以下步骤：<br>1）指令预取<br>2）指令解码<br>3）执行<br>4）内存访问<br>5) 寄存器写回<br>最后两步是可选的，取决于指令本身。这里每一步都需要至少一个时钟周期来完成。那么一个指令至少需要3个时钟周期来<br>完成。<br>CPU通过流水线技术同时执行不同指令的不同部分，提供CPU的吞吐量。上面的每一步都由CPU的一个功能组件来完成,<br>当指令解码组件执行指令A的执令解码部分，指令预取组件可以执行指令B的执令预取部分。最理想情况下，一个指令只需<br>要一个时间周期。但仍然不能2倍主频？</p>
-<p>部分资料提到指令宽度的概念，即上面所说的每一个功能单元组件有3-4个。他们可以同时执行。这样最理想情况，一个指令<br>只需要一个1/3或1/4个时间周期了。如果是这样的话，上面的情况就可以解释了。另外业内经常提到的IPC(或CPI)<br>，即每指令周期数，在这里应该就是: CPI = MHZ/MIPS。从上面分析来看，CPI是可以小于1的。这里只是一个合理解释，<br>不一定正确，期待指正。<br>参考：<br><a href="https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf" target="_blank" rel="noopener">https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf</a></p>
+<p>时钟周期是CPU主频的倒数，799.58MHZ表示每秒运行799.58百万个时钟周期. 而每执一个计算机指令都需要1至几十个<br>时钟周期。一个指令的执行包括以下步骤：<br>1）指令预取<br>2）指令解码<br>3）执行<br>4）内存访问<br>5) 寄存器写回<br>最后两步是可选的，取决于指令本身。这里每一步都需要至少一个时钟周期来完成。那么一个指令至少需要3个时钟周期来<br>完成。<br>CPU通过流水线技术同时执行不同指令的不同部分，提高CPU的吞吐量。上面的每一步都由CPU的一个功能组件来完成,<br>当指令解码组件执行指令A的指令解码动作时，指令预取组件可以执行指令B的指令预取部分。最理想情况下，一个指令只<br>需要一个时间周期。但仍然不能2倍主频？</p>
+<p>部分资料提到指令宽度的概念，即上面所说的每一个功能单元组件有多个，一般3-4个。他们可以同时执行。这样最理想情<br>况，一个指令只需要一个1/3或1/4个时间周期了。如果是这样的话，上面的情况就可以解释了。另外业内经常提到的IPC<br>(或CPI)，即每指令周期数，在这里应该就是: CPI = MHZ/MIPS。从上面分析来看，CPI是可以小于1的。这里只是一个合<br>理解释，不一定正确，期待指正。<br>参考：<br><a href="https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf" target="_blank" rel="noopener">https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf</a></p>
 
       
     </div>
