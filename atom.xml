@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://guojjanjun.github.io/"/>
-  <updated>2018-12-05T07:58:58.691Z</updated>
+  <updated>2018-12-05T08:17:28.079Z</updated>
   <id>https://guojjanjun.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://guojjanjun.github.io/2018/12/05/%E4%BB%80%E4%B9%88%E6%98%AFresponse%20has%20been%20committed/"/>
     <id>https://guojjanjun.github.io/2018/12/05/什么是response has been committed/</id>
     <published>2018-12-05T07:15:07.000Z</published>
-    <updated>2018-12-05T07:58:58.691Z</updated>
+    <updated>2018-12-05T08:17:28.079Z</updated>
     
-    <content type="html"><![CDATA[<p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻<br>略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。<br>(江边何人初见月，江月何年初照人)</p><p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是<br>位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。<br>(更多可了解redo与undo的区别)。</p><p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个response有任意一个字符发<br>送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思了。</p><p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed<br>sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先<br>你准备好一些数据发送出去了,当然响应头会首先发出。Tomcat就是告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经<br>发出去了, 撤不回来了。</p><p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他<br>回来吗？</p><p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操<br>作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。<br>治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>]]></content>
+    <content type="html"><![CDATA[<p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻<br>略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。<br>(江边何人初见月，江月何年初照人)</p><p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是<br>位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。<br>(更多可了解redo与undo的区别)。</p><p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个response有任意一个字符发<br>送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思了。</p><p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed<br>sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先<br>准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经<br>发出去了, 撤不回来了。</p><p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他<br>回来吗？</p><p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操<br>作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。<br>治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>]]></content>
     
     <summary type="html">
     
