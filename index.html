@@ -285,6 +285,148 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/06/Maven使用过程中的几个细节/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/06/Maven使用过程中的几个细节/" itemprop="url">
+                  Maven使用过程中的几个细节
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:45:04" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p>
+<h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p>
+<h3 id="3-repository分的搜索顺序"><a href="#3-repository分的搜索顺序" class="headerlink" title="3. repository分的搜索顺序"></a>3. repository分的搜索顺序</h3><p>   repository分两组：本地仓库和远程仓库。远程仓库包括全局仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: 就是setting文件profile中配置的仓库。<br>  3）项目pom.xml中配置的仓库<br>  3) 中央仓库：就是central仓库</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/05/什么是response has been committed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -377,6 +519,165 @@
 <p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed<br>sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先<br>准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经<br>发出去了, 撤不回来了。</p>
 <p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他<br>回来吗？</p>
 <p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操<br>作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。<br>治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/04/Envoy配置简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/04/Envoy配置简介/" itemprop="url">
+                  istio中的流量简介
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-04 16:26:20" itemprop="dateCreated datePublished" datetime="2018-12-04T16:26:20+08:00">2018-12-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-05 18:10:12" itemprop="dateModified" datetime="2018-12-05T18:10:12+08:00">2018-12-05</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群命名以inbound开头:<br>   inbound|9080||ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命名<br>   以outbound开头: outbound|9080||ratings.default.svc.cluster.local</p>
+<p>入流量的上游集群比较简单，一般只有一个：</p>
+<p>“hosts”: [<br>               {<br>                        “socket_address”: {<br>                        “address”: “127.0.0.1”,<br>                        “port_value”: 9080<br>                    }<br>               }<br>         ]<br>这个Endpoint(127.0.0.1:9080)指向本地服务。9080是istio官方book用例所有服务采用的端口。<br>出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服务的可能。</p>
+<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，特定的集群，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。这个复杂的过程中,有两个重要的参数:</p>
+<p>litener.use_original_dst:<br>如果采有iptables重定向连接,那么envoy接受连接的监听端口与连接请求的原始地址是不同的。如果listener该属性设置为true，该listener将接收到的连接较交给符合请求原始地址的listener.由新的listener接受和处理该连接请求。前一个listener相当于分发连接。在istio中，envoy的命名为virtual的listener即是如此。到达envoy的连接统一重定向到命名为virtual的listener<br>(监听地址为0.0.0.0:15001)，由该listener来选择合适的listener处理连接。</p>
+<p>litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到替代者的说明。在istio中仍然有用他，虽然标记已过期。该属性表示当前listener是否<br>绑定端口。不绑定的端口的listener，如何接受连接？原因是use_original_dst的listener代为接受连接，并转发给他。<br>0.0.0.0_9080这个Listener接手了所有9080端口的出流量。</p>
+<p>集群名:inbound<em>/outbound</em></p>
+<p>正常情况下inbound<em>是入流量访问的服务集群,outbound</em>集群是出流量访问的集群。inbound<em>集群很简单，就一个成员监听在<br>127.0.0.1地址，端口就是本地业务服务监听的端口。这个集群的endpoint就是本地业务服务。<br>outbound</em>集群是本地业务服务可能要访问的服务集群。</p>
 
           
         
@@ -1522,7 +1823,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
