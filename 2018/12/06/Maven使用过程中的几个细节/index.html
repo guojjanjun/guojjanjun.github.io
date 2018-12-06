@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="路人甲&#39;s Notes">
 <meta property="og:description" content="1. Settings.xml的生效问题maven共有两个settings.xml:全局配置: ${M2_HOME}/conf/settings.xml用户配置: ${user.home}/.m2/settings.xmlmaven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置. 2. 多个Profile的生效问题Profile根据环境条件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-06T07:45:04.888Z">
+<meta property="og:updated_time" content="2018-12-06T07:48:03.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven使用过程中的几个细节">
 <meta name="twitter:description" content="1. Settings.xml的生效问题maven共有两个settings.xml:全局配置: ${M2_HOME}/conf/settings.xml用户配置: ${user.home}/.m2/settings.xmlmaven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置. 2. 多个Profile的生效问题Profile根据环境条件">
@@ -332,7 +332,7 @@
                 
               
 
-              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:45:04" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
+              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:48:03" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
             
 
             
@@ -372,7 +372,7 @@
       
         <h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p>
 <h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p>
-<h3 id="3-repository分的搜索顺序"><a href="#3-repository分的搜索顺序" class="headerlink" title="3. repository分的搜索顺序"></a>3. repository分的搜索顺序</h3><p>   repository分两组：本地仓库和远程仓库。远程仓库包括全局仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: 就是setting文件profile中配置的仓库。<br>  3）项目pom.xml中配置的仓库<br>  3) 中央仓库：就是central仓库</p>
+<h3 id="3-repository的搜索顺序"><a href="#3-repository的搜索顺序" class="headerlink" title="3. repository的搜索顺序"></a>3. repository的搜索顺序</h3><p>   repository分两类：本地仓库和远程仓库。远程仓库包括全局仓库，项目仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: setting文件profile中配置的仓库。<br>  3）项目仓库: 项目pom.xml中配置的仓库。<br>  3) 中央仓库：就是central仓库</p>
 
       
     </div>
@@ -483,7 +483,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -530,7 +530,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Settings-xml的生效问题"><span class="nav-number">1.</span> <span class="nav-text">1. Settings.xml的生效问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多个Profile的生效问题"><span class="nav-number">2.</span> <span class="nav-text">2. 多个Profile的生效问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-repository分的搜索顺序"><span class="nav-number">3.</span> <span class="nav-text">3. repository分的搜索顺序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Settings-xml的生效问题"><span class="nav-number">1.</span> <span class="nav-text">1. Settings.xml的生效问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多个Profile的生效问题"><span class="nav-number">2.</span> <span class="nav-text">2. 多个Profile的生效问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-repository的搜索顺序"><span class="nav-number">3.</span> <span class="nav-text">3. repository的搜索顺序</span></a></li></ol></div>
             
 
           </div>

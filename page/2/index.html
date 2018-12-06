@@ -110,17 +110,13 @@
 
 
 
-  <meta name="description" content="分析运行时Java应用性能问题或死锁问题时，获取线程栈中锁信息是最基本的手段。JDK5.0之后加锁存在两种方法：1.Jvm内置的synchronized 2. Java并发包中相关同步类。本篇主要讨论线程栈中表现出来的锁的信息，对于我们分析Java性能或死锁提供哪些线索。 情况1:  Object.wait()/ Object.wait(int timeout)1234567891011121">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java线程栈中的锁信息">
-<meta property="og:url" content="https://guojjanjun.github.io/2018/09/26/Java线程栈中的锁信息/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="路人甲&#39;s Notes">
+<meta property="og:url" content="https://guojjanjun.github.io/page/2/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="分析运行时Java应用性能问题或死锁问题时，获取线程栈中锁信息是最基本的手段。JDK5.0之后加锁存在两种方法：1.Jvm内置的synchronized 2. Java并发包中相关同步类。本篇主要讨论线程栈中表现出来的锁的信息，对于我们分析Java性能或死锁提供哪些线索。 情况1:  Object.wait()/ Object.wait(int timeout)1234567891011121">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-27T03:05:58.904Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java线程栈中的锁信息">
-<meta name="twitter:description" content="分析运行时Java应用性能问题或死锁问题时，获取线程栈中锁信息是最基本的手段。JDK5.0之后加锁存在两种方法：1.Jvm内置的synchronized 2. Java并发包中相关同步类。本篇主要讨论线程栈中表现出来的锁的信息，对于我们分析Java性能或死锁提供哪些线索。 情况1:  Object.wait()/ Object.wait(int timeout)1234567891011121">
+<meta name="twitter:title" content="路人甲&#39;s Notes">
 
 
 
@@ -129,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2018/09/26/Java线程栈中的锁信息/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/page/2/"/>
 
 
 
@@ -139,7 +135,7 @@
   };
 </script>
 
-  <title>Java线程栈中的锁信息 | 路人甲's Notes</title>
+  <title>路人甲's Notes</title>
   
 
 
@@ -186,7 +182,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -271,9 +268,9 @@
           
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -305,7 +302,11 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java线程栈中的锁信息
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/26/Java线程栈中的锁信息/" itemprop="url">
+                  Java线程栈中的锁信息
+                </a>
               
             
           </h1>
@@ -380,7 +381,9 @@
       
 
       
-        <p>  分析运行时Java应用性能问题或死锁问题时，获取线程栈中锁信息是最基本的手段。JDK5.0之后加锁存在两种方法：1.Jvm内置的synchronized 2. Java并发包中相关同步类。本篇主要讨论线程栈中表现出来的锁的信息，对于我们分析Java性能或死锁提供哪些线索。</p>
+        
+          
+            <p>  分析运行时Java应用性能问题或死锁问题时，获取线程栈中锁信息是最基本的手段。JDK5.0之后加锁存在两种方法：1.Jvm内置的synchronized 2. Java并发包中相关同步类。本篇主要讨论线程栈中表现出来的锁的信息，对于我们分析Java性能或死锁提供哪些线索。</p>
 <h3 id="情况1-Object-wait-Object-wait-int-timeout"><a href="#情况1-Object-wait-Object-wait-int-timeout" class="headerlink" title="情况1:  Object.wait()/ Object.wait(int timeout)"></a>情况1:  Object.wait()/ Object.wait(int timeout)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeWait</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Object scarce = <span class="keyword">new</span> Object();</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> SyncWaiter(scarce));</span><br><span class="line">        t.setName(<span class="string">"Test-Thread-1"</span>);</span><br><span class="line">        t.start();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SyncWaiter</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   privateObject scarce;</span><br><span class="line">   publicSyncWaiter(Object scarce)&#123;</span><br><span class="line">      <span class="keyword">this</span>.scarce = scarce;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   publicvoidrun() &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (scarce) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                scarce.wait();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"Test-Thread-1" #10 prio=5os_prio=0 tid=0x0000000058709800 nid=0x1d14 in Object.wait() [0x000000005930f000]</span><br><span class="line">  java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">       at java.lang.Object.wait(Native Method)</span><br><span class="line">       - waiting on &lt;<span class="number">0x00000000d7ac6058</span>&gt;(a java.lang.Object)</span><br><span class="line">       at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">       at org.guojje.SyncWaiter.run(InvokeWait.java:<span class="number">23</span>)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d7ac6058</span>&gt; (ajava.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br></pre></td></tr></table></figure>
 <p>这种情况下，线程处于WAITING状态，等待获取对象锁，该线程必须先锁定了该对象(即进入synchronized区域)，才可以调用wait方法(画重点)，并在调用wait方法后释放对象锁，并进入对象锁Wait Set队列等待被唤醒。WAITING状态的线程必须有对应的notify唤醒。这与后面遇到Blocked状态的线程不同，Blocked是不需要唤醒的。<br>备注：<br>     1) 每一个Java对象与生俱来带有唯一一把对象锁(叫Intrinsic lock或Monitor)。<br>      2) (a java.lang.Object)表示资源的类名，这里为一个Object对象。<br>      3) 当调用带有时间参数的Wait方法，这时线程状态显示TIMED_WAITING。<br>      4）Wait Set队列与下面的Entry Set队列的含义，可自行Google。</p>
@@ -401,6 +404,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-2" #11 prio=5os_prio=0 tid=0x0000000018871000 nid=0x2588 waiting on condition [0x00000000198ef000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span> &lt;<span class="number">0x00000000d7ac7388</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">  Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac73b8</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x0000000018870000 nid=0x2fb0 waiting on condition [0x00000000184ae000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span> &lt;<span class="number">0x00000000d7ac73b8</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"> Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac7388</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">Found one Java-level deadlock:</span><br><span class="line">=============================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line"> waiting <span class="keyword">for</span> ownable synchronizer <span class="number">0x00000000d7ac71a0</span>,(a java.util.concurrent.locks.ReentrantLock$NonfairSync),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-1"</span></span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line"> waiting <span class="keyword">for</span> ownable synchronizer <span class="number">0x00000000d7ac71d0</span>, (a java.util.concurrent.locks.ReentrantLock$NonfairSync),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-2"</span></span><br><span class="line">.</span><br><span class="line">Java stack information <span class="keyword">for</span> the threadslisted above:</span><br><span class="line">===================================================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac71a0</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">41</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac71d0</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">41</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">Found <span class="number">1</span> deadlock.</span><br></pre></td></tr></table></figure>
 <p>借助Locked ownable synchronizers，确认哪些线程位于死锁的环形竞争中，还是比较容易。先到这吧。。</p>
 
+          
+        
       
     </div>
 
@@ -420,28 +425,12 @@
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/30/红黑树/" rel="prev" title="红黑树">
-                红黑树 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -451,20 +440,18 @@
   </article>
 
 
-  </div>
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDk0Mi8xNzQ2Nw=="></div>
-    </div>
-
-  
-
-
 
         </div>
         
@@ -485,17 +472,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -547,22 +525,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#情况1-Object-wait-Object-wait-int-timeout"><span class="nav-number">1.</span> <span class="nav-text">情况1:  Object.wait()/ Object.wait(int timeout)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#情况2-资源争用"><span class="nav-number">2.</span> <span class="nav-text">情况2: 资源争用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#情况3-死锁"><span class="nav-number">3.</span> <span class="nav-text">情况3 死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#情况1"><span class="nav-number">4.</span> <span class="nav-text">情况1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#情况2-资源争用-1"><span class="nav-number">5.</span> <span class="nav-text">情况2 资源争用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#情况3-死锁-1"><span class="nav-number">6.</span> <span class="nav-text">情况3 死锁</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -693,10 +655,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
-
-
 
   
 
@@ -709,20 +667,6 @@
 
 
 
-  
-    <script type="text/javascript">
-      window.livereOptions = {
-        refer: '2018/09/26/Java线程栈中的锁信息/'
-      };
-      (function(d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-        if (typeof LivereTower === 'function') { return; }
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-        e.parentNode.insertBefore(j, e);
-      })(document, 'script');
-    </script>
   
 
 

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://guojjanjun.github.io/"/>
-  <updated>2018-12-06T07:45:04.888Z</updated>
+  <updated>2018-12-06T07:48:03.325Z</updated>
   <id>https://guojjanjun.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://guojjanjun.github.io/2018/12/06/Maven%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E7%BB%86%E8%8A%82/"/>
     <id>https://guojjanjun.github.io/2018/12/06/Maven使用过程中的几个细节/</id>
     <published>2018-12-06T06:17:22.000Z</published>
-    <updated>2018-12-06T07:45:04.888Z</updated>
+    <updated>2018-12-06T07:48:03.325Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p><h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p><h3 id="3-repository分的搜索顺序"><a href="#3-repository分的搜索顺序" class="headerlink" title="3. repository分的搜索顺序"></a>3. repository分的搜索顺序</h3><p>   repository分两组：本地仓库和远程仓库。远程仓库包括全局仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: 就是setting文件profile中配置的仓库。<br>  3）项目pom.xml中配置的仓库<br>  3) 中央仓库：就是central仓库</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p><h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p><h3 id="3-repository的搜索顺序"><a href="#3-repository的搜索顺序" class="headerlink" title="3. repository的搜索顺序"></a>3. repository的搜索顺序</h3><p>   repository分两类：本地仓库和远程仓库。远程仓库包括全局仓库，项目仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: setting文件profile中配置的仓库。<br>  3）项目仓库: 项目pom.xml中配置的仓库。<br>  3) 中央仓库：就是central仓库</p>]]></content>
     
     <summary type="html">
     
@@ -42,9 +42,9 @@
     <link href="https://guojjanjun.github.io/2018/12/05/%E4%BB%80%E4%B9%88%E6%98%AFresponse%20has%20been%20committed/"/>
     <id>https://guojjanjun.github.io/2018/12/05/什么是response has been committed/</id>
     <published>2018-12-05T07:15:07.000Z</published>
-    <updated>2018-12-05T08:17:28.079Z</updated>
+    <updated>2018-12-06T08:55:49.760Z</updated>
     
-    <content type="html"><![CDATA[<p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻<br>略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。<br>(江边何人初见月，江月何年初照人)</p><p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是<br>位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。<br>(更多可了解redo与undo的区别)。</p><p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个response有任意一个字符发<br>送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思了。</p><p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed<br>sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先<br>准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经<br>发出去了, 撤不回来了。</p><p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他<br>回来吗？</p><p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操<br>作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。<br>治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>]]></content>
+    <content type="html"><![CDATA[<p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻<br>略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。<br>(江边何人初见月，江月何年初照人)</p><p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是<br>位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。<br>(更多可了解redo与undo的区别)。</p><p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个response有任意一个字符<br>发送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思。</p><p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed<br>sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先<br>准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经<br>发出去了, 撤不回来了。</p><p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他<br>回来吗？</p><p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操<br>作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。<br>治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>]]></content>
     
     <summary type="html">
     
@@ -59,19 +59,44 @@
   </entry>
   
   <entry>
-    <title>istio中的流量简介</title>
-    <link href="https://guojjanjun.github.io/2018/12/04/Envoy%E9%85%8D%E7%BD%AE%E7%AE%80%E4%BB%8B/"/>
-    <id>https://guojjanjun.github.io/2018/12/04/Envoy配置简介/</id>
+    <title>istio中的流量分析</title>
+    <link href="https://guojjanjun.github.io/2018/12/04/istio%E4%B8%AD%E7%9A%84%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/"/>
+    <id>https://guojjanjun.github.io/2018/12/04/istio中的流量分析/</id>
     <published>2018-12-04T08:26:20.000Z</published>
-    <updated>2018-12-05T10:10:12.051Z</updated>
+    <updated>2018-12-06T09:09:15.092Z</updated>
     
-    <content type="html"><![CDATA[<p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群命名以inbound开头:<br>   inbound|9080||ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命名<br>   以outbound开头: outbound|9080||ratings.default.svc.cluster.local</p><p>入流量的上游集群比较简单，一般只有一个：</p><p>“hosts”: [<br>               {<br>                        “socket_address”: {<br>                        “address”: “127.0.0.1”,<br>                        “port_value”: 9080<br>                    }<br>               }<br>         ]<br>这个Endpoint(127.0.0.1:9080)指向本地服务。9080是istio官方book用例所有服务采用的端口。<br>出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服务的可能。</p><p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，特定的集群，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。这个复杂的过程中,有两个重要的参数:</p><p>litener.use_original_dst:<br>如果采有iptables重定向连接,那么envoy接受连接的监听端口与连接请求的原始地址是不同的。如果listener该属性设置为true，该listener将接收到的连接较交给符合请求原始地址的listener.由新的listener接受和处理该连接请求。前一个listener相当于分发连接。在istio中，envoy的命名为virtual的listener即是如此。到达envoy的连接统一重定向到命名为virtual的listener<br>(监听地址为0.0.0.0:15001)，由该listener来选择合适的listener处理连接。</p><p>litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到替代者的说明。在istio中仍然有用他，虽然标记已过期。该属性表示当前listener是否<br>绑定端口。不绑定的端口的listener，如何接受连接？原因是use_original_dst的listener代为接受连接，并转发给他。<br>0.0.0.0_9080这个Listener接手了所有9080端口的出流量。</p><p>集群名:inbound<em>/outbound</em></p><p>正常情况下inbound<em>是入流量访问的服务集群,outbound</em>集群是出流量访问的集群。inbound<em>集群很简单，就一个成员监听在<br>127.0.0.1地址，端口就是本地业务服务监听的端口。这个集群的endpoint就是本地业务服务。<br>outbound</em>集群是本地业务服务可能要访问的服务集群。</p>]]></content>
+    <content type="html"><![CDATA[<p>注： 文中示例信息来自istio官方book用例.</p><p>istio中的边车代理envoy会拦截到两类流量:</p><p>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命<br>   名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p><p>入流量的上游集群比较简单，一般只有一个：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"hosts": [</span><br><span class="line">               &#123;</span><br><span class="line">                        <span class="attr">"socket_address"</span>: &#123;</span><br><span class="line">                        <span class="attr">"address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">                        <span class="attr">"port_value"</span>: <span class="number">9080</span></span><br><span class="line">                    &#125;</span><br><span class="line">               &#125;</span><br><span class="line">         ]</span><br></pre></td></tr></table></figure></p><p>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服<br>务的可能。</p><p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后到特定的集群，再按集群<br>内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。流量图大体如下：<br><img src="/2018/12/04/istio中的流量分析/in_out.png" alt="logo"><br>这个复杂的过程中,有两个重要的参数:</p><p>1) litener.use_original_dst:<br>如果采有iptables重定向连接, 那么envoy接受连接的监听端口与请求连接的原始目的地址是不同的。如果listener该属性设置<br>为true，该listener将接收到的连接转交给符合请求原始地址的Listener。(透明代理获取原始地址?)由新的listener接受和<br>处理该连接请求。前一个Listener相当于只分发连接。在istio中，这个Listener命名为命virtual。到达envoy的流量统一重<br>定向到virtual listener中(监听地址为0.0.0.0:15001)，由它来选择合适的Listener处理流量。</p><p>2) litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到新替代者的说明。在istio 1.0版本中仍然使用他，虽然标记已过期。该属性表示<br>Listener是否绑定主机端口。那么不绑定的端口的listener，如何接受流量？由标识use_original_dst的listener<br>(上文中的virtual listener)接受流量，并转发给他。0.0.0.0_9080和10.244.2.20_9080都是bind_to_port为false的<br>Listener,等待virtual listener分发的流量。0.0.0.0_9080接收所有9080端口的出流量，10.244.2.20_9080接受入流<br>量。</p><p>Note:<br>获取envoy全配置的方法:<br>kubectl exec productpage-v1-f5fcbd489-s7tfz -c istio-proxy – curl <a href="http://127.0.0.1:15000/config_dump" target="_blank" rel="noopener">http://127.0.0.1:15000/config_dump</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;istio中的边车代理envoy会拦截到两类流量:&lt;br&gt;1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群命名以inbound开头:&lt;br&gt;   inbound|9080||ratings.default.svc.cluster.local&lt;br&gt;
+        &lt;p&gt;注： 文中示例信息来自istio官方book用例.&lt;/p&gt;
+&lt;p&gt;istio中的边车代理envoy会拦截到两类流量:&lt;/p&gt;
+&lt;p&gt;1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群以inbound开头命名:&lt;br&gt;   inbound|9080|v
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>istio中的流量分析</title>
+    <link href="https://guojjanjun.github.io/2018/12/04/Istio/"/>
+    <id>https://guojjanjun.github.io/2018/12/04/Istio/</id>
+    <published>2018-12-04T08:26:20.000Z</published>
+    <updated>2018-12-06T08:41:47.711Z</updated>
+    
+    <content type="html"><![CDATA[<p>注： 文中示例信息来自istio官方book用例.</p><p>istio中的边车代理envoy会拦截到两类流量:</p><p>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命<br>   名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p><p>入流量的上游集群比较简单，一般只有一个：</p><p>“hosts”: [<br>               {<br>                        “socket_address”: {<br>                        “address”: “127.0.0.1”,<br>                        “port_value”: 9080<br>                    }<br>               }<br>         ]<br>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服<br>务的可能。</p><p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后到特定的集群，再按集群内<br>部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。</p><p>这个复杂的过程中,有两个重要的参数:</p><p>litener.use_original_dst:<br>如果采有iptables重定向连接,那么envoy接受连接的监听端口与连接请求的原始地址是不同的。如果listener该属性设置为true，该listener将接收到的连接较交给符合请求原始地址的listener.由新的listener接受和处理该连接请求。前一个listener相当<br>于分发连接。在istio中，envoy的命名为virtual的listener即是如此。到达envoy的连接统一重定向到命名为virtual的<br>listener(监听地址为127.0.0.1:15001)，由该listener来选择合适的listener处理连接。</p><p>litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到替代者的说明。在istio 1.0版本中仍然使用他，虽然标记已过期。该属性表示当前<br>listener是否绑定端口。不绑定的端口的listener，如何接受连接？由标识use_original_dst的listener<br>(上文中的名为virtual的listener)接受连接，并转发给他。示例中0.0.0.0_9080这个Listener接手了所有9080端口的出流量。</p><p>[root@master ~]# kubectl exec productpage-v1-f5fcbd489-s7tfz -c istio-proxy – netstat -anp<br>tcp        0      0 0.0.0.0:9080            0.0.0.0:<em>               LISTEN      -<br>tcp        0      0 127.0.0.1:15000         0.0.0.0:</em>               LISTEN      13/envoy<br>tcp        0      0 0.0.0.0:15001           0.0.0.0:*               LISTEN      13/envoy<br>9080本地服务的端口，15000是envoy代理的管理端口，0.0.0.0:15001就是virtual listener的监听地址，envoy用来接收流量。<br>在evnoy的配置中看到其他listener都没有绑定端口。</p><p>获取envoy全配置的方法:</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;注： 文中示例信息来自istio官方book用例.&lt;/p&gt;
+&lt;p&gt;istio中的边车代理envoy会拦截到两类流量:&lt;/p&gt;
+&lt;p&gt;1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群以inbound开头命名:&lt;br&gt;   inbound|9080|v
       
     
     </summary>

@@ -331,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:45:04" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
+              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:48:03" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
             
 
             
@@ -373,7 +373,7 @@
           
             <h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p>
 <h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p>
-<h3 id="3-repository分的搜索顺序"><a href="#3-repository分的搜索顺序" class="headerlink" title="3. repository分的搜索顺序"></a>3. repository分的搜索顺序</h3><p>   repository分两组：本地仓库和远程仓库。远程仓库包括全局仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: 就是setting文件profile中配置的仓库。<br>  3）项目pom.xml中配置的仓库<br>  3) 中央仓库：就是central仓库</p>
+<h3 id="3-repository的搜索顺序"><a href="#3-repository的搜索顺序" class="headerlink" title="3. repository的搜索顺序"></a>3. repository的搜索顺序</h3><p>   repository分两类：本地仓库和远程仓库。远程仓库包括全局仓库，项目仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: setting文件profile中配置的仓库。<br>  3）项目仓库: 项目pom.xml中配置的仓库。<br>  3) 中央仓库：就是central仓库</p>
 
           
         
@@ -473,12 +473,24 @@
                 
               
 
-              <time title="创建时间：2018-12-05 15:15:07 / 修改时间：16:17:28" itemprop="dateCreated datePublished" datetime="2018-12-05T15:15:07+08:00">2018-12-05</time>
+              <time title="创建时间：2018-12-05 15:15:07" itemprop="dateCreated datePublished" datetime="2018-12-05T15:15:07+08:00">2018-12-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-06 16:55:49" itemprop="dateModified" datetime="2018-12-06T16:55:49+08:00">2018-12-06</time>
               
             
           </span>
@@ -515,7 +527,7 @@
           
             <p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻<br>略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。<br>(江边何人初见月，江月何年初照人)</p>
 <p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是<br>位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。<br>(更多可了解redo与undo的区别)。</p>
-<p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个response有任意一个字符发<br>送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思了。</p>
+<p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个response有任意一个字符<br>发送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思。</p>
 <p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed<br>sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先<br>准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经<br>发出去了, 撤不回来了。</p>
 <p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他<br>回来吗？</p>
 <p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操<br>作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。<br>治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>
@@ -572,7 +584,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/04/Envoy配置简介/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/04/istio中的流量分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -591,8 +603,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/04/Envoy配置简介/" itemprop="url">
-                  istio中的流量简介
+                <a class="post-title-link" href="/2018/12/04/istio中的流量分析/" itemprop="url">
+                  istio中的流量分析
                 </a>
               
             
@@ -635,7 +647,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-05 18:10:12" itemprop="dateModified" datetime="2018-12-05T18:10:12+08:00">2018-12-05</time>
+                <time title="修改时间：2018-12-06 17:09:15" itemprop="dateModified" datetime="2018-12-06T17:09:15+08:00">2018-12-06</time>
               
             
           </span>
@@ -670,14 +682,177 @@
       
         
           
-            <p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群命名以inbound开头:<br>   inbound|9080||ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命名<br>   以outbound开头: outbound|9080||ratings.default.svc.cluster.local</p>
+            <p>注： 文中示例信息来自istio官方book用例.</p>
+<p>istio中的边车代理envoy会拦截到两类流量:</p>
+<p>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命<br>   名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p>
+<p>入流量的上游集群比较简单，一般只有一个：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"hosts": [</span><br><span class="line">               &#123;</span><br><span class="line">                        <span class="attr">"socket_address"</span>: &#123;</span><br><span class="line">                        <span class="attr">"address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">                        <span class="attr">"port_value"</span>: <span class="number">9080</span></span><br><span class="line">                    &#125;</span><br><span class="line">               &#125;</span><br><span class="line">         ]</span><br></pre></td></tr></table></figure></p>
+<p>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服<br>务的可能。</p>
+<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后到特定的集群，再按集群<br>内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。流量图大体如下：<br><img src="/2018/12/04/istio中的流量分析/in_out.png" alt="logo"><br>这个复杂的过程中,有两个重要的参数:</p>
+<p>1) litener.use_original_dst:<br>如果采有iptables重定向连接, 那么envoy接受连接的监听端口与请求连接的原始目的地址是不同的。如果listener该属性设置<br>为true，该listener将接收到的连接转交给符合请求原始地址的Listener。(透明代理获取原始地址?)由新的listener接受和<br>处理该连接请求。前一个Listener相当于只分发连接。在istio中，这个Listener命名为命virtual。到达envoy的流量统一重<br>定向到virtual listener中(监听地址为0.0.0.0:15001)，由它来选择合适的Listener处理流量。</p>
+<p>2) litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到新替代者的说明。在istio 1.0版本中仍然使用他，虽然标记已过期。该属性表示<br>Listener是否绑定主机端口。那么不绑定的端口的listener，如何接受流量？由标识use_original_dst的listener<br>(上文中的virtual listener)接受流量，并转发给他。0.0.0.0_9080和10.244.2.20_9080都是bind_to_port为false的<br>Listener,等待virtual listener分发的流量。0.0.0.0_9080接收所有9080端口的出流量，10.244.2.20_9080接受入流<br>量。</p>
+<p>Note:<br>获取envoy全配置的方法:<br>kubectl exec productpage-v1-f5fcbd489-s7tfz -c istio-proxy – curl <a href="http://127.0.0.1:15000/config_dump" target="_blank" rel="noopener">http://127.0.0.1:15000/config_dump</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/04/Istio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/04/Istio/" itemprop="url">
+                  istio中的流量分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-04 16:26:20" itemprop="dateCreated datePublished" datetime="2018-12-04T16:26:20+08:00">2018-12-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-06 16:41:47" itemprop="dateModified" datetime="2018-12-06T16:41:47+08:00">2018-12-06</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>注： 文中示例信息来自istio官方book用例.</p>
+<p>istio中的边车代理envoy会拦截到两类流量:</p>
+<p>1) 入流量: 其他Pod访问当前POD中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前POD中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命<br>   名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p>
 <p>入流量的上游集群比较简单，一般只有一个：</p>
-<p>“hosts”: [<br>               {<br>                        “socket_address”: {<br>                        “address”: “127.0.0.1”,<br>                        “port_value”: 9080<br>                    }<br>               }<br>         ]<br>这个Endpoint(127.0.0.1:9080)指向本地服务。9080是istio官方book用例所有服务采用的端口。<br>出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服务的可能。</p>
-<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，特定的集群，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。这个复杂的过程中,有两个重要的参数:</p>
-<p>litener.use_original_dst:<br>如果采有iptables重定向连接,那么envoy接受连接的监听端口与连接请求的原始地址是不同的。如果listener该属性设置为true，该listener将接收到的连接较交给符合请求原始地址的listener.由新的listener接受和处理该连接请求。前一个listener相当于分发连接。在istio中，envoy的命名为virtual的listener即是如此。到达envoy的连接统一重定向到命名为virtual的listener<br>(监听地址为0.0.0.0:15001)，由该listener来选择合适的listener处理连接。</p>
-<p>litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到替代者的说明。在istio中仍然有用他，虽然标记已过期。该属性表示当前listener是否<br>绑定端口。不绑定的端口的listener，如何接受连接？原因是use_original_dst的listener代为接受连接，并转发给他。<br>0.0.0.0_9080这个Listener接手了所有9080端口的出流量。</p>
-<p>集群名:inbound<em>/outbound</em></p>
-<p>正常情况下inbound<em>是入流量访问的服务集群,outbound</em>集群是出流量访问的集群。inbound<em>集群很简单，就一个成员监听在<br>127.0.0.1地址，端口就是本地业务服务监听的端口。这个集群的endpoint就是本地业务服务。<br>outbound</em>集群是本地业务服务可能要访问的服务集群。</p>
+<p>“hosts”: [<br>               {<br>                        “socket_address”: {<br>                        “address”: “127.0.0.1”,<br>                        “port_value”: 9080<br>                    }<br>               }<br>         ]<br>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服<br>务的可能。</p>
+<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后到特定的集群，再按集群内<br>部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。</p>
+<p>这个复杂的过程中,有两个重要的参数:</p>
+<p>litener.use_original_dst:<br>如果采有iptables重定向连接,那么envoy接受连接的监听端口与连接请求的原始地址是不同的。如果listener该属性设置为true，该listener将接收到的连接较交给符合请求原始地址的listener.由新的listener接受和处理该连接请求。前一个listener相当<br>于分发连接。在istio中，envoy的命名为virtual的listener即是如此。到达envoy的连接统一重定向到命名为virtual的<br>listener(监听地址为127.0.0.1:15001)，由该listener来选择合适的listener处理连接。</p>
+<p>litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到替代者的说明。在istio 1.0版本中仍然使用他，虽然标记已过期。该属性表示当前<br>listener是否绑定端口。不绑定的端口的listener，如何接受连接？由标识use_original_dst的listener<br>(上文中的名为virtual的listener)接受连接，并转发给他。示例中0.0.0.0_9080这个Listener接手了所有9080端口的出流量。</p>
+<p>[root@master ~]# kubectl exec productpage-v1-f5fcbd489-s7tfz -c istio-proxy – netstat -anp<br>tcp        0      0 0.0.0.0:9080            0.0.0.0:<em>               LISTEN      -<br>tcp        0      0 127.0.0.1:15000         0.0.0.0:</em>               LISTEN      13/envoy<br>tcp        0      0 0.0.0.0:15001           0.0.0.0:*               LISTEN      13/envoy<br>9080本地服务的端口，15000是envoy代理的管理端口，0.0.0.0:15001就是virtual listener的监听地址，envoy用来接收流量。<br>在evnoy的配置中看到其他listener都没有绑定端口。</p>
+<p>获取envoy全配置的方法:</p>
 
           
         
@@ -1609,180 +1784,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/26/Java线程栈中的锁信息/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="路人甲">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="路人甲's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/26/Java线程栈中的锁信息/" itemprop="url">
-                  Java线程栈中的锁信息
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-26 20:22:04" itemprop="dateCreated datePublished" datetime="2018-09-26T20:22:04+08:00">2018-09-26</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-09-27 11:05:58" itemprop="dateModified" datetime="2018-09-27T11:05:58+08:00">2018-09-27</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>  分析运行时Java应用性能问题或死锁问题时，获取线程栈中锁信息是最基本的手段。JDK5.0之后加锁存在两种方法：1.Jvm内置的synchronized 2. Java并发包中相关同步类。本篇主要讨论线程栈中表现出来的锁的信息，对于我们分析Java性能或死锁提供哪些线索。</p>
-<h3 id="情况1-Object-wait-Object-wait-int-timeout"><a href="#情况1-Object-wait-Object-wait-int-timeout" class="headerlink" title="情况1:  Object.wait()/ Object.wait(int timeout)"></a>情况1:  Object.wait()/ Object.wait(int timeout)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeWait</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Object scarce = <span class="keyword">new</span> Object();</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> SyncWaiter(scarce));</span><br><span class="line">        t.setName(<span class="string">"Test-Thread-1"</span>);</span><br><span class="line">        t.start();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SyncWaiter</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   privateObject scarce;</span><br><span class="line">   publicSyncWaiter(Object scarce)&#123;</span><br><span class="line">      <span class="keyword">this</span>.scarce = scarce;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   publicvoidrun() &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (scarce) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                scarce.wait();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"Test-Thread-1" #10 prio=5os_prio=0 tid=0x0000000058709800 nid=0x1d14 in Object.wait() [0x000000005930f000]</span><br><span class="line">  java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">       at java.lang.Object.wait(Native Method)</span><br><span class="line">       - waiting on &lt;<span class="number">0x00000000d7ac6058</span>&gt;(a java.lang.Object)</span><br><span class="line">       at java.lang.Object.wait(Object.java:<span class="number">502</span>)</span><br><span class="line">       at org.guojje.SyncWaiter.run(InvokeWait.java:<span class="number">23</span>)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d7ac6058</span>&gt; (ajava.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br></pre></td></tr></table></figure>
-<p>这种情况下，线程处于WAITING状态，等待获取对象锁，该线程必须先锁定了该对象(即进入synchronized区域)，才可以调用wait方法(画重点)，并在调用wait方法后释放对象锁，并进入对象锁Wait Set队列等待被唤醒。WAITING状态的线程必须有对应的notify唤醒。这与后面遇到Blocked状态的线程不同，Blocked是不需要唤醒的。<br>备注：<br>     1) 每一个Java对象与生俱来带有唯一一把对象锁(叫Intrinsic lock或Monitor)。<br>      2) (a java.lang.Object)表示资源的类名，这里为一个Object对象。<br>      3) 当调用带有时间参数的Wait方法，这时线程状态显示TIMED_WAITING。<br>      4）Wait Set队列与下面的Entry Set队列的含义，可自行Google。</p>
-<h3 id="情况2-资源争用"><a href="#情况2-资源争用" class="headerlink" title="情况2: 资源争用"></a>情况2: 资源争用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Share</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">     Object scarce = <span class="keyword">new</span> Object();</span><br><span class="line">     Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> SyncLock2(scarce));</span><br><span class="line">     thread.setName(<span class="string">"Test-thrad-1"</span>);</span><br><span class="line">     Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> SyncLock2(scarce));</span><br><span class="line">     thread2.setName(<span class="string">"Test-thrad-2"</span>);</span><br><span class="line">     thread.start();</span><br><span class="line">     thread2.start();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SyncLock2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> Object scarce;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">SyncLock2</span><span class="params">(Object scarce)</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.scarce = scarce;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">synchronized</span> (scarce) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">             System.in.read();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-2" #11 prio=5os_prio=0 tid=0x0000000058a09000 nid=0x1c94 waiting for monitor entry [0x00000000595af000]</span><br><span class="line">  java.lang.Thread.State: BLOCKED (on object monitor)</span><br><span class="line">       at org.guojje.SyncLock2.run(Share.java:<span class="number">28</span>)</span><br><span class="line">       - waiting to lock &lt;<span class="number">0x00000000d7ac5f48</span>&gt;(a java.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x0000000058a08800 nid=0x1eb8 runnable [0x00000000596ce000]</span><br><span class="line">  java.lang.Thread.State: RUNNABLE</span><br><span class="line">       at java.io.FileInputStream.readBytes(Native Method)</span><br><span class="line">       at java.io.FileInputStream.read(FileInputStream.java:<span class="number">246</span>)</span><br><span class="line">       at java.io.BufferedInputStream.fill(BufferedInputStream.java:<span class="number">246</span>)</span><br><span class="line">       at java.io.BufferedInputStream.read(BufferedInputStream.java:<span class="number">265</span>)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d79d8d38</span>&gt; (ajava.io.BufferedInputStream)</span><br><span class="line">       at org.guojje.SyncLock2.run(Share.java:<span class="number">28</span>)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d7ac5f48</span>&gt; (a java.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br></pre></td></tr></table></figure>
-<p>Test-thrad-2处于BLOCKED状态，说明线程Test-thrad-2进入synchronized临界区, 进入对象锁的Entry Set队列并等待对象锁0x00000000d79d8d38的释放。通过定位locked <0x00000000d79d8d38>，我们很容易发现哪个线程正在占用这把锁。在性能分析过程，如果发现大量的BLOCKED线程，我们就需要分析谁当前持有这把锁，而且长时间没有释放。 通过locked指示的代码行，我们很容易定位到加锁位置。然后进行降低锁粒度等手段，减少线程加锁的持续时间，从而优化性能。</0x00000000d79d8d38></p>
-<h3 id="情况3-死锁"><a href="#情况3-死锁" class="headerlink" title="情况3 死锁"></a>情况3 死锁</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Object scarce = <span class="keyword">new</span> Object();</span><br><span class="line">        Object scarce2 = <span class="keyword">new</span> Object();</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> DeadLock(scarce, scarce2));</span><br><span class="line">        thread.setName(<span class="string">"Test-thrad-1"</span>);</span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> DeadLock(scarce2, scarce));</span><br><span class="line">        thread2.setName(<span class="string">"Test-thrad-2"</span>);</span><br><span class="line">        thread.start();</span><br><span class="line">       thread2.start();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DeadLock</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> Object scarce;</span><br><span class="line">   <span class="keyword">private</span> Object scarce2;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">DeadLock</span><span class="params">(Object scarce,Object scarce2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.scarce = scarce;</span><br><span class="line">        <span class="keyword">this</span>.scarce2 = scarce2;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (scarce) &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (scarce2) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="keyword">new</span> Socket(<span class="string">"localhost"</span>,<span class="number">443</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-2" #11 prio=5 os_prio=0tid=0x00000000185c7800 nid=0x2b88 waiting for monitor entry [0x00000000196bf000]</span><br><span class="line">  java.lang.Thread.State: BLOCKED (on object monitor)</span><br><span class="line">       at org.guojje.DeadLock.run(DeadLock.java:<span class="number">21</span>)</span><br><span class="line">       - waiting to lock &lt;<span class="number">0x00000000d7ac5e90</span>&gt;(a java.lang.Object)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d7ac5ea0</span>&gt;(a java.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x00000000185c2800 nid=0x281c waiting for monitor entry [0x00000000194bf000]</span><br><span class="line">  java.lang.Thread.State: BLOCKED (on object monitor)</span><br><span class="line">      at org.guojje.DeadLock.run(DeadLock.java:<span class="number">21</span>)</span><br><span class="line">      - waiting to lock &lt;<span class="number">0x00000000d7ac5ea0</span>&gt;(a java.lang.Object)</span><br><span class="line">      - locked &lt;<span class="number">0x00000000d7ac5e90</span>&gt; (ajava.lang.Object)</span><br><span class="line">      at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br></pre></td></tr></table></figure>
-<p>Test-thrad-2线程拿到了0x00000000d7ac5ea0锁，在等待x00000000d7ac5e90锁，而Test-thrad-1刚好相反，发生了死锁的条件, 而且从线程栈很容易定位这些锁是在哪一行代码获取的，且又在哪一行代码阻塞的。JVM线程栈信息的尾端提供了更详细的死锁环的信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Found one Java-level deadlock:</span><br><span class="line">=============================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line"> waiting to lock monitor <span class="number">0x0000000017235028</span> (object <span class="number">0x00000000d7ac5e90</span>, a java.lang.Object),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-1"</span></span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line"> waiting to lock monitor <span class="number">0x00000000172350d8</span> (object <span class="number">0x00000000d7ac5ea0</span>, a java.lang.Object),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-2"</span></span><br><span class="line">Java stack information <span class="keyword">for</span> the threadslisted above:</span><br><span class="line">===================================================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line">       at org.guojje.DeadLock.run(DeadLock.java:<span class="number">21</span>)</span><br><span class="line">       - waiting to lock &lt;<span class="number">0x00000000d7ac5e90</span>&gt;(a java.lang.Object)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d7ac5ea0</span>&gt;(a java.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line">       at org.guojje.DeadLock.run(DeadLock.java:<span class="number">21</span>)</span><br><span class="line">       - waiting to lock &lt;<span class="number">0x00000000d7ac5ea0</span>&gt;(a java.lang.Object)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d7ac5e90</span>&gt; (a java.lang.Object)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">Found <span class="number">1</span> deadlock.</span><br></pre></td></tr></table></figure></p>
-<p>你会发现JDK内置的synchronized加锁方式，你会发现问题分析死锁问题非常容易。这个例子就是因为竞争线程对资源的加锁顺序不同，导致死锁。而保持相同的加锁顺序是解决这类死锁问题关健。<br>对于内置的synchronized的同步方式，线程栈提供了足够的信息让我们分析与定位问题。但synchronized不够灵活等，使Java并发包更受程序序员青睐，但同时也为分析这类问题代来复杂性。</p>
-<h3 id="情况1"><a href="#情况1" class="headerlink" title="情况1"></a>情况1</h3><p>同样，我们先看一个ReentrantLock（重入锁的）await方法(与Ojbect.wait区别开来)的调用情况。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> RTLock());</span><br><span class="line">        thread.setName(<span class="string">"Test-thrad-1"</span>);</span><br><span class="line">        thread.start();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RTLock</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> ReentrantLock lock= newReentrantLock();</span><br><span class="line">   <span class="keyword">public</span> Condition scarce= lock.newCondition();</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">RTLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            scarce.await();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x00000000189d0800 nid=0x2da8 waiting on condition [0x000000001968e000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parkingto wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac9088</span>&gt;(a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:<span class="number">2039</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(RTLock.java:<span class="number">18</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br></pre></td></tr></table></figure>
-<p>显示与synchronized有些不同。Synchronized显示为Wait on，这里- parking to wait for。<br>另外可以发现调用栈再也找不到locked字眼了,虽然你确认该线程一定locked过这把锁（否则无法调用await）。因为这个原因，为定位加锁位置带来难度。</p>
-<h3 id="情况2-资源争用-1"><a href="#情况2-资源争用-1" class="headerlink" title="情况2 资源争用"></a>情况2 资源争用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> RTLock(lock));</span><br><span class="line">        thread.setName(<span class="string">"Test-thrad-1"</span>);</span><br><span class="line">        Thread thread2 =  <span class="keyword">new</span> Thread(<span class="keyword">new</span> RTLock(lock));</span><br><span class="line">        thread2.setName(<span class="string">"Test-thrad-2"</span>);</span><br><span class="line">        thread.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RTLock</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> ReentrantLock lock;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">RTLock</span><span class="params">(ReentrantLock lock)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lock = lock;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.in.read();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-2" #11 prio=5os_prio=0 tid=0x0000000018802000 nid=0x3368 waiting on condition [0x000000001965f000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac72a8</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">        at com.guojje2.RTLock.run(Main.java:<span class="number">33</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">Locked ownable synchronizers:</span><br><span class="line">    - None</span><br><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x0000000018801800 nid=0x2d3c runnable [0x000000001933f000]</span><br><span class="line">  java.lang.Thread.State: RUNNABLE</span><br><span class="line">       at java.io.FileInputStream.readBytes(Native Method)</span><br><span class="line">       at java.io.FileInputStream.read(FileInputStream.java:<span class="number">246</span>)</span><br><span class="line">       at java.io.BufferedInputStream.fill(BufferedInputStream.java:<span class="number">246</span>)</span><br><span class="line">       at java.io.BufferedInputStream.read(BufferedInputStream.java:<span class="number">265</span>)</span><br><span class="line">       - locked &lt;<span class="number">0x00000000d79d8d38</span>&gt; (a java.io.BufferedInputStream)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">  Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac72a8</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br></pre></td></tr></table></figure>
-<p>如果是synchronized的方式，Test-thrad-2线程应该是Blocked状态，但这里为WAITING。这也是内置锁与JUL锁的不同。<br>注： 只要看Blocked状态的线程，代码一定是用synchronized作的同步。<br>在线程栈中多出了Locked ownable synchronizers条目。这是用jstack-l打印出来。（-l表示打印更详细的栈信息）。Java已经做了努力，弥补线程栈没有locked信息的缺陷。假如没有这个条目，无法确认Test-thrad-2等待的锁被哪一个线程持有。即便如此，还是无法定位加锁的代码位置，目前本人并没有找到更好的方法，只能翻代码了。<br>Ownable synchronizers这里的ownable的可以理解为，可被霸占的，即抢到就只属于你的。（有的邪恶哦？）<br>所以Locked ownable synchronizers只会列出排他锁，如ReentrantLock锁和ReentrantReadWriteLock的写锁，而对于ReentrantReadWriteLock读是不会显示的。因为他不算排他锁(ownable)。某些情况下，这一点也为定位问题加在难度。<br>注：- locked <0x00000000d79d8d38> (a java.io.BufferedInputStream)是BufferedInputStream.read上的锁不要搞混.</0x00000000d79d8d38></p>
-<h3 id="情况3-死锁-1"><a href="#情况3-死锁-1" class="headerlink" title="情况3 死锁"></a>情况3 死锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">       ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">       ReentrantLock lock2 = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">       Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> RTLock(lock, lock2));</span><br><span class="line">       thread.setName(<span class="string">"Test-thrad-1"</span>);</span><br><span class="line">       Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> RTLock(lock2, lock));</span><br><span class="line">       thread2.setName(<span class="string">"Test-thrad-2"</span>);</span><br><span class="line">       thread.start();</span><br><span class="line">       thread2.start();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RTLock</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> ReentrantLock lock;</span><br><span class="line">   <span class="keyword">private</span> ReentrantLock lock2;</span><br><span class="line">   publicRTLock(ReentrantLock lock, ReentrantLock lock2) &#123;</span><br><span class="line">       <span class="keyword">this</span>.lock = lock;</span><br><span class="line">        <span class="keyword">this</span>.lock2 = lock2;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            lock.lock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                lock2.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock2.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                lock.unlock();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">"Test-thrad-2" #11 prio=5os_prio=0 tid=0x0000000018871000 nid=0x2588 waiting on condition [0x00000000198ef000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span> &lt;<span class="number">0x00000000d7ac7388</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">  Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac73b8</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">"Test-thrad-1" #10 prio=5os_prio=0 tid=0x0000000018870000 nid=0x2fb0 waiting on condition [0x00000000184ae000]</span><br><span class="line">  java.lang.Thread.State: WAITING (parking)</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span> &lt;<span class="number">0x00000000d7ac73b8</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">35</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"> Locked ownable synchronizers:</span><br><span class="line">       - &lt;<span class="number">0x00000000d7ac7388</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">Found one Java-level deadlock:</span><br><span class="line">=============================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line"> waiting <span class="keyword">for</span> ownable synchronizer <span class="number">0x00000000d7ac71a0</span>,(a java.util.concurrent.locks.ReentrantLock$NonfairSync),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-1"</span></span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line"> waiting <span class="keyword">for</span> ownable synchronizer <span class="number">0x00000000d7ac71d0</span>, (a java.util.concurrent.locks.ReentrantLock$NonfairSync),</span><br><span class="line"> which is held by <span class="string">"Test-thrad-2"</span></span><br><span class="line">.</span><br><span class="line">Java stack information <span class="keyword">for</span> the threadslisted above:</span><br><span class="line">===================================================</span><br><span class="line"><span class="string">"Test-thrad-2"</span>:</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac71a0</span>&gt; (a java.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">41</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line"><span class="string">"Test-thrad-1"</span>:</span><br><span class="line">       at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">       - parking to wait <span class="keyword">for</span>  &lt;<span class="number">0x00000000d7ac71d0</span>&gt; (ajava.util.concurrent.locks.ReentrantLock$NonfairSync)</span><br><span class="line">       at java.util.concurrent.locks.LockSupport.park(LockSupport.java:<span class="number">175</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(AbstractQueuedSynchronizer.java:<span class="number">836</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(AbstractQueuedSynchronizer.java:<span class="number">870</span>)</span><br><span class="line">       at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(AbstractQueuedSynchronizer.java:<span class="number">1199</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(ReentrantLock.java:<span class="number">209</span>)</span><br><span class="line">       at java.util.concurrent.locks.ReentrantLock.lock(ReentrantLock.java:<span class="number">285</span>)</span><br><span class="line">       at com.guojje2.RTLock.run(Main.java:<span class="number">41</span>)</span><br><span class="line">       at java.lang.Thread.run(Thread.java:<span class="number">745</span>)</span><br><span class="line">Found <span class="number">1</span> deadlock.</span><br></pre></td></tr></table></figure>
-<p>借助Locked ownable synchronizers，确认哪些线程位于死锁的环形竞争中，还是比较容易。先到这吧。。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1823,7 +1831,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
