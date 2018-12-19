@@ -110,18 +110,20 @@
 
 
 
-  <meta name="description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
+  <meta name="description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called forthis response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="红黑树">
-<meta property="og:url" content="https://guojjanjun.github.io/2018/09/30/红黑树/index.html">
+<meta property="og:title" content="getOutputStream() has already been called for this response的来路">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/12/19/getOutputStream-has-already-been-called-for-this-response的来路/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
+<meta property="og:description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called forthis response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-30T03:38:59.803Z">
+<meta property="og:updated_time" content="2018-12-19T09:21:05.580Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="红黑树">
-<meta name="twitter:description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
+<meta name="twitter:title" content="getOutputStream() has already been called for this response的来路">
+<meta name="twitter:description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called forthis response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -129,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2018/09/30/红黑树/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/12/19/getOutputStream-has-already-been-called-for-this-response的来路/"/>
 
 
 
@@ -139,7 +141,7 @@
   };
 </script>
 
-  <title>红黑树 | 路人甲's Notes</title>
+  <title>getOutputStream() has already been called for this response的来路 | 路人甲's Notes</title>
   
 
 
@@ -288,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/30/红黑树/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/19/getOutputStream-has-already-been-called-for-this-response的来路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -305,7 +307,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">红黑树
+          <h1 class="post-title" itemprop="name headline">getOutputStream() has already been called for this response的来路
               
             
           </h1>
@@ -330,7 +332,7 @@
                 
               
 
-              <time title="创建时间：2018-09-30 11:36:42 / 修改时间：11:38:59" itemprop="dateCreated datePublished" datetime="2018-09-30T11:36:42+08:00">2018-09-30</time>
+              <time title="创建时间：2018-12-19 16:24:37 / 修改时间：17:21:05" itemprop="dateCreated datePublished" datetime="2018-12-19T16:24:37+08:00">2018-12-19</time>
             
 
             
@@ -368,7 +370,15 @@
       
 
       
-        <p>这个博客讲得很详细：<a href="https://blog.csdn.net/johnny901114/article/details/81046088" target="_blank" rel="noopener">https://blog.csdn.net/johnny901114/article/details/81046088</a></p>
+        <p>   除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called for<br>this response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中<br>是为strict servlet API: cannot call getWriter() after getOutputStream 或 strict servlet API: cannot<br>call getOutputStream() after getWriter。</p>
+<p>   意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和getOutputStream都是servlet引擎用<br>来向响应报文中写入数据的方法。那为什么要限制同时使用呢?<br>   getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()返回ServletOutputStream<br>其接口为OutputStream，所以getOutputStream()用来写入字节流。<br>   getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一样。如果两个管子同时向响应报文<br>中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。<br>   有问到，既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时用了。其实<br>PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集去转换. （Tomcat提供了<br>ENFORCE_ENCODING_IN_GET_WRITER参数). 具体其他的原因，只能咨询规范的作者了。在Servlet2.5规范SRV.15.2.22节提到:<br>Either this method or getWriter() may be called to write the body, not both.</p>
+<p>   什么情况什么出现前文提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件时等。大多程序员<br>会把这些业务放在Jsp中，然后通过response.getOutputStream().write(fileStream)输出数据。然而Jsp页面中的HTML内容是通过<br>out.write输出的, 这个out其实就response.getWriter()的值。这样就会在你不经意中被调用response.getWriter()，可能位于<br>response.getOutputStream()调用之前，也可能在之后。无论如何，异常是跑不了啦。<br>解决这类问题的方法当前很简单，规避response.getWriter()的调用:</p>
+<ol>
+<li>为什么不用Servlet输出验证码，导出文件？</li>
+<li><p>如果确要用JSP文件，有时候可能只是JSP中的一个空格，引起了response.getWriter()的调用。最好的办法看编译后的java文件，<br>有没有out.write操作。有的话，检查JSP哪一行引起的。删除即可。</p>
+<p>我们发现大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用出现的，而且这个调用非常大的机率是不需要的，<br>调用他的时候响应报文大概已经在去向客户端的路上了。</p>
+</li>
+</ol>
 
       
     </div>
@@ -396,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/26/Java线程栈中的锁信息/" rel="next" title="Java线程栈中的锁信息">
-                <i class="fa fa-chevron-left"></i> Java线程栈中的锁信息
+              <a href="/2018/12/06/Maven使用过程中的几个细节/" rel="next" title="Maven使用过程中的几个细节">
+                <i class="fa fa-chevron-left"></i> Maven使用过程中的几个细节
               </a>
             
           </div>
@@ -405,10 +415,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/17/线程模型/" rel="prev" title="线程模型">
-                线程模型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -660,7 +666,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/09/30/红黑树/'
+        refer: '2018/12/19/getOutputStream-has-already-been-called-for-this-response的来路/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];
