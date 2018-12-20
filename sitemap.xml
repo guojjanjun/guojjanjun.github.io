@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/</loc>
+    
+    <lastmod>2018-12-20T12:00:24.137Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://guojjanjun.github.io/2018/12/04/Istio_Network_Analysis/</loc>
     
-    <lastmod>2018-12-20T10:22:27.355Z</lastmod>
+    <lastmod>2018-12-20T11:49:19.276Z</lastmod>
     
   </url>
   
@@ -12,13 +19,6 @@
     <loc>https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/</loc>
     
     <lastmod>2018-12-20T10:17:29.961Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/</loc>
-    
-    <lastmod>2018-12-20T10:15:14.783Z</lastmod>
     
   </url>
   
