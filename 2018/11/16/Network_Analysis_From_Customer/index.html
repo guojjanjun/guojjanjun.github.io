@@ -113,24 +113,24 @@
   <meta name="description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次现场问题的网络分析">
-<meta property="og:url" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/index.html">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
 <meta property="og:description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/0.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/1.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/2.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/t1.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/23.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/24.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/26.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/27.png">
-<meta property="og:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/t2.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/0.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/1.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/2.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/t1.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/23.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/24.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/26.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/27.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/t2.png">
 <meta property="og:updated_time" content="2018-11-16T12:36:55.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次现场问题的网络分析">
 <meta name="twitter:description" content="现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,2409:8018:5c00:201::209。从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：前">
-<meta name="twitter:image" content="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/0.png">
+<meta name="twitter:image" content="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/0.png">
 
 
 
@@ -139,7 +139,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/"/>
 
 
 
@@ -298,7 +298,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
