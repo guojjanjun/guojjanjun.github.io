@@ -5,9 +5,9 @@
   <subtitle>&lt;a href=&quot;http://blog.51cto.com/guojuanjun&quot;&gt;http://blog.51cto.com/guojuanjun&lt;/a&gt; 不再更新</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://guojjanjun.github.io/"/>
+  <link href="https://guojjanjun.coding.me/"/>
   <updated>2018-12-20T10:15:14.783Z</updated>
-  <id>https://guojjanjun.github.io/</id>
+  <id>https://guojjanjun.coding.me/</id>
   
   <author>
     <name>路人甲</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>getOutputStream() has already been called for this response的来路</title>
-    <link href="https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/"/>
-    <id>https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/</id>
+    <link href="https://guojjanjun.coding.me/2018/12/19/getOutputStream_Has_Been_Called/"/>
+    <id>https://guojjanjun.coding.me/2018/12/19/getOutputStream_Has_Been_Called/</id>
     <published>2018-12-19T08:24:37.000Z</published>
     <updated>2018-12-20T10:15:14.783Z</updated>
     
@@ -39,8 +39,8 @@
   
   <entry>
     <title>Maven使用过程中的几个细节</title>
-    <link href="https://guojjanjun.github.io/2018/12/06/Maven_Some_Tips/"/>
-    <id>https://guojjanjun.github.io/2018/12/06/Maven_Some_Tips/</id>
+    <link href="https://guojjanjun.coding.me/2018/12/06/Maven_Some_Tips/"/>
+    <id>https://guojjanjun.coding.me/2018/12/06/Maven_Some_Tips/</id>
     <published>2018-12-06T06:17:22.000Z</published>
     <updated>2018-12-06T07:48:03.325Z</updated>
     
@@ -60,8 +60,8 @@
   
   <entry>
     <title>什么是response has been committed</title>
-    <link href="https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/"/>
-    <id>https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/</id>
+    <link href="https://guojjanjun.coding.me/2018/12/05/Response_Has_Committed/"/>
+    <id>https://guojjanjun.coding.me/2018/12/05/Response_Has_Committed/</id>
     <published>2018-12-05T07:15:07.000Z</published>
     <updated>2018-12-20T10:17:29.961Z</updated>
     
@@ -81,8 +81,8 @@
   
   <entry>
     <title>istio中的流量分析</title>
-    <link href="https://guojjanjun.github.io/2018/12/04/Istio_Network_Analysis/"/>
-    <id>https://guojjanjun.github.io/2018/12/04/Istio_Network_Analysis/</id>
+    <link href="https://guojjanjun.coding.me/2018/12/04/Istio_Network_Analysis/"/>
+    <id>https://guojjanjun.coding.me/2018/12/04/Istio_Network_Analysis/</id>
     <published>2018-12-04T08:26:20.000Z</published>
     <updated>2018-12-20T10:22:27.355Z</updated>
     
@@ -103,8 +103,8 @@
   
   <entry>
     <title>CPU主频与MIPS</title>
-    <link href="https://guojjanjun.github.io/2018/11/26/CPU_MIPS/"/>
-    <id>https://guojjanjun.github.io/2018/11/26/CPU_MIPS/</id>
+    <link href="https://guojjanjun.coding.me/2018/11/26/CPU_MIPS/"/>
+    <id>https://guojjanjun.coding.me/2018/11/26/CPU_MIPS/</id>
     <published>2018-11-26T08:52:47.000Z</published>
     <updated>2018-12-20T08:57:31.711Z</updated>
     
@@ -124,8 +124,8 @@
   
   <entry>
     <title>面向对象众生相</title>
-    <link href="https://guojjanjun.github.io/2018/11/22/OOP_Kinds/"/>
-    <id>https://guojjanjun.github.io/2018/11/22/OOP_Kinds/</id>
+    <link href="https://guojjanjun.coding.me/2018/11/22/OOP_Kinds/"/>
+    <id>https://guojjanjun.coding.me/2018/11/22/OOP_Kinds/</id>
     <published>2018-11-22T11:35:36.000Z</published>
     <updated>2018-12-20T09:03:22.045Z</updated>
     
@@ -145,8 +145,8 @@
   
   <entry>
     <title>一次现场问题的网络分析</title>
-    <link href="https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/"/>
-    <id>https://guojjanjun.github.io/2018/11/16/Network_Analysis_From_Customer/</id>
+    <link href="https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/"/>
+    <id>https://guojjanjun.coding.me/2018/11/16/Network_Analysis_From_Customer/</id>
     <published>2018-11-16T09:06:04.000Z</published>
     <updated>2018-11-16T12:36:55.649Z</updated>
     
@@ -166,8 +166,8 @@
   
   <entry>
     <title>VMWare网络不通一个可能原因分析</title>
-    <link href="https://guojjanjun.github.io/2018/11/08/VMWare_Network_Deos_Not_Work/"/>
-    <id>https://guojjanjun.github.io/2018/11/08/VMWare_Network_Deos_Not_Work/</id>
+    <link href="https://guojjanjun.coding.me/2018/11/08/VMWare_Network_Deos_Not_Work/"/>
+    <id>https://guojjanjun.coding.me/2018/11/08/VMWare_Network_Deos_Not_Work/</id>
     <published>2018-11-08T10:00:59.000Z</published>
     <updated>2018-11-08T11:55:16.909Z</updated>
     
@@ -187,8 +187,8 @@
   
   <entry>
     <title>线程模型</title>
-    <link href="https://guojjanjun.github.io/2018/10/17/Thread_Model/"/>
-    <id>https://guojjanjun.github.io/2018/10/17/Thread_Model/</id>
+    <link href="https://guojjanjun.coding.me/2018/10/17/Thread_Model/"/>
+    <id>https://guojjanjun.coding.me/2018/10/17/Thread_Model/</id>
     <published>2018-10-17T09:17:39.000Z</published>
     <updated>2018-10-17T12:04:34.418Z</updated>
     
@@ -208,8 +208,8 @@
   
   <entry>
     <title>红黑树</title>
-    <link href="https://guojjanjun.github.io/2018/09/30/RedBlack_Tree/"/>
-    <id>https://guojjanjun.github.io/2018/09/30/RedBlack_Tree/</id>
+    <link href="https://guojjanjun.coding.me/2018/09/30/RedBlack_Tree/"/>
+    <id>https://guojjanjun.coding.me/2018/09/30/RedBlack_Tree/</id>
     <published>2018-09-30T03:36:42.000Z</published>
     <updated>2018-09-30T03:38:59.803Z</updated>
     
@@ -229,8 +229,8 @@
   
   <entry>
     <title>Java线程栈中的锁信息</title>
-    <link href="https://guojjanjun.github.io/2018/09/26/Java%E7%BA%BF%E7%A8%8B%E6%A0%88%E4%B8%AD%E7%9A%84%E9%94%81%E4%BF%A1%E6%81%AF/"/>
-    <id>https://guojjanjun.github.io/2018/09/26/Java线程栈中的锁信息/</id>
+    <link href="https://guojjanjun.coding.me/2018/09/26/Java%E7%BA%BF%E7%A8%8B%E6%A0%88%E4%B8%AD%E7%9A%84%E9%94%81%E4%BF%A1%E6%81%AF/"/>
+    <id>https://guojjanjun.coding.me/2018/09/26/Java线程栈中的锁信息/</id>
     <published>2018-09-26T12:22:04.000Z</published>
     <updated>2018-09-27T03:05:58.904Z</updated>
     
