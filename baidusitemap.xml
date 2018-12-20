@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/</loc>
+    <lastmod>2018-12-20T09:41:41.905Z</lastmod>
+  </url>  <url>
     <loc>https://guojjanjun.github.io/2018/11/22/OOP_Kinds/</loc>
     <lastmod>2018-12-20T09:03:22.045Z</lastmod>
   </url>  <url>
@@ -12,9 +15,6 @@
   </url>  <url>
     <loc>https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/</loc>
     <lastmod>2018-12-20T08:53:27.109Z</lastmod>
-  </url>  <url>
-    <loc>https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/</loc>
-    <lastmod>2018-12-20T08:50:20.739Z</lastmod>
   </url>  <url>
     <loc>https://guojjanjun.github.io/2018/12/06/Maven_Some_Tips/</loc>
     <lastmod>2018-12-06T07:48:03.325Z</lastmod>
