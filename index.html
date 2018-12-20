@@ -807,7 +807,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-20 16:56:21" itemprop="dateModified" datetime="2018-12-20T16:56:21+08:00">2018-12-20</time>
+                <time title="修改时间：2018-12-20 18:22:27" itemprop="dateModified" datetime="2018-12-20T18:22:27+08:00">2018-12-20</time>
               
             
           </span>
@@ -843,11 +843,11 @@
         
           
             <p>注： 文中示例信息来自istio官方book示例.</p>
-<p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前Pod中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前Pod中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量<br>   访问的集群命名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p>
+<p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前Pod中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前Pod中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服<br>务。入流量访问的集群命名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p>
 <p>入流量的上游集群比较简单，一般只有一个：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"hosts": [</span><br><span class="line">               &#123;</span><br><span class="line">                        <span class="attr">"socket_address"</span>: &#123;</span><br><span class="line">                        <span class="attr">"address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">                        <span class="attr">"port_value"</span>: <span class="number">9080</span></span><br><span class="line">                    &#125;</span><br><span class="line">               &#125;</span><br><span class="line">         ]</span><br></pre></td></tr></table></figure></p>
-<p>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前POD的本地服务<br>有访问任何服务的可能。</p>
-<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后到特定的集群<br>，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。流量图大体如下：<br><img src="/2018/12/04/Istio_Network_Analysis/in_out.png" alt="logo"><br>这个复杂的过程中,有两个重要的参数:<br>1) litener.use_original_dst:<br>如果采有iptables重定向连接, 那么envoy接受连接的监听端口与请求连接的原始目的地址是不同的。如果listener<br>该属性设置为true，该listener将接收到的连接转交给符合请求原始地址的Listener。(透明代理获取原始地址?)<br>由新的listener接受和处理该连接请求。前一个Listener相当于只分发连接。在istio中，这个Listener命名为命<br>virtual。到达envoy的流量统一重定向到virtual listener中(监听地址为0.0.0.0:15001)，由它来选择合适的<br>Listener处理流量。</p>
-<p>2) litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到新替代者的说明。在istio 1.0版本中仍然使用他，但标记已过期。该属性<br>表示Listener是否绑定主机端口。那么不绑定的端口的Listener，如何接受流量？是由标识use_original_dst的<br>Listener(上文中的virtual Listener)接受流量，并转发给他。0.0.0.0_9080和10.244.2.20_9080都是<br>bind_to_port为false的Listener,等待virtual listener分发的流量。0.0.0.0_9080接收所有9080端口的出流<br>量，10.244.2.20_9080接受入流量。<br><img src="/2018/12/04/Istio_Network_Analysis/netstat.png" alt="logo"><br>9080本地服务的端口，15000是envoy代理的管理端口，0.0.0.0:15001就是virtual listener的监听地址，envoy<br>用来接收流量。在evnoy的配置中看到其他listener都没有绑定端口。</p>
+<p>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前<br>POD的本地服务有访问任何服务的可能。</p>
+<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后<br>到特定的集群，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。<br>流量图大体如下：<br><img src="/2018/12/04/Istio_Network_Analysis/in_out.png" alt="logo"><br>这个复杂的过程中,有两个重要的参数:<br>1) litener.use_original_dst:<br>如果采有iptables重定向连接, 那么envoy接受连接的监听端口与请求连接的原始目的地址是不同的。<br>如果listener该属性设置为true，该listener将接收到的连接转交给符合请求原始地址的Listener。<br>(透明代理获取原始地址?)由新的listener接受和处理该连接请求。前一个Listener相当于只分发连<br>接。在istio中，这个Listener命名为命virtual。到达envoy的流量统一重定向到virtual listener<br>中(监听地址为0.0.0.0:15001)，由它来选择合适的Listener处理流量。</p>
+<p>2) litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到新替代者的说明。在istio 1.0版本中仍然使用他，但标记<br>已过期。该属性表示Listener是否绑定主机端口。那么不绑定的端口的Listener，如何接受流量？<br>是由标识use_original_dst的Listener(上文中的virtual Listener)接受流量，并转发给他。<br>0.0.0.0_9080和10.244.2.20_9080都是bind_to_port为false的Listener,等待virtual listener<br>分发的流量。0.0.0.0_9080接收所有9080端口的出流量，10.244.2.20_9080接受入流量。<br><img src="/2018/12/04/Istio_Network_Analysis/netstat.png" alt="logo"><br>9080本地服务的端口，15000是envoy代理的管理端口，0.0.0.0:15001就是virtual listener的监<br>听地址，envoy用来接收流量。在evnoy的配置中看到其他listener都没有绑定端口。</p>
 <p>Note:<br>获取envoy全配置的方法:<br>kubectl exec productpage-v1-f5fcbd489-s7tfz -c istio-proxy – curl <a href="http://127.0.0.1:15000/config_dump" target="_blank" rel="noopener">http://127.0.0.1:15000/config_dump</a></p>
 
           
