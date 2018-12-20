@@ -110,13 +110,17 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="路人甲&#39;s Notes">
-<meta property="og:url" content="https://guojjanjun.github.io/archives/2018/index.html">
+  <meta name="description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called forthis response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="getOutputStream() has already been called for this response的来路">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
+<meta property="og:description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called forthis response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-19T09:38:55.695Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="路人甲&#39;s Notes">
+<meta name="twitter:title" content="getOutputStream() has already been called for this response的来路">
+<meta name="twitter:description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called forthis response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet">
 
 
 
@@ -125,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/archives/2018/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/"/>
 
 
 
@@ -135,7 +139,7 @@
   };
 </script>
 
-  <title>归档 | 路人甲's Notes</title>
+  <title>getOutputStream() has already been called for this response的来路 | 路人甲's Notes</title>
   
 
 
@@ -182,7 +186,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,7 +235,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
@@ -243,19 +247,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -281,408 +272,176 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
+  
 
-      
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/19/getOutputStream_Has_Been_Called/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">getOutputStream() has already been called for this response的来路
+              
+            
+          </h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-19 16:24:37 / 修改时间：17:38:55" itemprop="dateCreated datePublished" datetime="2018-12-19T16:24:37+08:00">2018-12-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/19/getOutputStream_Has_Been_Called/" itemprop="url">
-              
-                <span itemprop="name">getOutputStream() has already been called for this response的来路</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-19T16:24:37+08:00"
-              content="2018-12-19" >
-          12-19
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/06/Maven_Some_Tips/" itemprop="url">
-              
-                <span itemprop="name">Maven使用过程中的几个细节</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-06T14:17:22+08:00"
-              content="2018-12-06" >
-          12-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/05/Response_Committed/" itemprop="url">
-              
-                <span itemprop="name">什么是response has been committed</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-05T15:15:07+08:00"
-              content="2018-12-05" >
-          12-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>   除了上篇的response has been committed，另一个常见的异常getOutputStream() has already been called for<br>this response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中<br>是为strict servlet API: cannot call getWriter() after getOutputStream 或 strict servlet API: cannot<br>call getOutputStream() after getWriter。</p>
+<p>   意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和getOutputStream都是servlet引擎用<br>来向响应报文中写入数据的方法。那为什么要限制同时使用呢?<br>getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()返回ServletOutputStream<br>其接口为OutputStream，所以getOutputStream()用来写入字节流。<br>   getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一样。如果两个管子同时向响应<br>报文中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。<br>   有问到，既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时用了。其实<br> PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集去转换. （Tomcat提供了<br>ENFORCE_ENCODING_IN_GET_WRITER参数). 具体其他的原因，只能咨询规范的作者了。在Servlet2.5规范SRV.15.2.22节提到:<br>Either this method or getWriter() may be called to write the body, not both.</p>
+<p>   什么情况什么出现前文提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件时等。大多<br>程序员会把这些业务放在Jsp中，然后通过response.getOutputStream().write(fileStream)输出数据。然而Jsp页面中的HTML<br>内容是通过out.write输出的, 这个out其实就response.getWriter()的值。这样就会在你不经意中被调用response.getWriter()，<br>可能位于response.getOutputStream()调用之前，也可能在之后。无论如何，异常是跑不了啦。<br>解决这类问题的方法当前很简单，规避response.getWriter()的调用:</p>
+<ol>
+<li>为什么不用Servlet输出验证码，导出文件？</li>
+<li><p>如果确要用JSP文件，有时候可能只是JSP中的一个空格，引起了response.getWriter()的调用。最好的办法看编译后的java文<br>件，有没有out.write操作。有的话，检查JSP哪一行引起的。删除即可。</p>
+<p>我们发现大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用出现的，而且这个调用非常大的机率是不需要<br>的，调用他的时候响应报文大概已经在去向客户端的路上了。</p>
+</li>
+</ol>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/04/Istio_Network_Analysis/" itemprop="url">
-              
-                <span itemprop="name">istio中的流量分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-04T16:26:20+08:00"
-              content="2018-12-04" >
-          12-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/26/CPU_MIPS/" itemprop="url">
-              
-                <span itemprop="name">CPU主频与MIPS</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-26T16:52:47+08:00"
-              content="2018-11-26" >
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/22/OOP_Kinds/" itemprop="url">
-              
-                <span itemprop="name">面向对象众生相</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-22T19:35:36+08:00"
-              content="2018-11-22" >
-          11-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/16/Network_Analysis_From_Customer/" itemprop="url">
-              
-                <span itemprop="name">一次现场问题的网络分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-16T17:06:04+08:00"
-              content="2018-11-16" >
-          11-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/08/VMWare_Network_Deos_Not_Work/" itemprop="url">
-              
-                <span itemprop="name">VMWare网络不通一个可能原因分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-08T18:00:59+08:00"
-              content="2018-11-08" >
-          11-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/10/17/Thread_Model/" itemprop="url">
-              
-                <span itemprop="name">线程模型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-10-17T17:17:39+08:00"
-              content="2018-10-17" >
-          10-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/30/RedBlack_Tree/" itemprop="url">
-              
-                <span itemprop="name">红黑树</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-30T11:36:42+08:00"
-              content="2018-09-30" >
-          09-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/Maven_Some_Tips/" rel="next" title="Maven使用过程中的几个细节">
+                <i class="fa fa-chevron-left"></i> Maven使用过程中的几个细节
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="extend next" rel="next" href="/archives/2018/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
+  </article>
 
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDk0Mi8xNzQ2Nw=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -886,6 +645,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 
@@ -898,6 +661,20 @@
 
 
 
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2018/12/19/getOutputStream_Has_Been_Called/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
