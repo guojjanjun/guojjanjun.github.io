@@ -110,20 +110,18 @@
 
 
 
-  <meta name="description" content="1. Settings.xml的生效问题maven共有两个settings.xml:全局配置: ${M2_HOME}/conf/settings.xml用户配置: ${user.home}/.m2/settings.xmlmaven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置. 2. 多个Profile的生效问题Profile根据环境条件">
+  <meta name="description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven使用过程中的几个细节">
-<meta property="og:url" content="https://guojjanjun.github.io/2018/12/06/Maven_Some_Tips/index.html">
+<meta property="og:title" content="红黑树">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/09/30/红黑树/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="1. Settings.xml的生效问题maven共有两个settings.xml:全局配置: ${M2_HOME}/conf/settings.xml用户配置: ${user.home}/.m2/settings.xmlmaven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置. 2. 多个Profile的生效问题Profile根据环境条件">
+<meta property="og:description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-06T07:48:03.325Z">
+<meta property="og:updated_time" content="2018-09-30T03:38:59.803Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maven使用过程中的几个细节">
-<meta name="twitter:description" content="1. Settings.xml的生效问题maven共有两个settings.xml:全局配置: ${M2_HOME}/conf/settings.xml用户配置: ${user.home}/.m2/settings.xmlmaven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置. 2. 多个Profile的生效问题Profile根据环境条件">
+<meta name="twitter:title" content="红黑树">
+<meta name="twitter:description" content="这个博客讲得很详细：https://blog.csdn.net/johnny901114/article/details/81046088">
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -131,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2018/12/06/Maven_Some_Tips/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/09/30/红黑树/"/>
 
 
 
@@ -141,7 +139,7 @@
   };
 </script>
 
-  <title>Maven使用过程中的几个细节 | 路人甲's Notes</title>
+  <title>红黑树 | 路人甲's Notes</title>
   
 
 
@@ -290,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/06/Maven_Some_Tips/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/30/红黑树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -307,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Maven使用过程中的几个细节
+          <h1 class="post-title" itemprop="name headline">红黑树
               
             
           </h1>
@@ -332,7 +330,7 @@
                 
               
 
-              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:48:03" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
+              <time title="创建时间：2018-09-30 11:36:42 / 修改时间：11:38:59" itemprop="dateCreated datePublished" datetime="2018-09-30T11:36:42+08:00">2018-09-30</time>
             
 
             
@@ -370,9 +368,7 @@
       
 
       
-        <h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p>
-<h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p>
-<h3 id="3-repository的搜索顺序"><a href="#3-repository的搜索顺序" class="headerlink" title="3. repository的搜索顺序"></a>3. repository的搜索顺序</h3><p>   repository分两类：本地仓库和远程仓库。远程仓库包括全局仓库，项目仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: setting文件profile中配置的仓库。<br>  3）项目仓库: 项目pom.xml中配置的仓库。<br>  3) 中央仓库：就是central仓库</p>
+        <p>这个博客讲得很详细：<a href="https://blog.csdn.net/johnny901114/article/details/81046088" target="_blank" rel="noopener">https://blog.csdn.net/johnny901114/article/details/81046088</a></p>
 
       
     </div>
@@ -400,8 +396,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/05/Response_Has_Committed/" rel="next" title="什么是response has been committed">
-                <i class="fa fa-chevron-left"></i> 什么是response has been committed
+              <a href="/2018/09/26/Java线程栈中的锁信息/" rel="next" title="Java线程栈中的锁信息">
+                <i class="fa fa-chevron-left"></i> Java线程栈中的锁信息
               </a>
             
           </div>
@@ -410,8 +406,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/19/getOutputStream_Has_Been_Called/" rel="prev" title="getOutputStream() has already been called for this response的来路">
-                getOutputStream() has already been called for this response的来路 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/10/17/线程模型/" rel="prev" title="线程模型">
+                线程模型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -462,17 +458,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -524,22 +511,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Settings-xml的生效问题"><span class="nav-number">1.</span> <span class="nav-text">1. Settings.xml的生效问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多个Profile的生效问题"><span class="nav-number">2.</span> <span class="nav-text">2. 多个Profile的生效问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-repository的搜索顺序"><span class="nav-number">3.</span> <span class="nav-text">3. repository的搜索顺序</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -689,7 +660,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/12/06/Maven_Some_Tips/'
+        refer: '2018/09/30/红黑树/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];

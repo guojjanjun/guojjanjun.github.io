@@ -110,17 +110,17 @@
 
 
 
-  <meta name="description" content="最近阅读&amp;lt;现代操作系统&amp;gt;时，讲到线程根据其存在的位置分为用户级线程和内核级线程。用户级线程存在于用户空间中，他的创建，销毁，调度都由用户空间的线程库来完成。操作系统内核无法感知上层线程的切换。操作系统像不存在多线程一样去作进程调度。内核级线程存在于内核空间中,由操作系统内核创建和管理。用户程序创建的内核线程通过system call创建内核级线程. 用户级线程可以在不支持内核线程的系统">
+  <meta name="description" content="编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。 后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。 定义数据类型：123type">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程模型">
-<meta property="og:url" content="https://guojjanjun.github.io/2018/10/17/Thread_Model/index.html">
+<meta property="og:title" content="面向对象众生相">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/11/22/面向对象众生相/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="最近阅读&amp;lt;现代操作系统&amp;gt;时，讲到线程根据其存在的位置分为用户级线程和内核级线程。用户级线程存在于用户空间中，他的创建，销毁，调度都由用户空间的线程库来完成。操作系统内核无法感知上层线程的切换。操作系统像不存在多线程一样去作进程调度。内核级线程存在于内核空间中,由操作系统内核创建和管理。用户程序创建的内核线程通过system call创建内核级线程. 用户级线程可以在不支持内核线程的系统">
+<meta property="og:description" content="编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。 后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。 定义数据类型：123type">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-21T05:30:27.912Z">
+<meta property="og:updated_time" content="2018-12-21T05:31:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线程模型">
-<meta name="twitter:description" content="最近阅读&amp;lt;现代操作系统&amp;gt;时，讲到线程根据其存在的位置分为用户级线程和内核级线程。用户级线程存在于用户空间中，他的创建，销毁，调度都由用户空间的线程库来完成。操作系统内核无法感知上层线程的切换。操作系统像不存在多线程一样去作进程调度。内核级线程存在于内核空间中,由操作系统内核创建和管理。用户程序创建的内核线程通过system call创建内核级线程. 用户级线程可以在不支持内核线程的系统">
+<meta name="twitter:title" content="面向对象众生相">
+<meta name="twitter:description" content="编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。 后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。 定义数据类型：123type">
 
 
 
@@ -129,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2018/10/17/Thread_Model/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/11/22/面向对象众生相/"/>
 
 
 
@@ -139,7 +139,7 @@
   };
 </script>
 
-  <title>线程模型 | 路人甲's Notes</title>
+  <title>面向对象众生相 | 路人甲's Notes</title>
   
 
 
@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/10/17/Thread_Model/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/11/22/面向对象众生相/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -305,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线程模型
+          <h1 class="post-title" itemprop="name headline">面向对象众生相
               
             
           </h1>
@@ -330,7 +330,7 @@
                 
               
 
-              <time title="创建时间：2018-10-17 17:17:39" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
+              <time title="创建时间：2018-11-22 19:35:36" itemprop="dateCreated datePublished" datetime="2018-11-22T19:35:36+08:00">2018-11-22</time>
             
 
             
@@ -347,7 +347,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-21 13:30:27" itemprop="dateModified" datetime="2018-12-21T13:30:27+08:00">2018-12-21</time>
+                <time title="修改时间：2018-12-21 13:31:13" itemprop="dateModified" datetime="2018-12-21T13:31:13+08:00">2018-12-21</time>
               
             
           </span>
@@ -380,13 +380,26 @@
       
 
       
-        <p>最近阅读&lt;现代操作系统&gt;时，讲到线程根据其存在的位置分为用户级线程和内核级线程。用户级线程存在于用户空间中，他的创建，销毁，调度都由用户空间的线程库来完成。操作系统内核无法感知上层线程的切换。操作系统像不存在多线程一样去作进程调度。内核级线程存在于内核空间中,由操作系统内核创建和管理。用户程序创建的内核线程通过system call创建内核级线程.</p>
-<p>用户级线程可以在不支持内核线程的系统上实现多线程编程。现代操作系统绝大数都支持内核线程,所以实现方式集在用户级线程和内核级线程的混用方式。更多优缺点，请参考&lt;现代操作系统&gt;原文。</p>
-<p>在操作系统概念到提到用户线线程与内核级线程存在三种对应关系：</p>
-<h3 id="1-多对一"><a href="#1-多对一" class="headerlink" title="1. 多对一"></a>1. 多对一</h3><p>多个用户线程对应一个内核线程。这其实就是纯用户级多线程的实现方式。如果一个线程执行阻塞的系统调用，会导致当前进程被内核调度出去，其他线程也无法执行。任意时刻只能有一个线程访问内核，且多个线程无法调度在多个CPU上,因为他们在内核中的调度单元是进程。腾讯libco框架单个线程上实现多个协程的并发运行。<a href="https://blog.csdn.net/chdhust/article/details/53271478" target="_blank" rel="noopener">https://blog.csdn.net/chdhust/article/details/53271478</a></p>
-<h3 id="2-一对一"><a href="#2-一对一" class="headerlink" title="2. 一对一"></a>2. 一对一</h3><p>一个用户线程对应一个内核线程。线程的调度由内核线程的调度来完成。如果一个线程执行阻塞的系统调用，另一个线程会被切换执行,且多个线程可以运行在多个CPU上。比如Java在Linux、windows上的实现,一个java线程通过LWP与一个系统内核线程绑定。缺点，内核线程的数量限制限制了用户线程的数量。</p>
-<h3 id="3-多对多"><a href="#3-多对多" class="headerlink" title="3. 多对多"></a>3. 多对多</h3><p>多个用户线程对应多个内核线程，一般用户线程数大于内核线程数.这种模式不但有一对一的并发性能，而且解决了用户线程数量的限制问题。这种模型又称为二级模型，HP-UX等支持。Solaris9之后采有一对一模型.</p>
-<p>参考：<br><a href="https://www.cnblogs.com/zengkefu/p/5589876.html" target="_blank" rel="noopener">https://www.cnblogs.com/zengkefu/p/5589876.html</a></p>
+        <p>编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。</p>
+<p>后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。</p>
+<h3 id="定义数据类型："><a href="#定义数据类型：" class="headerlink" title="定义数据类型："></a>定义数据类型：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Dog struct&#123;</span><br><span class="line">   name string</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="绑定函数："><a href="#绑定函数：" class="headerlink" title="绑定函数："></a>绑定函数：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func (dog Dog) move() &#123;</span><br><span class="line">   fmt.Println(dog.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="调用函数："><a href="#调用函数：" class="headerlink" title="调用函数："></a>调用函数：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">func <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   var aDog Dog</span><br><span class="line">   aDog.move();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需要为函数指定接收者,即完成了数据与函数的绑定,而且接收者可以是基础类型,比如int等。可以做到一切皆对象。自由绑定成员函数，使项目功能扩展极其方便。</p>
+<p>起初笔者并不喜欢Javascript面向对象的方法，go的出现再次重申了Javascript面向对象的终极地位。且看Javascript几种创建对象的神技:</p>
+<h3 id="方法一：通过Object对象"><a href="#方法一：通过Object对象" class="headerlink" title="方法一：通过Object对象"></a>方法一：通过Object对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var box = <span class="keyword">new</span> Object();</span><br><span class="line">box.name = <span class="string">'Lee'</span>;</span><br><span class="line">box.getName = function () &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这种方式与go倒有几分相似，不过Javascript不但能绑定函数，还可以增加数据成员。go语言并无出其右。</p>
+<h3 id="方法二-构造函数式："><a href="#方法二-构造函数式：" class="headerlink" title="方法二: 构造函数式："></a>方法二: 构造函数式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">Box</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">   <span class="keyword">this</span>.name = name;</span><br><span class="line">   <span class="keyword">this</span>.getName = function () &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">var box1 = <span class="keyword">new</span> Box(<span class="string">'Lee'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="方法三：原型模式"><a href="#方法三：原型模式" class="headerlink" title="方法三：原型模式"></a>方法三：原型模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">Box</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">Box.prototype.name = <span class="string">'Lee'</span>;</span><br><span class="line">Box.prototype.getName = function () &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>方法四,五…, 招式只局限于你的想象力。为什么Javascript要搞这么复杂, 搞这么复杂…?</p>
+<p>其实是Javascript玩了个七十二变的戏法, 让我们产生了错觉。下面来拆解Javascript这种怪异的OOP玩法？ </p>
+<p>对于方法一, Object也是一个函数(typeof Object == function), 这个函数是Javascript内置的，不需要程序员重新定义。那它和方法二之间的相同基因就不难理解了。</p>
+<p>方法一中Javascript可以为对象本身增加属性和绑定方法。方法二也是一样, 而this就是这个对象, 函数为this对象增加属性和绑定方法。再看方法三的模式, 同方法一、二并无不同, 只不过Box.prototype才是这个对象。</p>
+<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个对象看成是具有变化能力的齐天大圣, 新对象都是大圣变化而来。这个本尊对象就是funcation_name.prototype。</p>
+<p>而函数就是这位本尊的变身大法，也就是克隆出新对象的构造器, 启动变身大法（new 函数)本尊就会变成想要的模样。这样方法二就容易理解了。</p>
+<p>对于方法三, Box.prototype就是Box函数的本尊，改变Box.prototype：Box.prototype.name = ‘Lee’。相当于改变了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然就是在这个新本尊的基础上构建新对象。</p>
+<p>更有意思的，方法二可以直接作为普通函数调用: Box(‘Lee’)，也可以作为构造函数调用 var box1 = new Box(‘Lee’)。函数里的this代表的对象什么不同呢？作为构造函数时，前面已经说过，这里不再重述。但作为普通函数，this却是当前Window对象，这里相当于window.Box(“Lee”)，即它是作为Window的成员函数而存在的。Javascript中所有的全局函数和对象都属于Window对象的属性和方法。</p>
+<p>网上有很多Javascript面向对象的方法变体，用此方法，即可解疑惑。</p>
 
       
     </div>
@@ -414,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/30/RedBlack_Tree/" rel="next" title="红黑树">
-                <i class="fa fa-chevron-left"></i> 红黑树
+              <a href="/2018/11/16/一次现场问题的网络分析/" rel="next" title="一次现场问题的网络分析">
+                <i class="fa fa-chevron-left"></i> 一次现场问题的网络分析
               </a>
             
           </div>
@@ -424,8 +437,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/11/08/VMWare_Network_Deos_Not_Work/" rel="prev" title="VMWare网络不通一个可能原因分析">
-                VMWare网络不通一个可能原因分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/26/CPU主频与MIPS/" rel="prev" title="CPU主频与MIPS">
+                CPU主频与MIPS <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -548,7 +561,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-多对一"><span class="nav-number">1.</span> <span class="nav-text">1. 多对一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-一对一"><span class="nav-number">2.</span> <span class="nav-text">2. 一对一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多对多"><span class="nav-number">3.</span> <span class="nav-text">3. 多对多</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义数据类型："><span class="nav-number">1.</span> <span class="nav-text">定义数据类型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定函数："><span class="nav-number">2.</span> <span class="nav-text">绑定函数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用函数："><span class="nav-number">3.</span> <span class="nav-text">调用函数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：通过Object对象"><span class="nav-number">4.</span> <span class="nav-text">方法一：通过Object对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二-构造函数式："><span class="nav-number">5.</span> <span class="nav-text">方法二: 构造函数式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法三：原型模式"><span class="nav-number">6.</span> <span class="nav-text">方法三：原型模式</span></a></li></ol></div>
             
 
           </div>
@@ -703,7 +716,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/10/17/Thread_Model/'
+        refer: '2018/11/22/面向对象众生相/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];

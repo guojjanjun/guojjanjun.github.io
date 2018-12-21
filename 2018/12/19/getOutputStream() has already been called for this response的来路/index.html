@@ -110,18 +110,20 @@
 
 
 
-  <meta name="description" content="在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。(边何人初见月，江月何年初照人)什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数">
+  <meta name="description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for this response 或 getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet A">
 <meta property="og:type" content="article">
-<meta property="og:title" content="什么是response has been committed">
-<meta property="og:url" content="https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/index.html">
+<meta property="og:title" content="getOutputStream() has already been called for this response的来路">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/12/19/getOutputStream() has already been called for this response的来路/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
-<meta property="og:description" content="在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。(边何人初见月，江月何年初照人)什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数">
+<meta property="og:description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for this response 或 getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet A">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-21T05:40:10.617Z">
+<meta property="og:updated_time" content="2018-12-21T05:24:43.847Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="什么是response has been committed">
-<meta name="twitter:description" content="在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。(边何人初见月，江月何年初照人)什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数">
+<meta name="twitter:title" content="getOutputStream() has already been called for this response的来路">
+<meta name="twitter:description" content="除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for this response 或 getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet A">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -129,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/12/19/getOutputStream() has already been called for this response的来路/"/>
 
 
 
@@ -139,7 +141,7 @@
   };
 </script>
 
-  <title>什么是response has been committed | 路人甲's Notes</title>
+  <title>getOutputStream() has already been called for this response的来路 | 路人甲's Notes</title>
   
 
 
@@ -288,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/05/Response_Has_Committed/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/19/getOutputStream() has already been called for this response的来路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -305,7 +307,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">什么是response has been committed
+          <h1 class="post-title" itemprop="name headline">getOutputStream() has already been called for this response的来路
               
             
           </h1>
@@ -330,7 +332,7 @@
                 
               
 
-              <time title="创建时间：2018-12-05 15:15:07" itemprop="dateCreated datePublished" datetime="2018-12-05T15:15:07+08:00">2018-12-05</time>
+              <time title="创建时间：2018-12-19 16:24:37" itemprop="dateCreated datePublished" datetime="2018-12-19T16:24:37+08:00">2018-12-19</time>
             
 
             
@@ -347,7 +349,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-21 13:40:10" itemprop="dateModified" datetime="2018-12-21T13:40:10+08:00">2018-12-21</time>
+                <time title="修改时间：2018-12-21 13:24:43" itemprop="dateModified" datetime="2018-12-21T13:24:43+08:00">2018-12-21</time>
               
             
           </span>
@@ -380,12 +382,17 @@
       
 
       
-        <p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。(边何人初见月，江月何年初照人)<br>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。(更多可了解redo与undo的区别)。</p>
-<p>而Tomcat对于Response的已提交也是一样，表示Response已成即定事实，撤回不了了。Tomcat在这个response有任意一个字符发送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思。</p>
-<p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed sendRedirect<br>   什么意思呢? 当我想放弃当前的响应内容，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat是告诉你：哥们，不好意思，状态为200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>   同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经发出去了, 撤不回来了。</p>
-<p>3) sendError等。<br>   sendError意欲改变响应状态码。设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他回来吗？</p>
-<p>明白了问题产生的原因，更容易寻找解决的方法。为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>
-<p>更多细节参考 Servlet4 规范-5.1 Buffering </p>
+        <p>除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for this response 或 getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet API: cannot call getWriter() after getOutputStream 或 strict servlet API: cannot call getOutputStream() after getWriter().</p>
+<p>意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和getOutputStream都是servlet引擎用来向响应报文中写入数据的方法。那为什么要限制同时使用呢? </p>
+<p>getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()返回ServletOutputStream，其接口为OutputStream，所以getOutputStream()方法用来写入字节流。</p>
+<p>getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一样。如果两个管子同时向响应报文中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。</p>
+<p>既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时用了。其实PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集去转换。(Tomcat提供了ENFORCE_ENCODING_IN_GET_WRITER参数)。具体其他的原因，只能咨询规范的作者了。在Servlet2.5规范SRV.15.2.22节提到:Either this method or getWriter() may becalled to write the body, not both.</p>
+<p>什么情况下出现前面提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件等。大多程序员会把这些业务放在Jsp中，然后通过response.getOutputStream().write()输出数据。而Jsp页面中的可能含有html内容，即使只是一个空格或者换行。这些内容是通过out.write输出的, 这个out其实就response.getWriter()的值。这样就会在你不经意中被调用response.getWriter()，可能位于response.getOutputStream()调用之前，也可能在之后。无论如何，异常是跑不了啦。</p>
+<p>解决这类问题的方法当前很简单，就是隐藏的response.getWriter()的调用:</p>
+<ol>
+<li>使用Servlet输出验证码，导出文件。</li>
+<li>如果确要用JSP文件，最好的办法看编译后的java文件，有没有out.write操作。有的话，检查是JSP哪一行引起的，删除即可。<br>大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用引起的，而且这个调用非常大的机率是不需要的，调用他的时候响应报文大概已经在去向客户端的路上了。</li>
+</ol>
 
       
     </div>
@@ -413,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/04/Istio_Network_Analysis/" rel="next" title="Istio流量分析">
-                <i class="fa fa-chevron-left"></i> Istio流量分析
+              <a href="/2018/12/06/Maven使用过程中的几个细节/" rel="next" title="Maven使用过程中的几个细节">
+                <i class="fa fa-chevron-left"></i> Maven使用过程中的几个细节
               </a>
             
           </div>
@@ -422,10 +429,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/06/Maven_Some_Tips/" rel="prev" title="Maven使用过程中的几个细节">
-                Maven使用过程中的几个细节 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -677,7 +680,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/12/05/Response_Has_Committed/'
+        refer: '2018/12/19/getOutputStream() has already been called for this response的来路/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];
