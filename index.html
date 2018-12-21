@@ -348,7 +348,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-21 11:48:31" itemprop="dateModified" datetime="2018-12-21T11:48:31+08:00">2018-12-21</time>
+                <time title="修改时间：2018-12-21 13:24:43" itemprop="dateModified" datetime="2018-12-21T13:24:43+08:00">2018-12-21</time>
               
             
           </span>
@@ -383,13 +383,16 @@
       
         
           
-            <p>除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for<br>this response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在<br>weblogic中是为strict servlet API: cannot call getWriter()after getOutputStream 或 strict servlet API: cannot<br>call getOutputStream() after getWriter().</p>
-<p>意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和getOutputStream都是<br>servlet引擎用来向响应报文中写入数据的方法。那为什么要限制同时使用呢?<br>getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()返回<br>ServletOutputStream其接口为OutputStream，所以getOutputStream()用来写入字节流。<br>getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一样。如果两个<br>管子同时向响应报文中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。<br>既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时用了。其实<br>PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集去转换. (Tomcat提供了<br>ENFORCE_ENCODING_IN_GET_WRITER参数). 具体其他的原因，只能咨询规范的作者了。在Servlet2.5规范<br>SRV.15.2.22节提到:Either this method or getWriter() may becalled to write the body, not both.</p>
-<p>什么情况下出现前面提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件等。<br>大多程序员会把这些业务放在Jsp中，然后通过response.getOutputStream().write()输出数据。而Jsp页面中的可能<br>含有html内容，即使只是一个空格或者换行这些内容是通过out.write输出的, 个out其实就response.getWriter()的值。<br>这样就会在你不经意中被调用response.getWriter()，可能位于response.getOutputStream()调用之前，也可能在之<br>后。无论如何，异常是跑不了啦。</p>
+            <p>除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for this response 或 getWriter() has already been called for this response。这类异常并非Tomcat专有的，在weblogic中是为strict servlet API: cannot call getWriter() after getOutputStream 或 strict servlet API: cannot call getOutputStream() after getWriter().</p>
+<p>意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和getOutputStream都是servlet引擎用来向响应报文中写入数据的方法。那为什么要限制同时使用呢? </p>
+<p>getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()返回ServletOutputStream，其接口为OutputStream，所以getOutputStream()方法用来写入字节流。</p>
+<p>getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一样。如果两个管子同时向响应报文中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。</p>
+<p>既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时用了。其实PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集去转换。(Tomcat提供了ENFORCE_ENCODING_IN_GET_WRITER参数)。具体其他的原因，只能咨询规范的作者了。在Servlet2.5规范SRV.15.2.22节提到:Either this method or getWriter() may becalled to write the body, not both.</p>
+<p>什么情况下出现前面提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件等。大多程序员会把这些业务放在Jsp中，然后通过response.getOutputStream().write()输出数据。而Jsp页面中的可能含有html内容，即使只是一个空格或者换行。这些内容是通过out.write输出的, 这个out其实就response.getWriter()的值。这样就会在你不经意中被调用response.getWriter()，可能位于response.getOutputStream()调用之前，也可能在之后。无论如何，异常是跑不了啦。</p>
 <p>解决这类问题的方法当前很简单，就是隐藏的response.getWriter()的调用:</p>
 <ol>
-<li>使用Servlet输出验证码，导出文件.</li>
-<li>如果确要用JSP文件，最好的办法看编译后的java文件，有没有out.write操作。有的话，检查是JSP哪一行引起的，<br>删除即可。<br>大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用引起的，而且这个调用非常大的机率是不需要<br>的，调用他的时候响应报文大概已经在去向客户端的路上了。</li>
+<li>使用Servlet输出验证码，导出文件。</li>
+<li>如果确要用JSP文件，最好的办法看编译后的java文件，有没有out.write操作。有的话，检查是JSP哪一行引起的，删除即可。<br>大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用引起的，而且这个调用非常大的机率是不需要的，调用他的时候响应报文大概已经在去向客户端的路上了。</li>
 </ol>
 
           
@@ -649,7 +652,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-21 11:54:38" itemprop="dateModified" datetime="2018-12-21T11:54:38+08:00">2018-12-21</time>
+                <time title="修改时间：2018-12-21 13:27:06" itemprop="dateModified" datetime="2018-12-21T13:27:06+08:00">2018-12-21</time>
               
             
           </span>
@@ -684,12 +687,11 @@
       
         
           
-            <p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上<br>也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问<br>题，而是各种尝试之后, 终于解决了。(江边何人初见月，江月何年初照人)</p>
-<p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据<br>并没有写入数据磁盘，而是位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更<br>新。已提交的事务还可以撤回吗？当然不可以。(更多可了解redo与undo的区别)。</p>
-<p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个<br>response有任意一个字符发送到网络时，会标识response已提交。为什么呢？数据已经发出去，再<br>也无法中断/撤回他了。所谓覆水难收就是这个意思。</p>
-<p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请<br> 求。但这里因为发送缓冲区不足，Tomcat已将原先准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，<br>Tomcat告诉你:你的响应已经发出去了, 撤不回来了。</p>
-<p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔<br>向客户端，打个电话让他回来吗？</p>
-<p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了<br>flush（将数据写入网络）操作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。<br>一个治标的方法，就是将缓冲区调大。治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>
+            <p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问题，而是各种尝试之后, 终于解决了。(边何人初见月，江月何年初照人)<br>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据并没有写入数据磁盘，而是位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更新。已提交的事务还可以撤回吗？当然不可以。(更多可了解redo与undo的区别)。</p>
+<p>而Tomcat对于Response的已提交也是一样，表示Response已成即定事实，撤回不了了。Tomcat在这个response有任意一个字符发送到网络时，会标识response已提交。为什么呢？数据已经发出去，再也无法中断/撤回他了。所谓覆水难收就是这个意思。</p>
+<p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed sendRedirect<br>   什么意思呢,我想放弃当前的响应内存，回复一个304的响应让客户端重新请求。但这里因为发送缓冲区不足，Tomcat已将原先准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat是告诉你：哥们，不好意思，状态为200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>   同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，Tomcat告诉你:你的响应已经发出去了, 撤不回来了。</p>
+<p>3) sendError等。sendError意欲改变响应状态码.<br>   设想这时状态码已经在网络链路间跋山涉水，奔向客户端，打个电话让他回来吗？</p>
+<p>明白了问题产生的原因，更容易寻找解决的方法。为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了flush（将数据写入网络）操作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。一个治标的方法，就是将缓冲区调大。治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>
 <p>更多细节参考 Servlet4 规范-5.1 Buffering </p>
 
           
@@ -807,7 +809,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-20 19:49:19" itemprop="dateModified" datetime="2018-12-20T19:49:19+08:00">2018-12-20</time>
+                <time title="修改时间：2018-12-21 13:21:56" itemprop="dateModified" datetime="2018-12-21T13:21:56+08:00">2018-12-21</time>
               
             
           </span>
@@ -843,11 +845,11 @@
         
           
             <p>注： 文中示例信息来自istio官方book示例.</p>
-<p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前Pod中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前Pod中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服<br>务。入流量访问的集群命名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p>
+<p>istio中的边车代理envoy会拦截到两类流量:<br>1) 入流量: 其他Pod访问当前Pod中业务服务的流量。入流量访问的集群以inbound开头命名:<br>   inbound|9080|v1|ratings.default.svc.cluster.local<br>2) 出流量: 当前Pod中业务服务访问其他服务的流量,包括其他POD中的业务服务和istio系统相关的服务。入流量访问的集群命名以outbound开头: outbound|9080|v1|ratings.default.svc.cluster.local</p>
 <p>入流量的上游集群比较简单，一般只有一个：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"hosts": [</span><br><span class="line">               &#123;</span><br><span class="line">                        <span class="attr">"socket_address"</span>: &#123;</span><br><span class="line">                        <span class="attr">"address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">                        <span class="attr">"port_value"</span>: <span class="number">9080</span></span><br><span class="line">                    &#125;</span><br><span class="line">               &#125;</span><br><span class="line">         ]</span><br></pre></td></tr></table></figure></p>
-<p>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前<br>POD的本地服务有访问任何服务的可能。</p>
-<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后<br>到特定的集群，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。<br>流量图大体如下：<br><img src="/2018/12/04/Istio_Network_Analysis/in_out.png" alt="logo"><br>这个复杂的过程中,有两个重要的参数:<br>1) litener.use_original_dst:<br>如果采有iptables重定向连接, 那么envoy接受连接的监听端口与请求连接的原始目的地址是不同的。<br>如果listener该属性设置为true，该listener将接收到的连接转交给符合请求原始地址的Listener。<br>(透明代理获取原始地址?)由新的listener接受和处理该连接请求。前一个Listener相当于只分发连<br>接。在istio中，这个Listener命名为命virtual。到达envoy的流量统一重定向到virtual listener<br>中(监听地址为0.0.0.0:15001)，由它来选择合适的Listener处理流量。</p>
-<p>2) litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到新替代者的说明。在istio 1.0版本中仍然使用他，但标记<br>已过期。该属性表示Listener是否绑定主机端口。那么不绑定的端口的Listener，如何接受流量？<br>是由标识use_original_dst的Listener(上文中的virtual Listener)接受流量，并转发给他。<br>0.0.0.0_9080和10.244.2.20_9080都是bind_to_port为false的Listener,等待virtual listener<br>分发的流量。0.0.0.0_9080接收所有9080端口的出流量，10.244.2.20_9080接受入流量。<br><img src="/2018/12/04/Istio_Network_Analysis/netstat.png" alt="logo"><br>9080本地服务的端口，15000是envoy代理的管理端口，0.0.0.0:15001就是virtual listener的监<br>听地址，envoy用来接收流量。在evnoy的配置中看到其他listener都没有绑定端口。</p>
+<p>这个Endpoint(127.0.0.1:9080)指向本地服务。出流量的上游集群包括所有的服务集群，因为当前POD的本地服务有访问任何服务的可能。</p>
+<p>Envoy代理拦截到出流量之后,会根据被访问service的域名，URL等相关信息定位到特定的路由，然后到特定的集群，再按集群内部的负载算法获取特定的Endpoint地址，将流量发送给这个Endpoint。流量图大体如下：<br><img src="/2018/12/04/Istio_Network_Analysis/in_out.png" alt="logo"><br>这个复杂的过程中,有两个重要的参数:<br>1) litener.use_original_dst:<br>如果采有iptables重定向连接, 那么envoy接受连接的监听端口与请求连接的原始目的地址是不同的。如果listener该属性设置为true，该listener将接收到的连接转交给符合请求原始地址的Listener。(透明代理获取原始地址?)由新的listener接受和处理该连接请求。前一个Listener相当于只分发连接。在istio中，这个Listener命名为命virtual。到达envoy的流量统一重定向到virtual listener中(监听地址为0.0.0.0:15001)，由它来选择合适的Listener处理流量。</p>
+<p>2) litener.bind_to_port<br>这个属性在api-v2中找不到了，也没找到新替代者的说明。在istio 1.0版本中仍然使用他，但标记已过期。该属性表示Listener是否绑定主机端口。那么不绑定的端口的Listener，如何接受流量？是由标识use_original_dst的Listener(上文中的virtual Listener)接受流量，并转发给他。0.0.0.0_9080和10.244.2.20_9080都是bind_to_port为false的Listener,等待virtual listener分发的流量。0.0.0.0_9080接收所有9080端口的出流量，10.244.2.20_9080接受入流量。<br><img src="/2018/12/04/Istio_Network_Analysis/netstat.png" alt="logo"><br>9080本地服务的端口，15000是envoy代理的管理端口，0.0.0.0:15001就是virtual listener的监听地址，envoy用来接收流量。在evnoy的配置中看到其他listener都没有绑定端口。</p>
 <p>Note:<br>获取envoy全配置的方法:<br>kubectl exec productpage-v1-f5fcbd489-s7tfz -c istio-proxy – curl <a href="http://127.0.0.1:15000/config_dump" target="_blank" rel="noopener">http://127.0.0.1:15000/config_dump</a></p>
 
           
@@ -965,7 +967,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-20 16:57:31" itemprop="dateModified" datetime="2018-12-20T16:57:31+08:00">2018-12-20</time>
+                <time title="修改时间：2018-12-21 13:37:41" itemprop="dateModified" datetime="2018-12-21T13:37:41+08:00">2018-12-21</time>
               
             
           </span>
@@ -1000,9 +1002,9 @@
       
         
           
-            <p>今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:<br>BogoMIPS: 1593.34<br>cpu MHZ :  799.58<br>查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。<br>MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的<br>主频才799.58MHZ，却可以每秒执行1593.34M个指令。相当每个时钟周期执行两个指令。</p>
-<p>时钟周期是CPU主频的倒数，799.58MHZ表示每秒运行799.58百万个时钟周期. 而每执一个计算机指令都需要1至几<br>十个时钟周期。一个指令的执行包括以下步骤：<br>1）指令预取<br>2）指令解码<br>3）执行<br>4）内存访问<br>5) 寄存器写回<br>最后两步是可选的，取决于指令本身。这里每一步都需要至少一个时钟周期来完成。那么一个指令至少需要3个时钟周<br>期来完成。<br>CPU通过流水线技术同时执行不同指令的不同部分，提高CPU的吞吐量。上面的每一步都由CPU的一个功能组件来完成,<br>当指令解码组件执行指令A的指令解码动作时，指令预取组件可以执行指令B的指令预取部分。最理想情况下，一个指<br>令只需要一个时间周期。但仍然不能2倍主频？</p>
-<p>部分资料提到指令宽度的概念，即上面所说的每一个功能单元组件有多个，一般3-4个。他们可以同时执行。这样最理<br>想情况，一个指令只需要一个1/3或1/4个时间周期了。如果是这样的话，上面的情况就可以解释了。另外业内经常提<br>到的IPC(或CPI)，即每指令周期数，在这里应该就是: CPI = MHZ/MIPS。从上面分析来看，CPI是可以小于1的。这<br>里只是一个合理解释，不一定正确，期待指正。<br>参考：<br><a href="https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf" target="_blank" rel="noopener">https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf</a></p>
+            <p>今天在一台龙芯CPU的机器上发现一个BogoMIPS参数，刚好位于CPU MHZ参数的上面:<br>BogoMIPS: 1593.34<br>cpu MHZ :  799.58<br>查看其他机器如redhat，ft等都有这两个参数,只是不放在一起，所认平时很难注意到。<br>MIPS Google描述为：Million Instructions Per Second，即每秒执行百万(M)指令数。这就奇怪了，当前CPU的主频才799.58MHZ，却可以每秒执行1593.34M个指令。相当每个时钟周期执行两个指令。</p>
+<p>时钟周期是CPU主频的倒数，799.58MHZ表示每秒运行799.58百万个时钟周期. 而每执一个计算机指令都需要1至几十个时钟周期。一个指令的执行包括以下步骤：<br>1）指令预取<br>2）指令解码<br>3）执行<br>4）内存访问<br>5) 寄存器写回<br>最后两步是可选的，取决于指令本身。这里每一步都需要至少一个时钟周期来完成。那么一个指令至少需要3个时钟周期来完成? 这里CPU通过流水线技术同时执行不同指令的不同部分，提高CPU的吞吐量。上面的每一步都由CPU的一个功能组件来完成,当指令解码组件执行指令A的指令解码动作时，指令预取组件可以执行指令B的指令预取部分。最理想情况下，一个指令只需要一个时间周期。但仍然不能2倍主频？</p>
+<p>部分资料提到指令宽度的概念，即上面所说的每一个功能单元组件有多个，一般3-4个。他们可以同时执行。这样最理想情况，一个指令只需要一个1/3或1/4个时间周期了。如果是这样的话，上面的情况就可以解释了。另外业内经常提到的IPC(或CPI)，即每指令周期数，在这里应该就是: CPI = MHZ/MIPS。从上面分析来看，CPI是可以小于1的。这里只是一个合理解释，不一定正确，期待指正。<br>参考：<br><a href="https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf" target="_blank" rel="noopener">https://courses.cs.washington.edu/courses/cse471/07sp/lectures/Lecture3.pdf</a></p>
 
           
         
@@ -1119,7 +1121,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-20 17:03:22" itemprop="dateModified" datetime="2018-12-20T17:03:22+08:00">2018-12-20</time>
+                <time title="修改时间：2018-12-21 13:31:13" itemprop="dateModified" datetime="2018-12-21T13:31:13+08:00">2018-12-21</time>
               
             
           </span>
@@ -1154,25 +1156,25 @@
       
         
           
-            <p>编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。<br>其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义,<br>而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。</p>
+            <p>编程语言层出不穷，面向对象的样式各有特色。各种意料之外的编程模型，惊呼”哦,面象对象还可以这样玩”。其中比较容易理解的是Java和C++的对象模型，两者之间区分度也很小: Java的成员函数只能在类内定义, 而C++的成员函数可以类内声明，类外定义。(当然区分并不止这么点)。</p>
 <p>后起之秀Go语言对面向对象有了新的定义: 面向对象就是将要处理的数据跟函数进行绑定的方法。</p>
 <h3 id="定义数据类型："><a href="#定义数据类型：" class="headerlink" title="定义数据类型："></a>定义数据类型：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Dog struct&#123;</span><br><span class="line">   name string</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="绑定函数："><a href="#绑定函数：" class="headerlink" title="绑定函数："></a>绑定函数：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func (dog Dog) move() &#123;</span><br><span class="line">   fmt.Println(dog.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="调用函数："><a href="#调用函数：" class="headerlink" title="调用函数："></a>调用函数：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">func <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   var aDog Dog</span><br><span class="line">   aDog.move();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只需要为函数指定接收者,即完成了数据与函数的绑定,而且接收者可以是基础类型,比如int等。可以做到一切皆<br>对象。自由绑定成员函数，使项目功能扩展极其方便。</p>
-<p>起初笔者并不喜欢Javascript面向对象的方法，go的出现再次重申了Javascript面向对象的终极地位。且看<br>Javascript几种创建对象的神技:</p>
+<p>只需要为函数指定接收者,即完成了数据与函数的绑定,而且接收者可以是基础类型,比如int等。可以做到一切皆对象。自由绑定成员函数，使项目功能扩展极其方便。</p>
+<p>起初笔者并不喜欢Javascript面向对象的方法，go的出现再次重申了Javascript面向对象的终极地位。且看Javascript几种创建对象的神技:</p>
 <h3 id="方法一：通过Object对象"><a href="#方法一：通过Object对象" class="headerlink" title="方法一：通过Object对象"></a>方法一：通过Object对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var box = <span class="keyword">new</span> Object();</span><br><span class="line">box.name = <span class="string">'Lee'</span>;</span><br><span class="line">box.getName = function () &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>这种方式与go倒有几分相似，不过Javascript不但能绑定函数，还可以增加数据成员。go语言并无出其右。</p>
 <h3 id="方法二-构造函数式："><a href="#方法二-构造函数式：" class="headerlink" title="方法二: 构造函数式："></a>方法二: 构造函数式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">Box</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">   <span class="keyword">this</span>.name = name;</span><br><span class="line">   <span class="keyword">this</span>.getName = function () &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">var box1 = <span class="keyword">new</span> Box(<span class="string">'Lee'</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="方法三：原型模式"><a href="#方法三：原型模式" class="headerlink" title="方法三：原型模式"></a>方法三：原型模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">Box</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">Box.prototype.name = <span class="string">'Lee'</span>;</span><br><span class="line">Box.prototype.getName = function () &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>方法四,五…, 招式只局限于你的想象力。为什么Javascript要搞这么复杂, 搞这么复杂…?</p>
 <p>其实是Javascript玩了个七十二变的戏法, 让我们产生了错觉。下面来拆解Javascript这种怪异的OOP玩法？ </p>
-<p>对于方法一, Object也是一个函数(typeof Object == function), 这个函数是Javascript内置的，不需要程序<br>员重新定义。那它和方法二之间的相同基因就不难理解了。</p>
-<p>方法一中Javascript可以为对象本身增加属性和绑定方法。方法二也是一样, 而this就是这个对象, 函数为this对<br>象增加属性和绑定方法。再看方法三的模式, 同方法一、二并无不同, 只不过Box.prototype才是这个对象。</p>
-<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个<br>对象看成是具有变化能力的齐天大圣, 新对象都是大圣变化而来。这个本尊对象就是funcation_name.prototype。</p>
-<p>而函数就是这位本尊的变身大法，也就是克隆出新对象的构造器, 启动变身大法（new 函数)本尊就会变成想要的<br>模样。这样方法二就容易理解了。</p>
-<p>对于方法三, Box.prototype就是Box函数的本尊，改变Box.prototype：Box.prototype.name = ‘Lee’。<br>相当于改变了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然就是在这个新本尊的基础上<br>构建新对象。</p>
-<p>更有意思的，方法二可以直接作为普通函数调用: Box(‘Lee’)，也可以作为构造函数调用 var box1<br>= new Box(‘Lee’)。函数里的this代表的对象什么不同呢？作为构造函数时，前面已经说过，这里不再重述。但<br>作为普通函数，this却是当前Window对象，这里相当于window.Box(“Lee”)，即它是作为Window的成员函数而存<br>在的。Javascript中所有的全局函数和对象都属于Window对象的属性和方法。</p>
+<p>对于方法一, Object也是一个函数(typeof Object == function), 这个函数是Javascript内置的，不需要程序员重新定义。那它和方法二之间的相同基因就不难理解了。</p>
+<p>方法一中Javascript可以为对象本身增加属性和绑定方法。方法二也是一样, 而this就是这个对象, 函数为this对象增加属性和绑定方法。再看方法三的模式, 同方法一、二并无不同, 只不过Box.prototype才是这个对象。</p>
+<p>其实Javascript中每一个函数都有一个本尊(原型)对象，函数用这个对象作为创建新对象的基础对象, 我们把这个对象看成是具有变化能力的齐天大圣, 新对象都是大圣变化而来。这个本尊对象就是funcation_name.prototype。</p>
+<p>而函数就是这位本尊的变身大法，也就是克隆出新对象的构造器, 启动变身大法（new 函数)本尊就会变成想要的模样。这样方法二就容易理解了。</p>
+<p>对于方法三, Box.prototype就是Box函数的本尊，改变Box.prototype：Box.prototype.name = ‘Lee’。相当于改变了函数的本尊(原型)对象（由原来的孙悟空变成猪悟能), 构造器的当然就是在这个新本尊的基础上构建新对象。</p>
+<p>更有意思的，方法二可以直接作为普通函数调用: Box(‘Lee’)，也可以作为构造函数调用 var box1 = new Box(‘Lee’)。函数里的this代表的对象什么不同呢？作为构造函数时，前面已经说过，这里不再重述。但作为普通函数，this却是当前Window对象，这里相当于window.Box(“Lee”)，即它是作为Window的成员函数而存在的。Javascript中所有的全局函数和对象都属于Window对象的属性和方法。</p>
 <p>网上有很多Javascript面向对象的方法变体，用此方法，即可解疑惑。</p>
 
           
@@ -1273,12 +1275,24 @@
                 
               
 
-              <time title="创建时间：2018-11-16 17:06:04 / 修改时间：20:36:55" itemprop="dateCreated datePublished" datetime="2018-11-16T17:06:04+08:00">2018-11-16</time>
+              <time title="创建时间：2018-11-16 17:06:04" itemprop="dateCreated datePublished" datetime="2018-11-16T17:06:04+08:00">2018-11-16</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-21 13:33:47" itemprop="dateModified" datetime="2018-12-21T13:33:47+08:00">2018-12-21</time>
               
             
           </span>
@@ -1313,7 +1327,7 @@
       
         
           
-            <p>现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在<br>ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,<br>2409:8018:5c00:201::209。<br>从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：<br><img src="/2018/11/16/Network_Analysis_From_Customer/0.png" alt="logo"><br>前三个包为连接x208的三次握手，接着Oracle drive发了一个Request,Connect包。我们先看1号包:<br><img src="/2018/11/16/Network_Analysis_From_Customer/1.png" alt="logo"><br>目的地址为x208,客户端将报文发送给Mac为00:0c:bd:08:46:15的设备, 看不出什么异常。继续看2号包：<br><img src="/2018/11/16/Network_Analysis_From_Customer/2.png" alt="logo"><br>信息来了，2号包却是一个MAC地址为e4:a8:b6:f6:95:12(Wireshark识别出为HuaweiTe) 的设备发出来的。<br>因为远程协助，对方对环境等各方面不太清楚，不知道MAC地址为e4:a8:b6:f6:95:12的是个什么设备。<br>但这里1号包与2号包走的不是一条线。而且Hop limit为61,那x208到客户端(也有可能根本没到x208)的应<br>该经历了三(64-61)次路由转发。猜测客户端到208的拓扑应该是这样：<br><img src="/2018/11/16/Network_Analysis_From_Customer/t1.png" alt="logo"><br>继续向下看，发现能够正常通信的是发送到209的报文(第一个连接不成功，RAC切换到了第二个服务器)。<br>23，24，25号包是与x209进行三次握手。<br><img src="/2018/11/16/Network_Analysis_From_Customer/23.png" alt="logo"><br>发现23号也是发送到MAC为00:0c:bd:08:46:15的设备上，那00:0c:bd:08:46:15肯定不是208或209的MAC,<br>这里猜测00:0c:bd:08:46:15是客户端的网关路由器。服务器208，209都在路由器后面。再看24号包,<br><img src="/2018/11/16/Network_Analysis_From_Customer/24.png" alt="logo"><br>24号包也是由设备e4:a8:b6:f6:95:12发出。以及正常通信的26,27号包，<br><img src="/2018/11/16/Network_Analysis_From_Customer/26.png" alt="logo"><br><img src="/2018/11/16/Network_Analysis_From_Customer/27.png" alt="logo"><br>都是：32:09:be:88:d8:67 -&gt; 00:0c:bd:08:46:15,e4:a8:b6:f6:95:12-&gt;32:09:be:88:d8:67。<br>说明服务器返回到客户端的报文最终都由e4:a8:b6:f6:95:12设备转发一次。猜测e4:a8:b6:f6:95:12<br>很可能是一个firewall设备，拓拆接近下图：<br><img src="/2018/11/16/Network_Analysis_From_Customer/t2.png" alt="logo"><br>没有现场环境，只能猜到这些。已告知对方检测e4:a8:b6:f6:95:12设备对x208与x209的路由的情况.<br>由于对网络拓扑接触的比较少，还望大家给予指正。</p>
+            <p>现场BES(应用服务器)连接Oracle总是很慢，特别是初始化连接时，经常出现创建连接超时。Oracle服务监听在ipv6地址上，端口1521。服务端为两台服务器组成的RAC集群。IP地址分别为2409:8018:5c00:201::208,<br>2409:8018:5c00:201::209。<br>从java的调用栈来看，只能看到hang在连接Oracle的调用栈上。目前没有其他好办法，只能抓个包试试看：<br><img src="/2018/11/16/Network_Analysis_From_Customer/0.png" alt="logo"><br>前三个包为连接x208的三次握手，接着Oracle drive发了一个Request,Connect包。我们先看1号包:<br><img src="/2018/11/16/Network_Analysis_From_Customer/1.png" alt="logo"><br>目的地址为x208,客户端将报文发送给Mac为00:0c:bd:08:46:15的设备, 看不出什么异常。继续看2号包：<br><img src="/2018/11/16/Network_Analysis_From_Customer/2.png" alt="logo"><br>信息来了，2号包却是一个MAC地址为e4:a8:b6:f6:95:12(Wireshark识别出为HuaweiTe) 的设备发出来的。因为远程协助，对方对环境等各方面不太清楚，不知道MAC地址为e4:a8:b6:f6:95:12的是个什么设备。但这里1号包与2号包走的不是一条线。而且Hop limit为61,那x208到客户端(也有可能根本没到x208)的应该经历了三(64-61)次路由转发。猜测客户端到208的拓扑应该是这样：<br><img src="/2018/11/16/Network_Analysis_From_Customer/t1.png" alt="logo"><br>继续向下看，发现能够正常通信的是发送到209的报文(第一个连接不成功，RAC切换到了第二个服务器)。23，24，25号包是与x209进行三次握手。<br><img src="/2018/11/16/Network_Analysis_From_Customer/23.png" alt="logo"><br>发现23号也是发送到MAC为00:0c:bd:08:46:15的设备上，那00:0c:bd:08:46:15肯定不是208或209的MAC,这里猜测00:0c:bd:08:46:15是客户端的网关路由器。服务器208，209都在路由器后面。再看24号包:<br><img src="/2018/11/16/Network_Analysis_From_Customer/24.png" alt="logo"><br>24号包也是由设备e4:a8:b6:f6:95:12发出。以及正常通信的26,27号包:<br><img src="/2018/11/16/Network_Analysis_From_Customer/26.png" alt="logo"><br><img src="/2018/11/16/Network_Analysis_From_Customer/27.png" alt="logo"><br>都是：32:09:be:88:d8:67 -&gt; 00:0c:bd:08:46:15,e4:a8:b6:f6:95:12-&gt;32:09:be:88:d8:67。说明服务器返回到客户端的报文最终都由e4:a8:b6:f6:95:12设备转发一次。猜测e4:a8:b6:f6:95:12<br>很可能是一个firewall设备，拓拆接近下图：<br><img src="/2018/11/16/Network_Analysis_From_Customer/t2.png" alt="logo"><br>没有现场环境，只能猜到这些。已告知对方检测e4:a8:b6:f6:95:12设备对x208与x209的路由的情况.由于对网络拓扑接触的比较少，还望大家给予指正。</p>
 
           
         
@@ -1555,12 +1569,24 @@
                 
               
 
-              <time title="创建时间：2018-10-17 17:17:39 / 修改时间：20:04:34" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
+              <time title="创建时间：2018-10-17 17:17:39" itemprop="dateCreated datePublished" datetime="2018-10-17T17:17:39+08:00">2018-10-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-21 13:30:27" itemprop="dateModified" datetime="2018-12-21T13:30:27+08:00">2018-12-21</time>
               
             
           </span>
@@ -1595,12 +1621,12 @@
       
         
           
-            <p>最近阅读&lt;现代操作系统&gt;时，讲到线程根据其存在的位置分为用户级线程和内核级线程。用户级线程存在于用<br>户空间中，他的创建，销毁，调度都由用户空间的线程库来完成。操作系统内核无法感知上层线程的切换。操作<br>系统像不存在多线程一样去作进程调度。内核级线程存在于内核空间中,由操作系统内核创建和管理。用户程序<br>创建的内核线程通过system call创建内核级线程.</p>
-<p>用户级线程可以在不支持内核线程的系统上实现多线程编程。现代操作系统绝大数都支持内核线程,所以实现<br>方式集在用户级线程和内核级线程的混用方式。更多优缺点，请参考&lt;现代操作系统&gt;原文。</p>
+            <p>最近阅读&lt;现代操作系统&gt;时，讲到线程根据其存在的位置分为用户级线程和内核级线程。用户级线程存在于用户空间中，他的创建，销毁，调度都由用户空间的线程库来完成。操作系统内核无法感知上层线程的切换。操作系统像不存在多线程一样去作进程调度。内核级线程存在于内核空间中,由操作系统内核创建和管理。用户程序创建的内核线程通过system call创建内核级线程.</p>
+<p>用户级线程可以在不支持内核线程的系统上实现多线程编程。现代操作系统绝大数都支持内核线程,所以实现方式集在用户级线程和内核级线程的混用方式。更多优缺点，请参考&lt;现代操作系统&gt;原文。</p>
 <p>在操作系统概念到提到用户线线程与内核级线程存在三种对应关系：</p>
-<h3 id="1-多对一"><a href="#1-多对一" class="headerlink" title="1. 多对一"></a>1. 多对一</h3><p>多个用户线程对应一个内核线程。这其实就是纯用户级多线程的实现方式。如果一个线程执行阻塞的系统调用，<br>会导致当前进程被内核调度出去，其他线程也无法执行。任意时刻只能有一个线程访问内核，且多个线程无法<br>调度在多个CPU上,因为他们在内核中的调度单元是进程。腾讯libco框架单个线程上实现多个协程的并发运行。<br><a href="https://blog.csdn.net/chdhust/article/details/53271478" target="_blank" rel="noopener">https://blog.csdn.net/chdhust/article/details/53271478</a></p>
-<h3 id="2-一对一"><a href="#2-一对一" class="headerlink" title="2. 一对一"></a>2. 一对一</h3><p>一个用户线程对应一个内核线程。线程的调度由内核线程的调度来完成。如果一个线程执行阻塞的系统调用，<br>另一个线程会被切换执行,且多个线程可以运行在多个CPU上。比如Java在Linux、windows上的实现,一个<br>java线程通过LWP与一个系统内核线程绑定。缺点，内核线程的数量限制限制了用户线程的数量。</p>
-<h3 id="3-多对多"><a href="#3-多对多" class="headerlink" title="3. 多对多"></a>3. 多对多</h3><p>多个用户线程对应多个内核线程，一般用户线程数大于内核线程数.这种模式不但有一对一的并发性能，而且<br>解决了用户线程数量的限制问题。这种模型又称为二级模型，HP-UX等支持。Solaris9之后采有一对一模型.</p>
+<h3 id="1-多对一"><a href="#1-多对一" class="headerlink" title="1. 多对一"></a>1. 多对一</h3><p>多个用户线程对应一个内核线程。这其实就是纯用户级多线程的实现方式。如果一个线程执行阻塞的系统调用，会导致当前进程被内核调度出去，其他线程也无法执行。任意时刻只能有一个线程访问内核，且多个线程无法调度在多个CPU上,因为他们在内核中的调度单元是进程。腾讯libco框架单个线程上实现多个协程的并发运行。<a href="https://blog.csdn.net/chdhust/article/details/53271478" target="_blank" rel="noopener">https://blog.csdn.net/chdhust/article/details/53271478</a></p>
+<h3 id="2-一对一"><a href="#2-一对一" class="headerlink" title="2. 一对一"></a>2. 一对一</h3><p>一个用户线程对应一个内核线程。线程的调度由内核线程的调度来完成。如果一个线程执行阻塞的系统调用，另一个线程会被切换执行,且多个线程可以运行在多个CPU上。比如Java在Linux、windows上的实现,一个java线程通过LWP与一个系统内核线程绑定。缺点，内核线程的数量限制限制了用户线程的数量。</p>
+<h3 id="3-多对多"><a href="#3-多对多" class="headerlink" title="3. 多对多"></a>3. 多对多</h3><p>多个用户线程对应多个内核线程，一般用户线程数大于内核线程数.这种模式不但有一对一的并发性能，而且解决了用户线程数量的限制问题。这种模型又称为二级模型，HP-UX等支持。Solaris9之后采有一对一模型.</p>
 <p>参考：<br><a href="https://www.cnblogs.com/zengkefu/p/5589876.html" target="_blank" rel="noopener">https://www.cnblogs.com/zengkefu/p/5589876.html</a></p>
 
           
