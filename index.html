@@ -348,7 +348,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-20 20:00:24" itemprop="dateModified" datetime="2018-12-20T20:00:24+08:00">2018-12-20</time>
+                <time title="修改时间：2018-12-21 11:48:31" itemprop="dateModified" datetime="2018-12-21T11:48:31+08:00">2018-12-21</time>
               
             
           </span>
@@ -383,15 +383,14 @@
       
         
           
-            <p>除了上篇的response has been committed，另一个常见的异常getOutputStream() has already<br>been called for this response或getWriter() has already been called for this response。<br>这类异常并非Tomcat专有的，在weblogic中是为strict servlet API: cannot call getWriter()<br> after getOutputStream 或 strict servlet API: cannot call getOutputStream() after<br> getWriter().</p>
-<p>意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和<br>getOutputStream都是servlet引擎用来向响应报文中写入数据的方法。那为什么要限制同时使用呢?<br>getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()<br>返回ServletOutputStream其接口为OutputStream，所以getOutputStream()用来写入字节流。<br>getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一<br>样。如果两个管子同时向响应报文中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。<br>既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时<br>用了。其实PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集<br>去转换. (Tomcat提供了ENFORCE_ENCODING_IN_GET_WRITER参数). 具体其他的原因，只能咨询<br>规范的作者了。在Servlet2.5规范SRV.15.2.22节提到:Either this method or getWriter() may be<br> called to write the body, not both.</p>
-<p>什么情况下出现前面提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件时等。大多程序员会把这些业务放在Jsp中，然后通过response.getOutputStream().write()<br>输出数据。而Jsp页面中的可能含有html内容，即使只是一个空格或者换行这些内容是通过out.write输出的, 个out其实就response.getWriter()的值。这样就会在你不经意中被调用response.getWriter<br>()，可能位于response.getOutputStream()调用之前，也可能在之后。无论如何，异常是跑不了啦。</p>
+            <p>除了上篇的response has been committed，另一个常见的异常getOutputStream() has alreadybeen called for<br>this response或getWriter() has already been called for this response。这类异常并非Tomcat专有的，在<br>weblogic中是为strict servlet API: cannot call getWriter()after getOutputStream 或 strict servlet API: cannot<br>call getOutputStream() after getWriter().</p>
+<p>意思就是调用了getWriter之后，不能再调用getOutputStream, 反之亦然。getWriter和getOutputStream都是<br>servlet引擎用来向响应报文中写入数据的方法。那为什么要限制同时使用呢?<br>getWriter()方法返回是PrintWriter对象，PrintWriter用来写入字符或字符串。getOutputStream()返回<br>ServletOutputStream其接口为OutputStream，所以getOutputStream()用来写入字节流。<br>getWriter和getOutputStream就像向响应报文中输入数据的管子，而且两个管子中的数据格式不一样。如果两个<br>管子同时向响应报文中灌入数据，那数据是不是就乱了呢？ 所以中间件安排他俩互斥使用。<br>既然PrintWriter用来写入字符或字符串，那把PrintWriter写入的字符串转换成字节流不就可以同时用了。其实<br>PrintWriter写入数据的时候有可能响应字符集还没有确定，你无法知道应该用哪个字符集去转换. (Tomcat提供了<br>ENFORCE_ENCODING_IN_GET_WRITER参数). 具体其他的原因，只能咨询规范的作者了。在Servlet2.5规范<br>SRV.15.2.22节提到:Either this method or getWriter() may becalled to write the body, not both.</p>
+<p>什么情况下出现前面提到的异常，一般在我们需要输出一种特殊格式的响应内容时会出现。比如验证码，导出文件等。<br>大多程序员会把这些业务放在Jsp中，然后通过response.getOutputStream().write()输出数据。而Jsp页面中的可能<br>含有html内容，即使只是一个空格或者换行这些内容是通过out.write输出的, 个out其实就response.getWriter()的值。<br>这样就会在你不经意中被调用response.getWriter()，可能位于response.getOutputStream()调用之前，也可能在之<br>后。无论如何，异常是跑不了啦。</p>
 <p>解决这类问题的方法当前很简单，就是隐藏的response.getWriter()的调用:</p>
 <ol>
-<li>使用Servlet输出验证码，导出文件、</li>
-<li>如果确要用JSP文件，最好的办法看编译后的java文件，有没有out.write操作。有的话，检查是<br>JSP哪一行引起的，删除即可。</li>
+<li>使用Servlet输出验证码，导出文件.</li>
+<li>如果确要用JSP文件，最好的办法看编译后的java文件，有没有out.write操作。有的话，检查是JSP哪一行引起的，<br>删除即可。<br>大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用引起的，而且这个调用非常大的机率是不需要<br>的，调用他的时候响应报文大概已经在去向客户端的路上了。</li>
 </ol>
-<p>大多数情况出现这个异常，并没影响正常业务。其实异常是后一个get调用引起的，而且这个调用非常<br>大的机率是不需要的，调用他的时候响应报文大概已经在去向客户端的路上了。</p>
 
           
         
@@ -650,7 +649,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-20 18:17:29" itemprop="dateModified" datetime="2018-12-20T18:17:29+08:00">2018-12-20</time>
+                <time title="修改时间：2018-12-21 11:54:38" itemprop="dateModified" datetime="2018-12-21T11:54:38+08:00">2018-12-21</time>
               
             
           </span>
@@ -688,7 +687,7 @@
             <p>在Tomcat或其他中间件产品上，有时或突然跳出一个response has been committed的异常。网上<br>也有很多解决这个问题的攻略。为什么很多，或许写答案的人也不知道为什么这个方法解决了这个问<br>题，而是各种尝试之后, 终于解决了。(江边何人初见月，江月何年初照人)</p>
 <p>什么叫response has been committed？ 数据库有已提交的概念，表示相关事务已完成，可能数据<br>并没有写入数据磁盘，而是位于redo日志中，无论怎么，事务已成功，即使此时掉电，也不会丢失更<br>新。已提交的事务还可以撤回吗？当然不可以。(更多可了解redo与undo的区别)。</p>
 <p>而Tomcat对于response的已提交也一样，表示response已成即定事实,撤回不了了。Tomcat在这个<br>response有任意一个字符发送到网络时，会标识response已提交。为什么呢？数据已经发出去，再<br>也无法中断/撤回他了。所谓覆水难收就是这个意思。</p>
-<p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response<br> has been committed sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请<br> 求。但这里因为发送缓冲区不足，Tomcat已将原先准备好的一些数据发送出去了,当然响应头会被首<br> 先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，<br>Tomcat告诉你:你的响应已经发出去了, 撤不回来了。</p>
+<p>我们看response has been committed一般发生在什么时候:<br>1) Java.lang.IllegalStateException: Cannot call sendRedirect() after the response has been committed sendRedirect什么意思,我想放弃响应，回复一个304的响应让客户端重新请<br> 求。但这里因为发送缓冲区不足，Tomcat已将原先准备好的一些数据发送出去了,当然响应头会被首先发出。Tomcat告诉你：哥们，不好意思，200的响应我已经发送出去了。<br>2）Cannot forward after response has been committed<br>同1)一样，你想抛弃你当前的响应(response)，forward到一个新的sevlet去响应当前的请求，<br>Tomcat告诉你:你的响应已经发出去了, 撤不回来了。</p>
 <p>3) sendError等。sendError意欲改变响应状态码. 设想这时状态码已经在网络链路间跋山涉水，奔<br>向客户端，打个电话让他回来吗？</p>
 <p>明白了问题产生的原因，更容易寻找解决的方法。<br>为什么Tomcat会在我们决定sendRedirect时已经将response的数据发出去？ 除了代码可能作了<br>flush（将数据写入网络）操作，也有可能发送缓冲区较小，Tomcat只能将原有的数据写出网络。<br>一个治标的方法，就是将缓冲区调大。治本的方法当然是：写代码要有计划。不然何至覆水难收? </p>
 <p>更多细节参考 Servlet4 规范-5.1 Buffering </p>
