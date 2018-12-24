@@ -285,6 +285,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/24/NIO真空下的技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/24/NIO真空下的技术/" itemprop="url">
+                  NIO真空下的技术
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-24 18:22:39 / 修改时间：19:15:37" itemprop="dateCreated datePublished" datetime="2018-12-24T18:22:39+08:00">2018-12-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>NIO在使用过程中，有很多很多问题需要注意，甚至BUG需要规避。不是经验丰富的工程师团队，不建议从头构建NIO程序，最好采用Grizzly，Netty等开源框架。本文记录了经常遇到的几个小细节，一作备忘，二为增强理解。</p>
+<h3 id="1-channel-close将cancel掉channel的所有SelectionKey"><a href="#1-channel-close将cancel掉channel的所有SelectionKey" class="headerlink" title="1. channel.close将cancel掉channel的所有SelectionKey"></a>1. channel.close将cancel掉channel的所有SelectionKey</h3><p>AbstractSelectableChannel维护一个SelectionKey数组，存储注册所得的所有SelectionKey，一旦channel.close，这里所有的SelectionKey将被cancel掉。</p>
+<h3 id="2-只有非阻塞Channel才能注册，否则会报IllegalBlockingModeException"><a href="#2-只有非阻塞Channel才能注册，否则会报IllegalBlockingModeException" class="headerlink" title="2. 只有非阻塞Channel才能注册，否则会报IllegalBlockingModeException"></a>2. 只有非阻塞Channel才能注册，否则会报IllegalBlockingModeException</h3><p>比如FileChannel不可以改为非阻塞，所以也无法注册。</p>
+<h3 id="3-一个Channel在同一个Selector上注册两次，返回同一个SelectionKey"><a href="#3-一个Channel在同一个Selector上注册两次，返回同一个SelectionKey" class="headerlink" title="3. 一个Channel在同一个Selector上注册两次，返回同一个SelectionKey"></a>3. 一个Channel在同一个Selector上注册两次，返回同一个SelectionKey</h3><p>Channel注册时，会被检查是否已在当前Selector上注册过,若是，则返回注册的SelectionKey。</p>
+<h3 id="4-sk-interestOps操作与register操作在同一个线程"><a href="#4-sk-interestOps操作与register操作在同一个线程" class="headerlink" title="4. sk.interestOps操作与register操作在同一个线程"></a>4. sk.interestOps操作与register操作在同一个线程</h3><p>其实这不是必须的，Grizzly，Netty，和Tomcat都是这么写的，原先本人也误以为不在同一个线程会有问题，后来证明不是这样的。之所以这么写，是规避并发性能问题。AbstractSelectableChannel中有两把锁keyLock和regLock,interestOps与register操作会导致这两把锁的激烈竞争，所以都把这些操作交给注册该Channel的Reactor线程来完成。</p>
+<h3 id="5-selector-selectedKeys中的SelectionKey要及早清除"><a href="#5-selector-selectedKeys中的SelectionKey要及早清除" class="headerlink" title="5. selector.selectedKeys中的SelectionKey要及早清除"></a>5. selector.selectedKeys中的SelectionKey要及早清除</h3><p>selectedKeys需要及时remove，否则后面select()将不阻塞，从而导致CPU 100%。</p>
+<h3 id="6-不轻易注册WRITE事件"><a href="#6-不轻易注册WRITE事件" class="headerlink" title="6. 不轻易注册WRITE事件"></a>6. 不轻易注册WRITE事件</h3><p>因为可写事件来得太容易，select()将不阻塞，从而导致CPU 100%。</p>
+<h3 id="7-selectionKey-cancel的延后性"><a href="#7-selectionKey-cancel的延后性" class="headerlink" title="7. selectionKey.cancel的延后性"></a>7. selectionKey.cancel的延后性</h3><p>取消Key只有在下一次select操作之后才会从key set中清除。</p>
+<h3 id="8-select（）操作之前的wakeup将导致下一次的select（）不阻塞。"><a href="#8-select（）操作之前的wakeup将导致下一次的select（）不阻塞。" class="headerlink" title="8. select（）操作之前的wakeup将导致下一次的select（）不阻塞。"></a>8. select（）操作之前的wakeup将导致下一次的select（）不阻塞。</h3>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/19/getOutputStream() has already been called for this response的来路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1666,146 +1813,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/09/30/红黑树/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="路人甲">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="路人甲's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/30/红黑树/" itemprop="url">
-                  红黑树
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-30 11:36:42 / 修改时间：11:38:59" itemprop="dateCreated datePublished" datetime="2018-09-30T11:36:42+08:00">2018-09-30</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个博客讲得很详细：<a href="https://blog.csdn.net/johnny901114/article/details/81046088" target="_blank" rel="noopener">https://blog.csdn.net/johnny901114/article/details/81046088</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1853,7 +1860,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
