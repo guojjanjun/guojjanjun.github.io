@@ -331,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-12-24 18:22:39 / 修改时间：19:15:37" itemprop="dateCreated datePublished" datetime="2018-12-24T18:22:39+08:00">2018-12-24</time>
+              <time title="创建时间：2018-12-24 18:22:39 / 修改时间：19:19:26" itemprop="dateCreated datePublished" datetime="2018-12-24T18:22:39+08:00">2018-12-24</time>
             
 
             
@@ -377,7 +377,7 @@
 <h3 id="3-一个Channel在同一个Selector上注册两次，返回同一个SelectionKey"><a href="#3-一个Channel在同一个Selector上注册两次，返回同一个SelectionKey" class="headerlink" title="3. 一个Channel在同一个Selector上注册两次，返回同一个SelectionKey"></a>3. 一个Channel在同一个Selector上注册两次，返回同一个SelectionKey</h3><p>Channel注册时，会被检查是否已在当前Selector上注册过,若是，则返回注册的SelectionKey。</p>
 <h3 id="4-sk-interestOps操作与register操作在同一个线程"><a href="#4-sk-interestOps操作与register操作在同一个线程" class="headerlink" title="4. sk.interestOps操作与register操作在同一个线程"></a>4. sk.interestOps操作与register操作在同一个线程</h3><p>其实这不是必须的，Grizzly，Netty，和Tomcat都是这么写的，原先本人也误以为不在同一个线程会有问题，后来证明不是这样的。之所以这么写，是规避并发性能问题。AbstractSelectableChannel中有两把锁keyLock和regLock,interestOps与register操作会导致这两把锁的激烈竞争，所以都把这些操作交给注册该Channel的Reactor线程来完成。</p>
 <h3 id="5-selector-selectedKeys中的SelectionKey要及早清除"><a href="#5-selector-selectedKeys中的SelectionKey要及早清除" class="headerlink" title="5. selector.selectedKeys中的SelectionKey要及早清除"></a>5. selector.selectedKeys中的SelectionKey要及早清除</h3><p>selectedKeys需要及时remove，否则后面select()将不阻塞，从而导致CPU 100%。</p>
-<h3 id="6-不轻易注册WRITE事件"><a href="#6-不轻易注册WRITE事件" class="headerlink" title="6. 不轻易注册WRITE事件"></a>6. 不轻易注册WRITE事件</h3><p>因为可写事件来得太容易，select()将不阻塞，从而导致CPU 100%。</p>
+<h3 id="6-不轻易注册WRITE事件"><a href="#6-不轻易注册WRITE事件" class="headerlink" title="6. 不轻易注册WRITE事件"></a>6. 不轻易注册WRITE事件</h3><p>因为可写事件来得太容易，select()将很难不阻塞，从而导致CPU 100%。</p>
 <h3 id="7-selectionKey-cancel的延后性"><a href="#7-selectionKey-cancel的延后性" class="headerlink" title="7. selectionKey.cancel的延后性"></a>7. selectionKey.cancel的延后性</h3><p>取消Key只有在下一次select操作之后才会从key set中清除。</p>
 <h3 id="8-select（）操作之前的wakeup将导致下一次的select（）不阻塞。"><a href="#8-select（）操作之前的wakeup将导致下一次的select（）不阻塞。" class="headerlink" title="8. select（）操作之前的wakeup将导致下一次的select（）不阻塞。"></a>8. select（）操作之前的wakeup将导致下一次的select（）不阻塞。</h3>
           
