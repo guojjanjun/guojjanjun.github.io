@@ -110,14 +110,20 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="路人甲&#39;s Notes">
-<meta property="og:url" content="https://guojjanjun.github.io/archives/page/2/index.html">
+  <meta name="description" content="Linux中Free命令有一个Buffer/Cache很难理解。Buffer与Cache有什么区别? 通过dd操作,Vmstat数据输出来看，对于文件系统的读写对Cache的影响较大，而读写Raw设备对Buffer的影响较大，证明了大家认为的Cache为文件页缓存，而Buffer为IO块缓存。但是文件操作虽经过文件系统，但毕竟要从磁盘设备上读取，势必要经过块缓冲(Buffer)，为什么文件操作对B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux中Cache与Buffer的区别">
+<meta property="og:url" content="https://guojjanjun.github.io/2018/12/26/Linux中Cache与Buffer的区别/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
+<meta property="og:description" content="Linux中Free命令有一个Buffer/Cache很难理解。Buffer与Cache有什么区别? 通过dd操作,Vmstat数据输出来看，对于文件系统的读写对Cache的影响较大，而读写Raw设备对Buffer的影响较大，证明了大家认为的Cache为文件页缓存，而Buffer为IO块缓存。但是文件操作虽经过文件系统，但毕竟要从磁盘设备上读取，势必要经过块缓冲(Buffer)，为什么文件操作对B">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-26T12:51:08.211Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="路人甲&#39;s Notes">
+<meta name="twitter:title" content="Linux中Cache与Buffer的区别">
+<meta name="twitter:description" content="Linux中Free命令有一个Buffer/Cache很难理解。Buffer与Cache有什么区别? 通过dd操作,Vmstat数据输出来看，对于文件系统的读写对Cache的影响较大，而读写Raw设备对Buffer的影响较大，证明了大家认为的Cache为文件页缓存，而Buffer为IO块缓存。但是文件操作虽经过文件系统，但毕竟要从磁盘设备上读取，势必要经过块缓冲(Buffer)，为什么文件操作对B">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -125,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/archives/page/2/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2018/12/26/Linux中Cache与Buffer的区别/"/>
 
 
 
@@ -135,7 +141,7 @@
   };
 </script>
 
-  <title>归档 | 路人甲's Notes</title>
+  <title>Linux中Cache与Buffer的区别 | 路人甲's Notes</title>
   
 
 
@@ -182,7 +188,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,7 +237,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
@@ -243,19 +249,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -281,149 +274,172 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
+  
 
-      
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2018/12/26/Linux中Cache与Buffer的区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="路人甲">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="路人甲's Notes">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">Linux中Cache与Buffer的区别
+              
+            
+          </h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-26 20:32:44 / 修改时间：20:51:08" itemprop="dateCreated datePublished" datetime="2018-12-26T20:32:44+08:00">2018-12-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/10/17/线程模型/" itemprop="url">
-              
-                <span itemprop="name">线程模型</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-10-17T17:17:39+08:00"
-              content="2018-10-17" >
-          10-17
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/30/红黑树/" itemprop="url">
-              
-                <span itemprop="name">红黑树</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-30T11:36:42+08:00"
-              content="2018-09-30" >
-          09-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/26/Java线程栈中的锁信息/" itemprop="url">
-              
-                <span itemprop="name">Java线程栈中的锁信息</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-26T20:22:04+08:00"
-              content="2018-09-26" >
-          09-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>Linux中Free命令有一个Buffer/Cache很难理解。Buffer与Cache有什么区别? 通过dd操作,Vmstat数据输出来看，对于文件系统的读写对Cache的影响较大，而读写Raw设备对Buffer的影响较大，证明了大家认为的Cache为文件页缓存，而Buffer为IO块缓存。但是文件操作虽经过文件系统，但毕竟要从磁盘设备上读取，势必要经过块缓冲(Buffer)，为什么文件操作对Buffer 的影响不明显呢? 后来找到下面这篇文章（为防止信息丢失，我COPY过来了，请多包涵)。很多Unix是这样实现，对于文件而言，一份数据会在Buffer与Cache中各缓存一份，简单但低效。后期Linux进行了统一,数据如果是块设备中的文件，则只缓存一份在PageCache中，而Buffer中不再缓冲了。内核磁盘读写操作的仍然是Buffer，但Buffer只是简单的指向Page Cache。这也是实验文件操作过程中Page Cache快速增大，而Buffer也增长的原因。</p>
+<p>附原文:<br>The page cache caches pages of files to optimize file I/O. The buffer cache caches disk blocks to optimize block I/O. </p>
+<p>Prior to Linux kernel version 2.4, the two caches were distinct: Files were in the page cache, disk blocks were in the buffer cache. Given that most files are represented by a filesystem on a disk, data was represented twice, once in each of the caches. Many Unix systems follow a similar pattern. </p>
+<p>This is simple to implement, but with an obvious inelegance and inefficiency. Starting with Linux kernel version 2.4, the contents of the two caches were unified. The VM subsystem now drives I/O and it does so out of the page cache. If cached data has both a file and a block representation—as most data does—the buffer cache will simply point into the page cache; thus only one instance of the data is cached in memory. The page cache is what you picture when you think of a disk cache: It caches file data from a disk to make subsequent I/O faster. </p>
+<p>The buffer cache remains, however, as the kernel still needs to perform block I/O in terms of blocks, not pages. As most blocks represent file data, most of the buffer cache is represented by the page cache. But a small amount of block data isn’t file backed—metadata and raw block I/O for example—and thus is solely represented by the buffer cache</p>
 
       
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/24/NIO真空下的技术/" rel="next" title="NIO真空下的技术">
+                <i class="fa fa-chevron-left"></i> NIO真空下的技术
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-  </nav>
+  </article>
 
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDk0Mi8xNzQ2Nw=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -627,6 +643,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 
@@ -639,6 +659,20 @@
 
 
 
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2018/12/26/Linux中Cache与Buffer的区别/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
