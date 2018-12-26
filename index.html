@@ -331,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-12-26 20:32:44 / 修改时间：20:51:08" itemprop="dateCreated datePublished" datetime="2018-12-26T20:32:44+08:00">2018-12-26</time>
+              <time title="创建时间：2018-12-26 20:32:44 / 修改时间：20:56:05" itemprop="dateCreated datePublished" datetime="2018-12-26T20:32:44+08:00">2018-12-26</time>
             
 
             
@@ -371,7 +371,7 @@
       
         
           
-            <p>Linux中Free命令有一个Buffer/Cache很难理解。Buffer与Cache有什么区别? 通过dd操作,Vmstat数据输出来看，对于文件系统的读写对Cache的影响较大，而读写Raw设备对Buffer的影响较大，证明了大家认为的Cache为文件页缓存，而Buffer为IO块缓存。但是文件操作虽经过文件系统，但毕竟要从磁盘设备上读取，势必要经过块缓冲(Buffer)，为什么文件操作对Buffer 的影响不明显呢? 后来找到下面这篇文章（为防止信息丢失，我COPY过来了，请多包涵)。很多Unix是这样实现，对于文件而言，一份数据会在Buffer与Cache中各缓存一份，简单但低效。后期Linux进行了统一,数据如果是块设备中的文件，则只缓存一份在PageCache中，而Buffer中不再缓冲了。内核磁盘读写操作的仍然是Buffer，但Buffer只是简单的指向Page Cache。这也是实验文件操作过程中Page Cache快速增大，而Buffer也增长的原因。</p>
+            <p>Linux中Free命令有一个Buffer/Cache很难理解。Buffer与Cache有什么区别? 通过dd操作,Vmstat数据输出来看，对于文件系统的读写对Cache的影响较大，而读写Raw设备对Buffer的影响较大，证明了大家认为的Cache为文件页缓存，而Buffer为IO块缓存。但是文件操作虽经过文件系统，但毕竟要从磁盘设备上读取，势必要经过块缓冲(Buffer)，为什么文件操作对Buffer 的影响不明显呢? 后来找到下面这篇文章（为防止信息丢失，我COPY过来了，请多包涵)。很多Unix是这样实现的，对于文件而言，一份数据会在Buffer与Cache中各缓存一份，简单但低效。后期Linux进行了统一,数据如果是块设备中的文件，则只缓存一份在PageCache中，而Buffer中不再缓存了。然而内核磁盘读写操作的仍然是Buffer，Buffer只是简单的指向Page Cache。</p>
 <p>附原文:<br>The page cache caches pages of files to optimize file I/O. The buffer cache caches disk blocks to optimize block I/O. </p>
 <p>Prior to Linux kernel version 2.4, the two caches were distinct: Files were in the page cache, disk blocks were in the buffer cache. Given that most files are represented by a filesystem on a disk, data was represented twice, once in each of the caches. Many Unix systems follow a similar pattern. </p>
 <p>This is simple to implement, but with an obvious inelegance and inefficiency. Starting with Linux kernel version 2.4, the contents of the two caches were unified. The VM subsystem now drives I/O and it does so out of the page cache. If cached data has both a file and a block representation—as most data does—the buffer cache will simply point into the page cache; thus only one instance of the data is cached in memory. The page cache is what you picture when you think of a disk cache: It caches file data from a disk to make subsequent I/O faster. </p>
