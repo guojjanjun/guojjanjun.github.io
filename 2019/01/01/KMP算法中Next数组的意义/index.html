@@ -113,21 +113,19 @@
   <meta name="description" content="例如主串为a1,a2,a3,a4,a5,a6,…,an，模式串为b1,b2,b3,b4,b5,b6,…,bm。不失一般性，我们从主串头部字符开始匹配，a1=b1,a2=b2,a3=b3,a4=b4,a5=b5,a6!=b6，到达a6时匹配不成功, 如图所示：按常规匹配算法，我们应该从a2开始重新匹配。假定此时可以匹配成功即a2=b1,a3=b2,a4=b3,a5=b4，…，如图所示：按照前一次匹配">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KMP算法中Next数组的意义">
-<meta property="og:url" content="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/index.html">
+<meta property="og:url" content="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/index.html">
 <meta property="og:site_name" content="路人甲&#39;s Notes">
 <meta property="og:description" content="例如主串为a1,a2,a3,a4,a5,a6,…,an，模式串为b1,b2,b3,b4,b5,b6,…,bm。不失一般性，我们从主串头部字符开始匹配，a1=b1,a2=b2,a3=b3,a4=b4,a5=b5,a6!=b6，到达a6时匹配不成功, 如图所示：按常规匹配算法，我们应该从a2开始重新匹配。假定此时可以匹配成功即a2=b1,a3=b2,a4=b3,a5=b4，…，如图所示：按照前一次匹配">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/1.png">
-<meta property="og:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/2.png">
-<meta property="og:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/3.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/1.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/2.png">
+<meta property="og:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/3.png">
 <meta property="og:updated_time" content="2019-01-02T06:24:55.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KMP算法中Next数组的意义">
 <meta name="twitter:description" content="例如主串为a1,a2,a3,a4,a5,a6,…,an，模式串为b1,b2,b3,b4,b5,b6,…,bm。不失一般性，我们从主串头部字符开始匹配，a1=b1,a2=b2,a3=b3,a4=b4,a5=b5,a6!=b6，到达a6时匹配不成功, 如图所示：按常规匹配算法，我们应该从a2开始重新匹配。假定此时可以匹配成功即a2=b1,a3=b2,a4=b3,a5=b4，…，如图所示：按照前一次匹配">
-<meta name="twitter:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/1.png">
+<meta name="twitter:image" content="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/1.png">
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="路人甲's Notes" type="application/atom+xml" />
@@ -135,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/"/>
+  <link rel="canonical" href="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/"/>
 
 
 
@@ -294,7 +292,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2019/01/01/KMP算法Next数组的意义/">
+    <link itemprop="mainEntityOfPage" href="https://guojjanjun.github.io/2019/01/01/KMP算法中Next数组的意义/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="路人甲">
@@ -386,7 +384,7 @@
       
 
       
-        <p>例如主串为a1,a2,a3,a4,a5,a6,…,an，模式串为b1,b2,b3,b4,b5,b6,…,bm。不失一般性，我们从主串头部字符开始匹配，a1=b1,a2=b2,a3=b3,a4=b4,a5=b5,a6!=b6，到达a6时匹配不成功, 如图所示：<br><img src="/2019/01/01/KMP算法Next数组的意义/1.png" alt="logo"><br>按常规匹配算法，我们应该从a2开始重新匹配。假定此时可以匹配成功即a2=b1,a3=b2,a4=b3,a5=b4，…，如图所示：<br><img src="/2019/01/01/KMP算法Next数组的意义/2.png" alt="logo"><br>按照前一次匹配所得的结论：a2=b2,a3=b3,a4=b4,a5=b5,可以推得b1=b2,b2=b3,b3=b4,b4=b5。即b1b2b3b4=b2b3b4b5相等。若模式串不满足这个条件，我们认为从a2开始对比是没有必要的，因为没有匹配成功的可能。<br>我们再假定从a2开始匹配没有成功，我们需要从a3开始匹配，假定此时匹配成功，即a3=b1,a4=b2,a5=b3,…，如图：<br><img src="/2019/01/01/KMP算法Next数组的意义/3.png" alt="logo"><br>参照第一次匹配的结果，我们得出b1=b3,b2=b4,b3=b5即b1b2b3=b3b4b5。从模式的特征，可以帮助我们跳过那些不可能成功的匹配动作，提升算法效率。<br>我们总结下前面的结论：当第6个字符b6与主串匹配不成功时，我们的模式串应该右移几位去再次匹配。若模式串满足b1b2b3b4=b2b3b4b5，那我们只需移动一位。若字符串满足b1b2b3=b3b4b5，我们可以移动两位。同理可证b1b2=b4b5时，我们可以移动三位。即已完成匹配的子串b1b2b3b4b5的前缀与后缀的重合度的最大值决定了模式串移动的位数。重合度越大，移动的位数越小。模式串的移动距离决定了匹配失败的b6下应该和模式串中的哪个字符对比。而Next就是这种条件的表达方式。</p>
+        <p>例如主串为a1,a2,a3,a4,a5,a6,…,an，模式串为b1,b2,b3,b4,b5,b6,…,bm。不失一般性，我们从主串头部字符开始匹配，a1=b1,a2=b2,a3=b3,a4=b4,a5=b5,a6!=b6，到达a6时匹配不成功, 如图所示：<br><img src="/2019/01/01/KMP算法中Next数组的意义/1.png" alt="logo"><br>按常规匹配算法，我们应该从a2开始重新匹配。假定此时可以匹配成功即a2=b1,a3=b2,a4=b3,a5=b4，…，如图所示：<br><img src="/2019/01/01/KMP算法中Next数组的意义/2.png" alt="logo"><br>按照前一次匹配所得的结论：a2=b2,a3=b3,a4=b4,a5=b5,可以推得b1=b2,b2=b3,b3=b4,b4=b5。即b1b2b3b4=b2b3b4b5相等。若模式串不满足这个条件，我们认为从a2开始对比是没有必要的，因为没有匹配成功的可能。<br>我们再假定从a2开始匹配没有成功，我们需要从a3开始匹配，假定此时匹配成功，即a3=b1,a4=b2,a5=b3,…，如图：<br><img src="/2019/01/01/KMP算法中Next数组的意义/3.png" alt="logo"><br>参照第一次匹配的结果，我们得出b1=b3,b2=b4,b3=b5即b1b2b3=b3b4b5。从模式的特征，可以帮助我们跳过那些不可能成功的匹配动作，提升算法效率。<br>我们总结下前面的结论：当第6个字符b6与主串匹配不成功时，我们的模式串应该右移几位去再次匹配。若模式串满足b1b2b3b4=b2b3b4b5，那我们只需移动一位。若字符串满足b1b2b3=b3b4b5，我们可以移动两位。同理可证b1b2=b4b5时，我们可以移动三位。即已完成匹配的子串b1b2b3b4b5的前缀与后缀的重合度的最大值决定了模式串移动的位数。重合度越大，移动的位数越小。模式串的移动距离决定了匹配失败的b6下应该和模式串中的哪个字符对比。而Next就是这种条件的表达方式。</p>
 
       
     </div>
@@ -488,7 +486,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -674,7 +672,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2019/01/01/KMP算法Next数组的意义/'
+        refer: '2019/01/01/KMP算法中Next数组的意义/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];
