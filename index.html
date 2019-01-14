@@ -1084,12 +1084,24 @@
                 
               
 
-              <time title="创建时间：2018-12-06 14:17:22 / 修改时间：15:48:03" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
+              <time title="创建时间：2018-12-06 14:17:22" itemprop="dateCreated datePublished" datetime="2018-12-06T14:17:22+08:00">2018-12-06</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-14 17:14:25" itemprop="dateModified" datetime="2019-01-14T17:14:25+08:00">2019-01-14</time>
               
             
           </span>
@@ -1126,7 +1138,7 @@
           
             <h3 id="1-Settings-xml的生效问题"><a href="#1-Settings-xml的生效问题" class="headerlink" title="1. Settings.xml的生效问题"></a>1. Settings.xml的生效问题</h3><p>maven共有两个settings.xml:<br>全局配置: ${M2_HOME}/conf/settings.xml<br>用户配置: ${user.home}/.m2/settings.xml<br>maven使用两者的合并信息，用户配置的优先级高于全局配置。其有mvn -s(–settings)可以修改用户配置.</p>
 <h3 id="2-多个Profile的生效问题"><a href="#2-多个Profile的生效问题" class="headerlink" title="2. 多个Profile的生效问题"></a>2. 多个Profile的生效问题</h3><p>Profile根据环境条件被激活:<br>  1) <code>&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</code><br>  2) <code>&lt;activeProfile&gt;profileName&lt;/activeProfile&gt;</code><br>  3) ..<br>如果多个Profile同时激活，则Profile会合并，相同的配置则后定义的Profile优先级比较高。与active的顺序无关。</p>
-<h3 id="3-repository的搜索顺序"><a href="#3-repository的搜索顺序" class="headerlink" title="3. repository的搜索顺序"></a>3. repository的搜索顺序</h3><p>   repository分两类：本地仓库和远程仓库。远程仓库包括全局仓库，项目仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: setting文件profile中配置的仓库。<br>  3）项目仓库: 项目pom.xml中配置的仓库。<br>  3) 中央仓库：就是central仓库</p>
+<h3 id="3-repository的搜索顺序"><a href="#3-repository的搜索顺序" class="headerlink" title="3. repository的搜索顺序"></a>3. repository的搜索顺序</h3><p>   repository分两类：本地仓库和远程仓库。远程仓库包括全局仓库，项目仓库和中央仓库。搜索顺序如下：<br>  1) 本地仓库: 就是本地的缓存目录，一般~/m2/repository<br>  2) 全局仓库: setting文件profile中配置的仓库。<br>  3）项目仓库: 项目pom.xml中profile配置的仓库。<br>  4）项目仓库: 项目pom.xml中配置的仓库。<br>  5) 中央仓库：就是central仓库</p>
 
           
         
